@@ -1,4 +1,5 @@
 #include <SFML\Graphics.hpp>
+#include "Sprite.hpp"
 
 int main()
 {
