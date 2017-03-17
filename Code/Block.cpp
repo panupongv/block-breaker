@@ -1,0 +1,47 @@
+#include "Block.hpp"
+
+Block::Block(std::string texture_name, int grid_x, int grid_y)
+	:
+	Sprite(texture_name, block_size_x, block_size_y, block_size_x * grid_x, block_size_y * grid_y)
+{
+}
+
+void Block::update()
+{
+}
+
+void Block::checkCollision() //Ball& ball
+{
+	//Praman nee
+	//Corner bounce diew kid eek tee
+
+	/*if(ball.right() >= left() && ball.left() <= right())
+	{
+		if (ball.top() <= bottom() || ball.bottom() >= top())
+			ball.bounceVertically();
+	}
+	
+	if (ball.top() <= top() && ball.bottom >= bottom())
+	{
+		if (ball.left() < right() || ball.right > left())
+			ball.bounceHorizontally();
+	}*/
+
+}
+
+void Block::setGridPosition(int x, int y)
+{
+	if (static_cast<int> (top()) % static_cast<int> (block_size_y) != 0)
+	{
+		//use floor or ceil to match grid
+	}
+	if (static_cast<int> (left()) % static_cast<int> (block_size_x) != 0)
+	{
+		//use floor or ceil to match grid
+	}
+}
+
+sf::Vector2u Block::getBlockSize()
+{
+	return sf::Vector2u(block_size_x, block_size_y);
+}

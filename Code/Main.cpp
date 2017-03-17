@@ -1,12 +1,21 @@
+#pragma once
+
 #include <SFML\Graphics.hpp>
 #include "Sprite.hpp"
+#include "Block.hpp"
+#include <iostream>
 
 int main()
 {
-	sf::RenderWindow window(sf::VideoMode(200, 200), "SFML works!");
-	sf::CircleShape shape(100.f);
+	sf::RenderWindow window(sf::VideoMode(600, 600), "SFML works!", sf::Style::Fullscreen);
+	sf::CircleShape shape(20.f);
 	shape.setFillColor(sf::Color::Green);
+	
+	//Test
+	Sprite dice("dice.png", 100, 100, 0, 0); //frame width and height 100, start pos (0, 0)
+	Block block("santa.png", 2, 0); //x = 200 == (block size x * grid pos x), y = (block size y * 0) = 0
 
+	int counter = 0;
 	while (window.isOpen())
 	{
 		sf::Event event;
@@ -14,12 +23,18 @@ int main()
 		{
 			if (event.type == sf::Event::Closed)
 				window.close();
+			if (event.type == sf::Event::KeyPressed)
+			{
+				window.close();
+			}
 		}
-
-		window.clear();
-		window.draw(shape);
+ 		window.clear();
+		dice.draw(window);
+		block.draw(window);
+		block.update();
 		window.display();
 	}
 
+	system("pause"); 
 	return 0;
 }
