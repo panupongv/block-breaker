@@ -1,6 +1,8 @@
 #include <SFML\Graphics.hpp>
 #include "Sprite.hpp"
 
+//p tong garg
+
 int main()
 {
 	sf::RenderWindow window(sf::VideoMode(200, 200), "SFML works!");
