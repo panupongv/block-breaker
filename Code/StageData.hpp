@@ -1,6 +1,7 @@
 #pragma once
 
-#include <stirng>
+#include <string>
+#include <vector>
 #include "BlockData.hpp"
 
 using namespace std;
@@ -12,16 +13,15 @@ public:
     int getNumRow() const ;
     int getNumColumn() const ;
     string getFileName() const ;
-    void setFileName() ;
-    void save() const ;
-    void load();
-    const Vector<BlockData> getBlocks() const ;
+    void setFileName( string file_name ) ;
+    bool save( bool overwrite = false ) const ;
+    bool load( );
+    vector<BlockData> getBlocksData() const ;
     void addBlock( BlockData blockData );
     
 private:
     const int num_row = 20;
     const int num_column = 40;
     string file_name;
-    int num_block;
     vector<BlockData> block_list;
 };
