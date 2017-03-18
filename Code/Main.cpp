@@ -1,6 +1,11 @@
 #pragma once
 
-#include <SFML\Graphics.hpp>
+#ifdef __APPLE__
+    #include <SFML/Graphics.hpp>
+#else
+    #include <SFML\Graphics.hpp>
+#endif
+
 #include "Sprite.hpp"
 #include "Block.hpp"
 #include <iostream>
