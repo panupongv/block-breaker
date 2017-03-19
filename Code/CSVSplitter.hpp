@@ -6,8 +6,6 @@
 #include <SFML\Graphics.hpp>
 #endif
 
-//this comment added from test-1-branch
-
 #include <vector>
 #include <string>
 
