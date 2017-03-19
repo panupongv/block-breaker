@@ -20,14 +20,14 @@ public:
     BlockData(string raw);
     BlockData(BlockType type , sf::Color color , sf::Vector2i startGrid , vector<sf::Vector2i> movement );
     BlockType getType() const;
-	sf::Color getColor() const;
-	sf::Vector2i getStartGrid() const;
+    sf::Color getColor() const;
+    sf::Vector2i getStartGrid() const;
     const vector<sf::Vector2i>& getMovement() const;
     
 private:
     BlockType type;
-	sf::Color color;
-	sf::Vector2i startGrid;
+    sf::Color color;
+    sf::Vector2i startGrid;
     vector<sf::Vector2i> movement;
 };
 
