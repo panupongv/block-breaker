@@ -32,13 +32,18 @@ void StageData::setFileName(string file_name )
 
 bool StageData::save( bool overwrite ) const
 {
-    string path = this->getPath();
+    string path = getPath();
+    system(create_sub_cmd.c_str());
+    
     //check file exist
     ifstream file_in(path);
     if(file_in.good() && overwrite == false )
         return false;
     
     ofstream file(path);
+    
+    if(file.fail())
+        return false;
     
     file << "[row]" << num_row << endl;
     file << "[column]" << num_column << endl;
