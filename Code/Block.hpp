@@ -6,7 +6,8 @@
 class Block : public Sprite
 {
 public:
-	Block(std::string texture_name, const BlockData& block_data);
+    Block(const BlockData& block_data);
+    Block(std:: string texture_name, const BlockData& block_data);
 	Block(std::string texture_name, float x, float y);
 	void update();
 	void checkCollision(); //Ball& ball
@@ -18,4 +19,6 @@ private:
 
 	float move_speed = 0.1;
 	bool moving;
+    
+    std::string getTextureNameFromType(BlockType type);
 };
