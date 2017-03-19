@@ -1,6 +1,8 @@
 #include "BlockData.hpp"
 #include "CSVSPlitter.hpp"
 
+using namespace sf;
+
 BlockData::BlockData ( string raw )
 {
     CSVSplitter splitter(raw);
