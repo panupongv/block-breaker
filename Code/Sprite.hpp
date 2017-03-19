@@ -1,6 +1,11 @@
 #pragma once
 
-#include <SFML\Graphics.hpp>
+#ifdef __APPLE__
+    #include <SFML/Graphics.hpp>
+#else
+    #include <SFML\Graphics.hpp>
+#endif
+
 #include <iostream>
 #include <string>
 #include <cstdlib>
@@ -9,7 +14,7 @@ class Sprite
 {
 public:
 	Sprite(std::string texture_name, int frame_width, int frame_height, float initial_x, float initial_y);
-	
+	Sprite(std::string texture_name, int frame_width, int frame_height, float initial_x, float initial_y, float vx, float vy);
 	virtual void update(); //Game& game
 	void draw(sf::RenderWindow& window) const;
 
@@ -37,4 +42,7 @@ private:
 
 	int frame_number;
 	int current_frame;
+
+	float vx;
+	float vy;
 };

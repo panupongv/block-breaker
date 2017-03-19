@@ -2,9 +2,17 @@
 
 Sprite::Sprite(std::string texture_name, int frame_width, int frame_height, float initial_x, float initial_y)
 	:
+	Sprite(texture_name, frame_width, frame_height, initial_x, initial_y, 0, 0)
+{
+}
+
+Sprite::Sprite(std::string texture_name, int frame_width, int frame_height, float initial_x, float initial_y, float vx, float vy)
+	:
 	frame_width(frame_width),
 	frame_height(frame_height),
-	current_frame(0)
+	current_frame(0),
+	vx(vx),
+	vy(vy)
 {
 	if (!texture.loadFromFile("block-breaker\\Resources\\" + texture_name))
 	{

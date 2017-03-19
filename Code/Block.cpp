@@ -1,8 +1,8 @@
 #include "Block.hpp"
 
-Block::Block(std::string texture_name, int grid_x, int grid_y)
+Block::Block(std::string texture_name, float x, float y)
 	:
-	Sprite(texture_name, block_size_x, block_size_y, block_size_x * grid_x, block_size_y * grid_y)
+	Sprite(texture_name, block_size_x, block_size_y, x , y )
 {
 }
 
