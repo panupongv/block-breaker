@@ -66,6 +66,12 @@ void Sprite::setPosition(float x, float y)
 	sprite.setPosition(x, y);
 }
 
+void Sprite::setMovement(sf::Vector2f movement)
+{
+	/*vx = movement.x;
+	vy = movement.y;*/
+}
+
 void Sprite::move(float x, float y)
 {
 	sprite.move(x, y);

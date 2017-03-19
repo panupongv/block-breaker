@@ -6,8 +6,21 @@ Block::Block(std::string texture_name, int grid_x, int grid_y)
 {
 }
 
+Block::Block(std::string texture_name, const BlockData & block_data)
+	:
+	Sprite(texture_name, block_size_x, block_size_y,
+		   block_data.getStartGrid().x * block_size_x, block_data.getStartGrid().y * block_size_y)
+{
+	getSprite().setColor(block_data.getColor());
+	if (block_data.getMovement().size() != 0)
+	{
+		moving = true;
+	}
+}
+
 void Block::update()
 {
+
 }
 
 void Block::checkCollision() //Ball& ball

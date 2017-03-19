@@ -22,6 +22,7 @@ public:
 	sf::Vector2f center() const;
 
 	void setPosition(float x, float y);
+	void setMovement(sf::Vector2f movement);
 	void move(float x, float y);
 	
 	void setFrame(int frame_id);
