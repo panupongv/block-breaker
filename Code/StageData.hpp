@@ -12,6 +12,7 @@ public:
     StageData(string file_name);
     int getNumRow() const ;
     int getNumColumn() const ;
+    string getPath() const ;
     string getFileName() const ;
     void setFileName( string file_name ) ;
     bool save( bool overwrite = false ) const ;
@@ -23,6 +24,11 @@ public:
 private:
     const int num_row = 20;
     const int num_column = 40;
+#ifdef __APPLE__
+    const string directory = "stages/";
+#else
+    const string directory = "stages\";
+#endif
     string file_name;
     vector<BlockData> block_list;
 };
