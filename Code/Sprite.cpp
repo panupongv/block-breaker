@@ -79,6 +79,12 @@ void Sprite::move(float x, float y)
 	sprite.move(x, y);
 }
 
+void Sprite::setMovement(float x, float y)
+{
+	vx = x;
+	vy = y;
+}
+
 void Sprite::setFrame(int frame_id)
 {
 	if (frame_id >= 0 && frame_id < frame_number)
