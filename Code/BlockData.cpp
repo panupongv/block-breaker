@@ -1,5 +1,5 @@
 #include "BlockData.hpp"
-#include "CSVSPlitter.hpp"
+#include "CSVSplitter.hpp"
 
 BlockData::BlockData ( string raw )
 {

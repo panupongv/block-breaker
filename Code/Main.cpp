@@ -16,11 +16,11 @@ int main()
 	
 	//dummy menu
 	//press any key to exit menu
-	Menu(&window).run();
+	//Menu(&window).run();
 
 	//Test
 	Sprite dice("dice.png", 100, 100, 0, 0); //frame width and height 100, start pos (0, 0)
-	Block block("santa.png", 2, 0); //x = 200 == (block size x * grid pos x), y = (block size y * 0) = 0
+	Block block("santa.png", 200, 200); //x = 200 == (block size x * grid pos x), y = (block size y * 0) = 0
 
 	int counter = 0;
 	while (window.isOpen())
