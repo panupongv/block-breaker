@@ -1,5 +1,36 @@
 #include "Block.hpp"
 
+Block::Block(std::string texture_name, const BlockData & block_data)
+	:
+	Sprite(texture_name, block_size_x, block_size_y, 
+		block_data.getStartGrid().x * block_size_x, block_data.getStartGrid().y * block_size_y)
+{
+	if (block_data.getMovement().size() != 0)
+	{
+		sf::Vector2i point1 = block_data.getMovement()[0], point2 = block_data.getMovement()[1];
+		moving = true;
+		float vx = 0, vy = 0;
+		if (point1.x != point2.x)
+		{
+			vx = move_speed; //Speed
+			vy = 0;
+		}
+		else if (point1.y != point2.y)
+		{
+			vx = 0;
+			vy = move_speed;
+		}
+		setMovement(vx, vy);
+	}
+	else
+	{
+		moving = false;
+		setMovement(0, 0);
+	}
+
+	getSprite().setColor(block_data.getColor());
+}
+
 Block::Block(std::string texture_name, float x, float y)
 	:
 	Sprite(texture_name, block_size_x, block_size_y, x , y )
