@@ -10,25 +10,25 @@
 #include <vector>
 #include <string>
 
-using namespace sf;
 using namespace std;
+
+enum BlockType { normal , breakable , item };
 
 class BlockData
 {
-    enum BlockType { normal , breakable , item };
-    
 public:
     BlockData(string raw);
-    BlockData(BlockType type , Color color , Vector2i startGrid , vector<Vector2i> movement );
+    BlockData(BlockType type , sf::Color color , sf::Vector2i startGrid , vector<sf::Vector2i> movement );
     BlockType getType() const;
-    Color getColor() const;
-    Vector2i getStartGrid() const;
-    const vector<Vector2i>& getMovement() const;
-    friend ostream& operator<< ( ostream& strm , BlockData& blockData );
+    sf::Color getColor() const;
+    sf::Vector2i getStartGrid() const;
+    const vector<sf::Vector2i>& getMovement() const;
     
 private:
     BlockType type;
-    Color color;
-    Vector2i startGrid;
-    vector<Vector2i> movement;
+    sf::Color color;
+    sf::Vector2i startGrid;
+    vector<sf::Vector2i> movement;
 };
+
+ostream& operator<< ( ostream& strm , const BlockData& blockData );

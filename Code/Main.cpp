@@ -16,11 +16,12 @@ int main()
 	
 	//dummy menu
 	//press any key to exit menu
-	Menu(&window).run();
+	//Menu(&window).run();
+
+	BlockData b_data("[block]0,255,255,255,1,2,10,10,100,10");
 
 	//Test
-	Sprite dice("dice.png", 100, 100, 0, 0); //frame width and height 100, start pos (0, 0)
-	Block block("santa.png", 2, 0); //x = 200 == (block size x * grid pos x), y = (block size y * 0) = 0
+	Block block("brick.png", b_data); //x = 200 == (block size x * grid pos x), y = (block size y * 0) = 0
 
 	int counter = 0;
 	while (window.isOpen())
@@ -36,7 +37,6 @@ int main()
 			}
 		}
  		window.clear();
-		dice.draw(window);
 		block.draw(window);
 		block.update();
 		window.display();

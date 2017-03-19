@@ -14,7 +14,7 @@ class Sprite
 {
 public:
 	Sprite(std::string texture_name, int frame_width, int frame_height, float initial_x, float initial_y);
-	
+	Sprite(std::string texture_name, int frame_width, int frame_height, float initial_x, float initial_y, float vx, float vy);
 	virtual void update(); //Game& game
 	void draw(sf::RenderWindow& window) const;
 
@@ -28,6 +28,7 @@ public:
 
 	void setPosition(float x, float y);
 	void move(float x, float y);
+	void setMovement(float x, float y);
 	
 	void setFrame(int frame_id);
 	void nextFrame();
@@ -41,4 +42,7 @@ private:
 
 	int frame_number;
 	int current_frame;
+
+	float vx;
+	float vy;
 };
