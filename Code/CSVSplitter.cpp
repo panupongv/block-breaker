@@ -1,7 +1,5 @@
 #include "CSVSplitter.hpp"
 
-//another comment added from master branch
-
 CSVSplitter::CSVSplitter( string raw )
 {
     setString(raw);
