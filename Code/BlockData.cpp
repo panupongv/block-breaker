@@ -6,7 +6,7 @@ BlockData::BlockData ( string raw )
     CSVSplitter splitter(raw);
     vector<string> splitted = splitter.getResult();
     
-    this->type = (BlockData::BlockType)atoi(splitted[0].c_str());
+    this->type = (BlockType)atoi(splitted[0].c_str());
     
     this->color = Color(
         atoi(splitted[1].c_str()),
@@ -30,7 +30,7 @@ BlockData::BlockData ( string raw )
     }
 }
 
-BlockData::BlockData ( BlockData::BlockType type , Color color , Vector2i startGrid , vector<Vector2i> movement )
+BlockData::BlockData ( BlockType type , Color color , Vector2i startGrid , vector<Vector2i> movement )
 {
     this->type = type;
     this->color = color;
@@ -38,7 +38,7 @@ BlockData::BlockData ( BlockData::BlockType type , Color color , Vector2i startG
     this->movement = movement;
 }
 
-BlockData::BlockType BlockData::getType() const
+BlockType BlockData::getType() const
 {
     return this->type;
 }

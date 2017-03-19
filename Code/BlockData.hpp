@@ -13,10 +13,11 @@
 using namespace sf;
 using namespace std;
 
+enum BlockType { normal , breakable , item };
+
 class BlockData
 {
 public:
-    enum BlockType { normal , breakable , item };
     BlockData(string raw);
     BlockData(BlockType type , Color color , Vector2i startGrid , vector<Vector2i> movement );
     BlockType getType() const;

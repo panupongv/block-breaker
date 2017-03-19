@@ -16,6 +16,10 @@ int StageData::getNumColumn() const
     return this->num_column;
 }
 
+string StageData::getPath() const
+{
+    return this->directory + this->file_name;
+}
 string StageData::getFileName() const
 {
     return this->file_name;
@@ -28,12 +32,18 @@ void StageData::setFileName(string file_name )
 
 bool StageData::save( bool overwrite ) const
 {
+    string path = getPath();
+    system(create_sub_cmd.c_str());
+    
     //check file exist
-    ifstream file_in(this->file_name);
+    ifstream file_in(path);
     if(file_in.good() && overwrite == false )
         return false;
     
-    ofstream file(this->file_name);
+    ofstream file(path);
+    
+    if(file.fail())
+        return false;
     
     file << "[row]" << num_row << endl;
     file << "[column]" << num_column << endl;
@@ -51,7 +61,8 @@ bool StageData::save( bool overwrite ) const
 
 bool StageData::load()
 {
-    ifstream file(this->file_name);
+    string path = this->getPath();
+    ifstream file(path);
     
     if(file.fail())
     {
