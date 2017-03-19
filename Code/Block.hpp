@@ -16,6 +16,6 @@ private:
 	static constexpr int block_size_x = 100; //Just Assume 
 	static constexpr int block_size_y = 30;  //
 
-	float move_speed = 0.1;
+	float move_speed = 0.1f;
 	bool moving;
 };
