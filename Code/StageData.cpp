@@ -28,13 +28,12 @@ void StageData::setFileName(string file_name )
 
 bool StageData::save( bool overwrite ) const
 {
-    ofstream file(this->file_name);
-    
-    if(file.good() && overwrite == false )
-    {
-        file.close();
+    //check file exist
+    ifstream file_in(this->file_name);
+    if(file_in.good() && overwrite == false )
         return false;
-    }
+    
+    ofstream file(this->file_name);
     
     file << "[row]" << num_row << endl;
     file << "[column]" << num_column << endl;
@@ -42,7 +41,7 @@ bool StageData::save( bool overwrite ) const
     
     for(int i = 0 ; i < this->block_list.size() ; ++i)
     {
-        file << "[block]" << &block_list[i] << endl;
+        file << "[block]" << this->block_list[i] << endl;
     }
     
     file.close();
@@ -90,7 +89,12 @@ vector<BlockData> StageData::getBlocksData() const
     return this->block_list;
 }
 
-void StageData::addBlock(BlockData blockData)
+void StageData::addBlock ( BlockData blockData )
 {
     block_list.push_back(blockData);
+}
+
+void StageData::addBlock ( vector<BlockData> blockDatas )
+{
+    this->block_list.assign(blockDatas.begin(), blockDatas.end());
 }

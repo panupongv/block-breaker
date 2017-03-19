@@ -15,16 +15,14 @@ using namespace std;
 
 class BlockData
 {
-    enum BlockType { normal , breakable , item };
-    
 public:
+    enum BlockType { normal , breakable , item };
     BlockData(string raw);
     BlockData(BlockType type , Color color , Vector2i startGrid , vector<Vector2i> movement );
     BlockType getType() const;
     Color getColor() const;
     Vector2i getStartGrid() const;
     const vector<Vector2i>& getMovement() const;
-    friend ostream& operator<< ( ostream& strm , BlockData& blockData );
     
 private:
     BlockType type;
@@ -32,3 +30,5 @@ private:
     Vector2i startGrid;
     vector<Vector2i> movement;
 };
+
+ostream& operator<< ( ostream& strm , const BlockData& blockData );

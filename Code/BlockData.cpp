@@ -40,34 +40,34 @@ BlockData::BlockData ( BlockData::BlockType type , Color color , Vector2i startG
 
 BlockData::BlockType BlockData::getType() const
 {
-    return type;
+    return this->type;
 }
 
 Color BlockData::getColor() const
 {
-    return color;
+    return this->color;
 }
 
 Vector2i BlockData::getStartGrid() const
 {
-    return startGrid;
+    return this->startGrid;
 }
 
 const vector<Vector2i>& BlockData::getMovement() const
 {
-    return movement;
+    return this->movement;
 }
 
-ostream& operator<< ( ostream& strm , BlockData& blockData )
+ostream& operator<< ( ostream& strm , const BlockData& blockData )
 {
     Color blockColor = blockData.getColor();
     Vector2i blockStartGrid = blockData.getStartGrid();
     vector<Vector2i> blockMovement = blockData.getMovement();
     
     strm    << blockData.getType() << ","
-            << blockColor.r << ","
-            << blockColor.g << ","
-            << blockColor.b << ","
+            << (int)blockColor.r << ","
+            << (int)blockColor.g << ","
+            << (int)blockColor.b << ","
             << blockStartGrid.x << ","
             << blockStartGrid.y ;
     

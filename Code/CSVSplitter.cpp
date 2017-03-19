@@ -28,8 +28,9 @@ vector<string> CSVSplitter::getResult()
             result.push_back(substring);
             substring = "";
         }
+        else
+            substring += raw[i];
         
-        substring += raw[i];
         i++;
     }
     

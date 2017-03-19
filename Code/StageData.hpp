@@ -18,6 +18,7 @@ public:
     bool load( );
     vector<BlockData> getBlocksData() const ;
     void addBlock( BlockData blockData );
+    void addBlock( vector<BlockData> blockDatas );
     
 private:
     const int num_row = 20;
