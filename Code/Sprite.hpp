@@ -28,6 +28,7 @@ public:
 
 	void setPosition(float x, float y);
 	void move(float x, float y);
+	void setMovement(float x, float y);
 	
 	void setFrame(int frame_id);
 	void nextFrame();
