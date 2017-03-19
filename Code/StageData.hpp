@@ -28,7 +28,7 @@ private:
     const string directory = "stages/";
     const string create_sub_cmd = "mkdir stages";
 #else
-    const string directory = "stages\";
+    const string directory = "stages\\";
     const string create_sub_cmd = "mkdir stages";
 #endif
     string file_name;
