@@ -11,8 +11,6 @@
 
 using namespace std;
 
-//this comment added from master
-
 class CSVSplitter
 {
 public:
