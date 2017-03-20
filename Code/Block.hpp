@@ -20,11 +20,10 @@ public:
 
 protected:
     std::string getTextureNameFromType(BlockType type);
-
-private:
     static constexpr int block_size_x = 100; //Just Assume
     static constexpr int block_size_y = 30;  //
-    
+
+private:
     float move_speed = 0.1;
     bool moving;
 };
