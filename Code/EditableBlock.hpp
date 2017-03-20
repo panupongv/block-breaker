@@ -9,6 +9,13 @@ public:
     EditableBlock(TemplateBlock temp_block , int grid_x , int grid_y );
     virtual void update();//Game& game
     
+protected:
+    //abstract implementation
+    virtual void onSelected();
+    virtual void onDeselected();
+    virtual void onEnabled();
+    virtual void onDisabled();
+    
 private:
     int grid_x;
     int grid_y;
