@@ -32,8 +32,8 @@ Sprite(texture_name, block_size_x, block_size_y,
 }
 
 Block::Block(std::string texture_name, float x, float y)
-	:
-	Sprite(texture_name, block_size_x, block_size_y, x , y )
+:
+Sprite(texture_name, block_size_x, block_size_y, x , y )
 {
 }
 
