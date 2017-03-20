@@ -12,6 +12,7 @@ public:
     BlockType getType();
     sf::Color getColor();
     
+protected:
     //abstract implementation
     virtual void onSelected();
     virtual void onDeselected();
