@@ -1,6 +1,8 @@
 #pragma once
 
-class SelectableBlock
+#include "Block.hpp"
+
+class SelectableBlock : public Block
 {
 public:
     bool isSelected();

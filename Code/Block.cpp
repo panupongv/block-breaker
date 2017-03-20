@@ -1,9 +1,5 @@
 #include "Block.hpp"
 
-Block::Block(const BlockData & block_data)
-:
-Block(getTextureNameFromType(block_data.getType()),block_data) {}
-
 Block::Block(std::string texture_name, const BlockData & block_data)
 :
 Sprite(texture_name, block_size_x, block_size_y,

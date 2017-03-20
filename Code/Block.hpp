@@ -6,7 +6,7 @@
 class Block : public Sprite
 {
 public:
-    Block(const BlockData& block_data);
+    Block(const BlockData& block_data) : Block(getTextureNameFromType(block_data.getType()),block_data){};
     Block(std:: string texture_name, const BlockData& block_data);
 	Block(std::string texture_name, float x, float y);
 	void update();
