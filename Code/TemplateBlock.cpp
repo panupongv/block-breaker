@@ -20,3 +20,23 @@ sf::Color TemplateBlock::getColor()
 {
     return this->color;
 }
+
+void TemplateBlock::onSelected()
+{
+    //TODO
+}
+
+void TemplateBlock::onDeselected()
+{
+    //TODO
+}
+
+void TemplateBlock::onEnabled()
+{
+    //TODO
+}
+
+void TemplateBlock::onDisabled()
+{
+    //TODO
+}

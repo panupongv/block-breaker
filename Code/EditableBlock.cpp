@@ -14,3 +14,23 @@ void EditableBlock::update()
 {
     
 }
+
+void EditableBlock::onSelected()
+{
+    //TODO
+}
+
+void EditableBlock::onDeselected()
+{
+    //TODO
+}
+
+void EditableBlock::onEnabled()
+{
+    //TODO
+}
+
+void EditableBlock::onDisabled()
+{
+    //TODO
+}
