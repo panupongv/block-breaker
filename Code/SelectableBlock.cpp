@@ -1,5 +1,11 @@
 #include "SelectableBlock.hpp"
 
+SelectableBlock::SelectableBlock(std::string texture_name , float x , float y)
+: Block(texture_name , x , y ) { }
+
+SelectableBlock::SelectableBlock(BlockType type , float x , float y )
+: Block(type , x , y ) { }
+
 bool SelectableBlock::isSelected()
 {
     return this->selected;
