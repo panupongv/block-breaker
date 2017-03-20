@@ -6,13 +6,14 @@
 #include <SFML\Graphics.hpp>
 #endif
 
-#include "Block.cpp"
+#include "TemplateBlock.hpp"
 
 class DraftBlock : public Block
 {
 public:
-    DraftBlock();//TODO
+    DraftBlock(TemplateBlock tb);
     virtual void update();//TODO
+    bool isAvailable();
     void setAvailability(bool available);
     sf::Vector2i getMagnetGrid( float x, float y);
     
