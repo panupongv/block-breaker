@@ -10,3 +10,13 @@ TemplateBlock::TemplateBlock(BlockType type , sf::Color color , float x , float 
 void TemplateBlock::update()//Game& game
 {
 }
+
+BlockType TemplateBlock::getType()
+{
+    return this->type;
+}
+
+sf::Color TemplateBlock::getColor()
+{
+    return this->color;
+}

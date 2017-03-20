@@ -9,6 +9,8 @@ class TemplateBlock : public SelectableBlock , public Clickable
 public:
     TemplateBlock(BlockType type,sf::Color color, float x , float y);
     virtual void update();//Game& game TODO
+    BlockType getType();
+    sf::Color getColor();
     
 private:
     BlockType type;
