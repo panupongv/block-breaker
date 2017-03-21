@@ -3,11 +3,11 @@
 #include "Block.hpp"
 #include <string>
 
-class SelectableBlock : public Block
+class InteractableBlock : public Block
 {
 public:
-    SelectableBlock(std::string texture_name , float x , float y);
-    SelectableBlock(BlockType type , float x , float y );
+    InteractableBlock(std::string texture_name , float x , float y);
+    InteractableBlock(BlockType type , float x , float y );
     bool isSelected();
     bool isInteractable();
     void select();
@@ -20,6 +20,8 @@ protected:
     virtual void onDeselected() = 0;
     virtual void onEnabled() = 0;
     virtual void onDiabled() = 0;
+    virtual void onClickLeft() = 0;
+    virtual void onClickRight() = 0;
     
 private:
     bool selected = false;
