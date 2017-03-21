@@ -16,6 +16,7 @@ public:
 	void run();
 private:
 	sf::RenderWindow *window;
+	sf::Event event;
 	StageData stage_data;
 
 	vector<Sprite*> sprite_list;
@@ -24,5 +25,6 @@ private:
 	bool finished;
 
 	void draw_sprites();
+	void update_sprites();
 	void event_input();
 };

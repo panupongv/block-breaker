@@ -69,6 +69,16 @@ sf::Vector2f Sprite::center() const
 						sprite.getPosition().y + (texture.getSize().y / 2));
 }
 
+float Sprite::getVX() const
+{
+	return vx;
+}
+
+float Sprite::getVY() const
+{
+	return vy;
+}
+
 void Sprite::setPosition(float x, float y)
 {
 	sprite.setPosition(x, y);

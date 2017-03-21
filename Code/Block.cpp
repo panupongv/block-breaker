@@ -43,6 +43,8 @@ Block::Block(std::string texture_name, float x, float y)
 
 void Block::update()
 {
+	move(getVX(), getVY());
+
 }
 
 void Block::checkCollision() //Ball& ball

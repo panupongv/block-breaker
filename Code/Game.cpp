@@ -34,6 +34,7 @@ void Game::run()
 	while (!finished)
 	{
 		draw_sprites();
+		update_sprites();
 		event_input();
 	}
 	std::cout << "Game ended" << std::endl;
@@ -48,9 +49,15 @@ void Game::draw_sprites()
 	window->display();
 }
 
+void Game::update_sprites()
+{
+	const int sprite_num = sprite_list.size();
+	for (int i = 0; i < sprite_num; i++)
+		sprite_list[i]->update();
+}
+
 void Game::event_input()
 {
-	sf::Event event;
 	while (window->pollEvent(event))
 	{
 		switch(event.type)

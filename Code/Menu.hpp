@@ -10,6 +10,7 @@ public:
 	void run();
 private:
 	sf::RenderWindow *window;
+	sf::Event event;
 
 	bool finished;
 

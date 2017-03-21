@@ -17,6 +17,8 @@ private:
 	static constexpr int block_size_x = 100; //Just Assume 
 	static constexpr int block_size_y = 30;  //
 
+	sf::Vector2u end_point;
+
 	float move_speed = 0.1f;
 	bool moving;
     
