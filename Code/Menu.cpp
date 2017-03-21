@@ -26,8 +26,6 @@ void Menu::draw()
 
 void Menu::event_input()
 {
-	
-
 	while (window->pollEvent(event))
 	{
 		switch (event.type)

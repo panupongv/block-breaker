@@ -22,6 +22,9 @@ protected:
     static constexpr int block_size_y = 30;  //
 
 private:
+	sf::Vector2u first_point;
+	sf::Vector2u second_point;
+
     float move_speed = 0.1;
     bool moving;
 };

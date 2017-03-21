@@ -8,22 +8,48 @@ Sprite(texture_name, block_size_x, block_size_y,
     if (block_data.getMovement().size() != 0)
     {
         sf::Vector2i point1 = block_data.getMovement()[0], point2 = block_data.getMovement()[1];
-        moving = true;
         float vx = 0, vy = 0;
-        if (point1.x != point2.x)
+        if (point1.x != point2.x) //move horizontally
         {
-            vx = move_speed; //Speed
-            vy = 0;
+			if (point1.x < point2.x) //right first
+			{
+				first_point = sf::Vector2u(point1.x * block_size_x, point1.y * block_size_y);
+				second_point = sf::Vector2u(point2.x * block_size_x, point2.y * block_size_y);
+				vx = move_speed;
+			}
+			else // left first
+			{
+				first_point = sf::Vector2u(point2.x * block_size_x, point2.y * block_size_y);
+				second_point = sf::Vector2u(point1.x * block_size_x, point1.y * block_size_y);
+				vx = -move_speed;
+			}
+			vy = 0;
         }
-        else if (point1.y != point2.y)
+        else if (point1.y != point2.y) // move vertically
         {
-            vx = 0;
-            vy = move_speed;
+            
+			if (point1.y < point2.y) //down first
+			{
+				first_point = sf::Vector2u(point1.x * block_size_x, point1.y * block_size_y);
+				second_point = sf::Vector2u(point2.x * block_size_x, point2.y * block_size_y);
+				vy = move_speed;
+			}
+			else //up first
+			{
+				first_point = sf::Vector2u(point2.x * block_size_x, point2.y * block_size_y);
+				second_point = sf::Vector2u(point1.x * block_size_x, point1.y * block_size_y);
+				vx = -move_speed;
+			}
+			vx = 0;
         }
+		
+		
         setMovement(vx, vy);
+		moving = true;
     }
     else
     {
+		first_point = second_point = sf::Vector2u(left(), top());
         moving = false;
         setMovement(0, 0);
     }
@@ -48,8 +74,14 @@ Block::Block(BlockType type, float x, float y)
 
 void Block::update()
 {
+	if (!moving) return;
 	move(getVX(), getVY());
-
+	if ((left() >= second_point.x && getVX() > 0) || (left() <= first_point.x && getVX() < 0)
+		|| (top() >= second_point.y && getVY() > 0) || top() <= first_point.y && getVY() < 0)
+	{
+		setMovement(-getVX(), -getVY());
+		//std::cout << "bounce" << std::endl;
+	}
 }
 
 void Block::checkCollision() //Ball& ball
