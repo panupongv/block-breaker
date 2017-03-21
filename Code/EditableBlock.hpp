@@ -19,5 +19,5 @@ protected:
 private:
     int grid_x;
     int grid_y;
-    vector<sf::Vector2i> movement;
+    std::vector<sf::Vector2i> movement;
 };
