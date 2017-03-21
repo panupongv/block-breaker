@@ -21,6 +21,7 @@ private:
 	sf::Event event;
 	StageData stage_data;
 
+	Ball* ball;
 
 	vector<Sprite*> sprite_list;
 	vector<Block*> block_list;
