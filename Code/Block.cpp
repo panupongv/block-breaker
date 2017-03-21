@@ -1,9 +1,5 @@
 #include "Block.hpp"
 
-Block::Block(const BlockData & block_data)
-:
-Block(getTextureNameFromType(block_data.getType()),block_data) {}
-
 Block::Block(std::string texture_name, const BlockData & block_data)
 :
 Sprite(texture_name, block_size_x, block_size_y,
@@ -36,8 +32,17 @@ Sprite(texture_name, block_size_x, block_size_y,
 }
 
 Block::Block(std::string texture_name, float x, float y)
+: Sprite(texture_name, block_size_x, block_size_y, x , y ) { }
+
+Block::Block(const BlockData & block_data)
 	:
-	Sprite(texture_name, block_size_x, block_size_y, x , y )
+	Block(getTextureNameFromType(block_data.getType()), block_data.getStartGrid().x * block_size_x, block_data.getStartGrid().y * block_size_y)
+{
+}
+
+Block::Block(BlockType type, float x, float y)
+	:
+	Block(getTextureNameFromType(type), x, y)
 {
 }
 
@@ -84,7 +89,7 @@ sf::Vector2u Block::getBlockSize()
 }
 
 
-std::string getTextureNameFromType(BlockType type)
+std::string Block::getTextureNameFromType(BlockType type)
 {
     switch (type) {
         case normal:
@@ -97,3 +102,4 @@ std::string getTextureNameFromType(BlockType type)
             return "";
     }
 }
+
