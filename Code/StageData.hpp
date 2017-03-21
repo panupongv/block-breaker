@@ -25,10 +25,10 @@ private:
     const int num_row = 20;
     const int num_column = 40;
 #ifdef __APPLE__
-    const string directory = "stages/";
+    const string directory = "block-breaker/stages/";
     const string create_sub_cmd = "mkdir stages";
 #else
-    const string directory = "stages\\";
+    const string directory = "block-breaker\\stages\\";
     const string create_sub_cmd = "mkdir stages";
 #endif
     string file_name;

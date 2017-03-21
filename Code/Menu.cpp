@@ -26,7 +26,7 @@ void Menu::draw()
 
 void Menu::event_input()
 {
-	sf::Event event;
+	
 
 	while (window->pollEvent(event))
 	{
