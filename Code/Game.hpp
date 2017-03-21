@@ -2,6 +2,7 @@
 
 #include "SFML/Graphics.hpp"
 #include "Block.hpp"
+#include "Ball.hpp"
 #include "StageData.hpp"
 
 #include <iostream>
@@ -14,10 +15,12 @@ public:
 	Game(sf::RenderWindow *window, std::string file_name);
 	virtual ~Game();
 	void run();
+	sf::Vector2f windowSize() const;
 private:
-	sf::RenderWindow *window;
+	sf::RenderWindow* window;
 	sf::Event event;
 	StageData stage_data;
+
 
 	vector<Sprite*> sprite_list;
 	vector<Block*> block_list;

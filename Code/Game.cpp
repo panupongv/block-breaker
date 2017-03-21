@@ -10,6 +10,9 @@ Game::Game(sf::RenderWindow * window, std::string file_name)
 	{
 		std::cout << "No map found" << std::endl;
 	}
+
+	ball = new Ball();
+
 	vector<BlockData> block_datas = stage_data.getBlocksData();
 	const int block_num = block_datas.size();
 	for (int i = 0; i < block_num; i++)
@@ -19,6 +22,7 @@ Game::Game(sf::RenderWindow * window, std::string file_name)
 	}
 
 	sprite_list.assign(block_list.begin(), block_list.end());
+	sprite_list.push_back(ball);
 }
 
 Game::~Game()
@@ -38,6 +42,11 @@ void Game::run()
 		event_input();
 	}
 	std::cout << "Game ended" << std::endl;
+}
+
+sf::Vector2f Game::windowSize() const
+{
+	return sf::Vector2f(window->getSize().x, window->getSize().y);
 }
 
 void Game::draw_sprites()
@@ -62,6 +71,9 @@ void Game::event_input()
 	{
 		switch(event.type)
 		{
+		case sf::Event::MouseButtonPressed:
+			ball->launch();
+			break;
 		case sf::Event::KeyPressed:
 				finished = true;
 				break;

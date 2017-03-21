@@ -10,6 +10,8 @@
 #include <string>
 #include <cstdlib>
 
+class Game;
+
 class Sprite
 {
 public:
