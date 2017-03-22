@@ -62,7 +62,7 @@ void Game::update_sprites()
 {
 	const int sprite_num = sprite_list.size();
 	for (int i = 0; i < sprite_num; i++)
-		sprite_list[i]->update();
+		sprite_list[i]->update(*this);
 }
 
 void Game::event_input()

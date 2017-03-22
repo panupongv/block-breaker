@@ -9,7 +9,7 @@ Ball::Ball()
 	getSprite().scale(50.0f / 75, 50.0f / 75);
 }
 
-void Ball::update()
+void Ball::update(Game& game)
 {
 	if (started)
 	{

@@ -1,7 +1,12 @@
 #pragma once
 
+#include "Game.hpp"
 #include "Sprite.hpp"
 #include "BlockData.hpp"
+
+//class Sprite;
+class Game;
+class Ball;
 
 class Block : public Sprite
 {
@@ -11,7 +16,7 @@ public:
 	Block(const BlockData& block_data);
 	Block(BlockType type, float x, float y);
     
-    virtual void update();
+	void update(Game& game);
     void checkCollision(); //Ball& ball
     void setGridPosition(int x, int y);
     static sf::Vector2u getBlockSize();

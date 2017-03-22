@@ -72,7 +72,7 @@ Block::Block(BlockType type, float x, float y)
 {
 }
 
-void Block::update()
+void Block::update(Game& game)
 {
 	if (!moving) return;
 	move(getVX(), getVY());

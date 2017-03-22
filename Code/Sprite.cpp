@@ -27,12 +27,6 @@ Sprite::Sprite(std::string texture_name, int frame_width, int frame_height, floa
 	frame_number = static_cast<int>(texture.getSize().x / frame_width);
 }
 
-void Sprite::update()
-{
-	//move
-	//detect collision
-}
-
 void Sprite::draw(sf::RenderWindow & window) const
 {
 	window.draw(sprite);

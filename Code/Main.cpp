@@ -13,7 +13,6 @@ int main()
 {
 	sf::RenderWindow window(sf::VideoMode(600, 600), "SFML works!");//, sf::Style::Fullscreen);
 	
-	//Test game class
 	Game game(&window, "stage1.csv");
 	game.run();
 
