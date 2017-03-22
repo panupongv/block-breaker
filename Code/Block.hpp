@@ -8,8 +8,8 @@ class Block : public Sprite
 public:
     Block(std::string texture_name, const BlockData& block_data);
     Block(std::string texture_name, float x, float y);
-	Block(const BlockData& block_data);
-	Block(BlockType type, float x, float y);
+    Block(const BlockData& block_data);
+    Block(BlockType type , float x , float y);
     
     virtual void update();
     void checkCollision(); //Ball& ball
