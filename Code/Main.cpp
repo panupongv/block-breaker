@@ -6,22 +6,16 @@
     #include <SFML\Graphics.hpp>
 #endif
 
-#include "Sprite.hpp"
-#include "Block.hpp"
+#include "Game.hpp"
 #include <iostream>
 
 int main()
 {
 	sf::RenderWindow window(sf::VideoMode(600, 600), "SFML works!");//, sf::Style::Fullscreen);
 	
-	//dummy menu
-	//press any key to exit menu
-	//Menu(&window).run();
-
-	BlockData b_data("[block]0,255,255,255,1,2,10,10,100,10");
-
-	//Test
-	Block block("brick.png", b_data); //x = 200 == (block size x * grid pos x), y = (block size y * 0) = 0
+	//Test game class
+	Game game(&window, "stage1.csv");
+	game.run();
 
 	int counter = 0;
 	while (window.isOpen())
@@ -37,8 +31,6 @@ int main()
 			}
 		}
  		window.clear();
-		block.draw(window);
-		block.update();
 		window.display();
 	}
 

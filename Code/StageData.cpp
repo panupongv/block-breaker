@@ -63,7 +63,6 @@ bool StageData::load()
 {
     string path = this->getPath();
     ifstream file(path);
-    
     if(file.fail())
     {
         return false;

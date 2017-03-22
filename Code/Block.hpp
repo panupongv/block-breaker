@@ -8,10 +8,8 @@ class Block : public Sprite
 public:
     Block(std::string texture_name, const BlockData& block_data);
     Block(std::string texture_name, float x, float y);
-    Block(const BlockData& block_data)
-    : Block(getTextureNameFromType(block_data.getType()),block_data){};
-    Block(BlockType type , float x , float y)
-    : Block(getTextureNameFromType(type),x,y) { }
+	Block(const BlockData& block_data);
+	Block(BlockType type, float x, float y);
     
     virtual void update();
     void checkCollision(); //Ball& ball
@@ -24,6 +22,9 @@ protected:
     static constexpr int block_size_y = 30;  //
 
 private:
+	sf::Vector2u first_point;
+	sf::Vector2u second_point;
+
     float move_speed = 0.1;
     bool moving;
 };
