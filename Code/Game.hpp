@@ -1,7 +1,4 @@
-//#pragma once
-
-#ifndef _game_
-#define _game_
+#pragma once
 
 #include "SFML/Graphics.hpp"
 #include "Block.hpp"
@@ -22,6 +19,8 @@ public:
 	Game(sf::RenderWindow *window, std::string file_name);
 	~Game();
 	void run();
+	void removeBlock();
+	vector<Sprite*>& getBlockList();
 	sf::Vector2f getWindowSize() const;
 	sf::Vector2f getMousePosition() const;
 private:
@@ -32,13 +31,12 @@ private:
 	Ball* ball;
 
 	vector<Sprite*> sprite_list;
-	vector<Block*> block_list;
+	vector<Sprite*> block_list;
 
+	int block_num;
 	bool finished;
 
 	void draw_sprites();
 	void update_sprites();
 	void event_input();
 };
-
-#endif

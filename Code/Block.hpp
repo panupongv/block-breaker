@@ -17,7 +17,7 @@ public:
 	Block(BlockType type, float x, float y);
     
 	void update(Game& game);
-    void checkCollision(); //Ball& ball
+
     void setGridPosition(int x, int y);
     static sf::Vector2u getBlockSize();
 
@@ -31,5 +31,6 @@ private:
 	sf::Vector2u second_point;
 
     float move_speed = 0.1f;
-    bool moving;
+
+	void initializeData(vector<sf::Vector2i> points);
 };

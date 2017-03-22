@@ -7,12 +7,12 @@ class Game;
 class Sprite;
 class Block;
 
-
 class Ball : public Sprite
 {
 public:
 	Ball();
 	void update(Game& game);
+	void checkBlockCollision(Game& game);
 	void launch();
 private:
 	bool started;

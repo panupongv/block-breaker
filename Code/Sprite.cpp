@@ -32,6 +32,12 @@ void Sprite::draw(sf::RenderWindow & window) const
 	window.draw(sprite);
 }
 
+void Sprite::inactivate()
+{
+	alive = false;
+	moving = false;
+}
+
 sf::Sprite & Sprite::getSprite()
 {
 	return sprite;
@@ -71,6 +77,16 @@ float Sprite::getVX() const
 float Sprite::getVY() const
 {
 	return vy;
+}
+
+bool Sprite::isAlive() const
+{
+	return alive;
+}
+
+bool Sprite::isMoving() const
+{
+	return moving;
 }
 
 void Sprite::setPosition(float x, float y)
