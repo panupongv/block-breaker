@@ -22,7 +22,8 @@ public:
 	Game(sf::RenderWindow *window, std::string file_name);
 	~Game();
 	void run();
-	sf::Vector2f windowSize() const;
+	sf::Vector2f getWindowSize() const;
+	sf::Vector2f getMousePosition() const;
 private:
 	sf::RenderWindow* window;
 	sf::Event event;
@@ -30,8 +31,8 @@ private:
 
 	Ball* ball;
 
-	vector<Sprite* > sprite_list;
-	vector<Block* > block_list;
+	vector<Sprite*> sprite_list;
+	vector<Block*> block_list;
 
 	bool finished;
 

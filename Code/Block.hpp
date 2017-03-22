@@ -30,6 +30,6 @@ private:
 	sf::Vector2u first_point;
 	sf::Vector2u second_point;
 
-    float move_speed = 0.1;
+    float move_speed = 0.1f;
     bool moving;
 };

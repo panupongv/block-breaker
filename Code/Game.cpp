@@ -44,9 +44,14 @@ void Game::run()
 	std::cout << "Game ended" << std::endl;
 }
 
-sf::Vector2f Game::windowSize() const
+sf::Vector2f Game::getWindowSize() const
 {
 	return sf::Vector2f(window->getSize().x, window->getSize().y);
+}
+
+sf::Vector2f Game::getMousePosition() const
+{
+	return sf::Vector2f(sf::Mouse::getPosition(*window).x, sf::Mouse::getPosition(*window).y);
 }
 
 void Game::draw_sprites()

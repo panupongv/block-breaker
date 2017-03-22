@@ -17,17 +17,17 @@ void Ball::update(Game& game)
 		//Collision with edges
 		if ((left() <= 0 && getVX() < 0) || (right() >= 600 && getVX() > 0))
 			setMovement(-getVX(), getVY());
-		if ((top() <= 0 && getVY() < 0) || (bottom() >= 600 && getVY() > 0))
+		if ((top() <= 0 && getVY() < 0))
 			setMovement(getVX(), -getVY());
 	}
 	else
-	{
-		setPosition(sf::Mouse::getPosition().x, sf::Mouse::getPosition().y);
+	{ 
+		setCenter(game.getMousePosition().x, game.getMousePosition().y);
 	}
 }
 
 void Ball::launch()
 {
 	started = true;
-	setMovement(0.125, 0.2);
+	setMovement(0.125f, -0.2f);
 }

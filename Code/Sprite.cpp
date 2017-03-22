@@ -78,6 +78,11 @@ void Sprite::setPosition(float x, float y)
 	sprite.setPosition(x, y);
 }
 
+void Sprite::setCenter(float x, float y)
+{
+	setPosition(x - frame_width / 2, y - frame_height / 2);
+}
+
 void Sprite::move(float x, float y)
 {
 	sprite.move(x, y);
