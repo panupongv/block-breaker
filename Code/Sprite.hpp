@@ -26,6 +26,9 @@ public:
 	float bottom() const;
 	sf::Vector2f center() const;
 
+	float getVX() const;
+	float getVY() const;
+
 	void setPosition(float x, float y);
 	void move(float x, float y);
 	void setMovement(float x, float y);
