@@ -27,12 +27,6 @@ Sprite::Sprite(std::string texture_name, int frame_width, int frame_height, floa
 	frame_number = static_cast<int>(texture.getSize().x / frame_width);
 }
 
-void Sprite::update()
-{
-	//move
-	//detect collision
-}
-
 void Sprite::draw(sf::RenderWindow & window) const
 {
 	window.draw(sprite);
@@ -82,6 +76,11 @@ float Sprite::getVY() const
 void Sprite::setPosition(float x, float y)
 {
 	sprite.setPosition(x, y);
+}
+
+void Sprite::setCenter(float x, float y)
+{
+	setPosition(x - frame_width / 2, y - frame_height / 2);
 }
 
 void Sprite::move(float x, float y)

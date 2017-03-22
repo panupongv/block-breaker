@@ -1,23 +1,35 @@
-#pragma once
+//#pragma once
+
+#ifndef _game_
+#define _game_
 
 #include "SFML/Graphics.hpp"
 #include "Block.hpp"
+#include "Ball.hpp"
 #include "StageData.hpp"
 
 #include <iostream>
 #include <string>
 #include <vector>
 
+class Sprite;
+class Block;
+class Ball;
+
 class Game
 {
 public:
 	Game(sf::RenderWindow *window, std::string file_name);
-	virtual ~Game();
+	~Game();
 	void run();
+	sf::Vector2f getWindowSize() const;
+	sf::Vector2f getMousePosition() const;
 private:
-	sf::RenderWindow *window;
+	sf::RenderWindow* window;
 	sf::Event event;
 	StageData stage_data;
+
+	Ball* ball;
 
 	vector<Sprite*> sprite_list;
 	vector<Block*> block_list;
@@ -28,3 +40,5 @@ private:
 	void update_sprites();
 	void event_input();
 };
+
+#endif
