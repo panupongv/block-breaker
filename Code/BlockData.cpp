@@ -4,6 +4,7 @@
 using namespace sf;
 using namespace std;
 
+BlockData::BlockData() {} 
 BlockData::BlockData ( string raw )
 {
     CSVSplitter splitter(raw);
@@ -51,6 +52,21 @@ Vector2i BlockData::getStartGrid() const
 const vector<Vector2i>& BlockData::getMovement() const
 {
     return this->movement;
+}
+
+void BlockData::setStartGrid( int x, int y)
+{
+    this->setStartGrid( Vector2i(x,y) );
+}
+
+void BlockData::setStartGrid( Vector2i _start )
+{
+    this->startGrid = _start;
+}
+
+void BlockData::setMovement( vector<Vector2i> movement )
+{
+    this->movement = movement;
 }
 
 ostream& operator<< ( ostream& strm , const BlockData& blockData )

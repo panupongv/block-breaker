@@ -1,13 +1,12 @@
 #pragma once
 
-#include "Block.hpp"
 #include <string>
 
-class InteractableBlock : public Block
+//abstract class
+class InteractableObject
 {
 public:
-    InteractableBlock(std::string texture_name , float x , float y);
-    InteractableBlock(BlockType type , float x , float y );
+    virtual ~InteractableObject() = 0; // mark abstract
     bool isSelected();
     bool isInteractable();
     void select();

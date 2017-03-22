@@ -1,11 +1,10 @@
 #include "DraftBlock.hpp"
-//#include <iostream>
 
-//using namespace std;
-//
-//
+using namespace std;
+using namespace sf;
+
 DraftBlock::DraftBlock( TemplateBlock tb )
-: Block( tb.getType() , 0 , 0 ) { }
+: TemplateBlock(tb.getType() , tb.getColor() ,-1000,-1000 ) { }
 
 
 void DraftBlock::update()
@@ -21,12 +20,4 @@ bool DraftBlock::isAvailable()
 void DraftBlock::setAvailability(bool available)
 {
     this->available = available;
-}
-
-sf::Vector2i DraftBlock::getMagnetGrid(float x, float y)
-{
-    return sf::Vector2i(
-        static_cast<int>(x)/block_size_x ,
-        static_cast<int>(y)/block_size_y
-    );
 }

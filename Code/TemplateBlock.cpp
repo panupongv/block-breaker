@@ -1,11 +1,10 @@
 #include "TemplateBlock.hpp"
 
+using namespace std;
+using namespace sf;
+
 TemplateBlock::TemplateBlock(BlockType type , sf::Color color , float x , float y)
-: SelectableBlock( type , x , y )
-{
-    this->type = type;
-    this->color = color;
-}
+: Block( type , x , y ) , data(TemplateData(type,color)) { }
 
 void TemplateBlock::update()//Game& game
 {
@@ -13,30 +12,20 @@ void TemplateBlock::update()//Game& game
 
 BlockType TemplateBlock::getType()
 {
-    return this->type;
+    return this->data.getType();
 }
 
 sf::Color TemplateBlock::getColor()
 {
-    return this->color;
+    return this->data.getColor();
 }
 
-void TemplateBlock::onSelected()
+void TemplateBlock::setType(BlockType type)
 {
-    //TODO
+    this->data.setType(type);
 }
 
-void TemplateBlock::onDeselected()
+void TemplateBlock::setColor(Color color)
 {
-    //TODO
-}
-
-void TemplateBlock::onEnabled()
-{
-    //TODO
-}
-
-void TemplateBlock::onDisabled()
-{
-    //TODO
+    this->data.setColor(color);
 }

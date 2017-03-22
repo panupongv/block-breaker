@@ -15,6 +15,8 @@ public:
     
     BlockType getType() const;
     sf::Color getColor() const;
+    void setType( BlockType type );
+    void setColor( sf::Color color );
     
 protected:
     TemplateData();

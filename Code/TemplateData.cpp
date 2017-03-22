@@ -16,3 +16,13 @@ Color TemplateData::getColor() const
 {
     return this->color;
 }
+
+void TemplateData::setColor( Color color )
+{
+    this->color = color;
+}
+
+void TemplateData::setType( BlockType type )
+{
+    this->type = type;
+}
