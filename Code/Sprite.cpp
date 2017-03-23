@@ -21,10 +21,12 @@ Sprite::Sprite(std::string texture_name, int frame_width, int frame_height, floa
 		exit(0);
 	}
 	sprite.setTexture(texture);
+	sprite.scale(sf::Vector2f(static_cast<float>(frame_width) / texture.getSize().x, static_cast<float>(frame_height) / texture.getSize().y));
 	setPosition(initial_x, initial_y);
 	sprite.setTextureRect(sf::IntRect(current_frame * frame_width, 0, frame_width, frame_height));
-
+	
 	frame_number = static_cast<int>(texture.getSize().x / frame_width);
+
 }
 
 void Sprite::draw(sf::RenderWindow & window) const

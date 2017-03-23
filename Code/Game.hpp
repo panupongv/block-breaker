@@ -1,6 +1,7 @@
 #pragma once
 
 #include "SFML/Graphics.hpp"
+#include "Player.hpp"
 #include "Block.hpp"
 #include "Ball.hpp"
 #include "StageData.hpp"
@@ -10,6 +11,7 @@
 #include <vector>
 
 class Sprite;
+class Player;
 class Block;
 class Ball;
 
@@ -20,6 +22,7 @@ public:
 	~Game();
 	void run();
 	void removeBlock();
+	Sprite* getPlayer();
 	vector<Sprite*>& getBlockList();
 	sf::Vector2f getWindowSize() const;
 	sf::Vector2f getMousePosition() const;
@@ -28,6 +31,7 @@ private:
 	sf::Event event;
 	StageData stage_data;
 
+	Player* player;
 	Ball* ball;
 
 	vector<Sprite*> sprite_list;

@@ -15,6 +15,7 @@ Game::Game(sf::RenderWindow * window, std::string file_name)
 	lists.push_back(sprite_list);
 	lists.push_back(block_list);
 
+	player = new Player();
 	ball = new Ball();
 
 	vector<BlockData> block_datas = stage_data.getBlocksData();
@@ -27,6 +28,7 @@ Game::Game(sf::RenderWindow * window, std::string file_name)
 	}
 	sprite_list.assign(block_list.begin(), block_list.end());
 	sprite_list.push_back(ball);
+	sprite_list.push_back(player);
 }
 
 Game::~Game()
@@ -106,4 +108,9 @@ void Game::removeBlock()
 	block_num--;
 	if (block_num == 0)
 		finished = true;
+}
+
+Sprite* Game::getPlayer()
+{
+	return player;
 }

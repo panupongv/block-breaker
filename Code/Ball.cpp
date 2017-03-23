@@ -2,13 +2,12 @@
 
 Ball::Ball()
 	:
-	Sprite("ball.png", 75, 75, 0, 0),
+	Sprite("ball.png", 50, 50, 0, 0),
 	started(false)
 {
 		//Sprite::Sprite("ball.png", 70, 70, 250, 500);
 	alive = true;
 	moving = true;
-	getSprite().scale(50.0f / 75, 50.0f / 75);
 }
 
 void Ball::update(Game& game)
@@ -22,6 +21,8 @@ void Ball::update(Game& game)
 		if ((top() <= 0 && getVY() < 0) || (bottom() >= game.getWindowSize().y && getVY() > 0))
 			setMovement(getVX(), -getVY());
 		checkBlockCollision(game);
+		checKPlayerCollision(game.getPlayer());
+
 	}
 	else
 	{ 
@@ -41,10 +42,34 @@ void Ball::checkBlockCollision(Game& game)
 
 			block_list[i]->inactivate();
 			game.removeBlock();
-			if(center().x > block_list[i]->left() && center().x < block_list[i]->right())
+			if (center().x > block_list[i]->left() && center().x < block_list[i]->right())
+			{
+				move(0, -getVY());
 				setMovement(getVX(), -getVY());
+			}
 			else
+			{
+				move(-getVX(), 0);
 				setMovement(-getVX(), getVY());
+			}
+
+		}
+	}
+}
+
+void Ball::checKPlayerCollision(Sprite* player)
+{
+	if (getSprite().getGlobalBounds().intersects(player->getSprite().getGlobalBounds()))
+	{
+		if (center().x > player->left() && center().x < player->right())
+		{
+			move(0, -getVY());
+			setMovement(getVX(), -getVY());
+		}
+		else
+		{
+			move(-getVX(), 0);
+			setMovement(-getVX(), getVY());
 		}
 	}
 }
