@@ -18,6 +18,7 @@ class Ball;
 class Game
 {
 public:
+	Game(sf::RenderWindow *window);
 	Game(sf::RenderWindow *window, std::string file_name);
 	~Game();
 	void run();
@@ -30,7 +31,6 @@ public:
 private:
 	sf::RenderWindow* window;
 	sf::Event event;
-	StageData stage_data;
 
 	Player* player;
 	Ball* ball;
@@ -39,6 +39,7 @@ private:
 	vector<Sprite*> block_list;
 
 	int block_num;
+	bool endless;
 	bool finished;
 
 	void draw_sprites();

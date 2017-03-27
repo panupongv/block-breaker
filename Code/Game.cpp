@@ -1,11 +1,33 @@
 #include "Game.hpp"
 
+Game::Game(sf::RenderWindow * window)
+	:
+	window(window),
+	finished(false),
+	endless(true)
+{
+	player = new Player();
+	ball = new Ball();
+
+	for (int i = 0; i < 5; i++)
+	{
+		for (int j = 0; j < 4; j++)
+		{
+			block_list.push_back(new Block("brick.png", Block::getBlockSize().x * i, Block::getBlockSize().y * j));
+		}
+	}
+	sprite_list.assign(block_list.begin(), block_list.end());
+	sprite_list.push_back(ball);
+	sprite_list.push_back(player);
+}
+
 Game::Game(sf::RenderWindow * window, std::string file_name)
 	:
 	window(window),
-	stage_data(file_name),
-	finished(false)
+	finished(false),
+	endless(false)
 {
+	StageData stage_data(file_name);
 	if (!stage_data.load())
 	{
 		std::cout << "No map found" << std::endl;
@@ -18,7 +40,7 @@ Game::Game(sf::RenderWindow * window, std::string file_name)
 	block_num = block_datas.size();
 	for (int i = 0; i < block_num; i++)
 	{
-		Block * temp_block = new Block(block_datas[i]);
+		//Block * temp_block = new Block(block_datas[i]);
 		block_list.push_back(new Block("brick.png", block_datas[i]));
 		std::cout << "Brick[" << i << "] at " << block_datas[i].getStartGrid().x << ", " << block_datas[i].getStartGrid().y << std::endl;
 	}
@@ -54,7 +76,6 @@ void Game::popBlock(Sprite * block)
 		if (sprite_list[i] == block)
 		{
 			sprite_list.erase(sprite_list.begin() + i);
-			std::cout << "POP SPRITE" << std::endl;
 			break;
 		}
 	}
@@ -118,7 +139,7 @@ void Game::update_sprites()
 	for (int i = 0; i < sprite_list.size(); i++)
 	{
 		//if (sprite_list[i]->isAlive())
-		sprite_list[i]->update(*this);
+		 sprite_list[i]->update(*this);
 	}
 }
 
