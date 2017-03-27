@@ -21,7 +21,7 @@ void Ball::update(Game& game)
 		if ((top() <= 0 && getVY() < 0) || (bottom() >= game.getWindowSize().y && getVY() > 0))
 			setMovement(getVX(), -getVY());
 		checkBlockCollision(game);
-		checKPlayerCollision(game.getPlayer());
+		checkPlayerCollision(game.getPlayer());
 
 	}
 	else
@@ -39,9 +39,8 @@ void Ball::checkBlockCollision(Game& game)
 		if (!block_list[i]->isAlive()) continue;
 		if (getSprite().getGlobalBounds().intersects(block_list[i]->getSprite().getGlobalBounds()))
 		{
-
-			block_list[i]->inactivate();
-			game.removeBlock();
+			
+			//block_list[i]->inactivate();
 			if (center().x > block_list[i]->left() && center().x < block_list[i]->right())
 			{
 				move(0, -getVY());
@@ -52,12 +51,12 @@ void Ball::checkBlockCollision(Game& game)
 				move(-getVX(), 0);
 				setMovement(-getVX(), getVY());
 			}
-
+			game.popBlock(block_list[i]);
 		}
 	}
 }
 
-void Ball::checKPlayerCollision(Sprite* player)
+void Ball::checkPlayerCollision(Sprite* player)
 {
 	if (getSprite().getGlobalBounds().intersects(player->getSprite().getGlobalBounds()))
 	{

@@ -13,7 +13,7 @@ public:
 	Ball();
 	void update(Game& game);
 	void checkBlockCollision(Game& game);
-	void checKPlayerCollision(Sprite* player);
+	void checkPlayerCollision(Sprite* player);
 	void launch();
 private:
 	bool started;

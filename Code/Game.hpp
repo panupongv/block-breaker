@@ -21,9 +21,10 @@ public:
 	Game(sf::RenderWindow *window, std::string file_name);
 	~Game();
 	void run();
-	void removeBlock();
+	void popBlock(Sprite* block);
 	Sprite* getPlayer();
-	vector<Sprite*>& getBlockList();
+	vector<Sprite*> getBlockList();
+	vector<Sprite*> getSpriteList();
 	sf::Vector2f getWindowSize() const;
 	sf::Vector2f getMousePosition() const;
 private:

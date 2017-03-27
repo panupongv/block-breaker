@@ -11,10 +11,6 @@ Game::Game(sf::RenderWindow * window, std::string file_name)
 		std::cout << "No map found" << std::endl;
 	}
 
-	vector< vector<Sprite*> > lists;
-	lists.push_back(sprite_list);
-	lists.push_back(block_list);
-
 	player = new Player();
 	ball = new Ball();
 
@@ -50,9 +46,41 @@ void Game::run()
 	std::cout << "Game ended" << std::endl;
 }
 
-vector<Sprite*>& Game::getBlockList()
+void Game::popBlock(Sprite * block)
+{
+	//const int sprite_num = sprite_list.size();
+	for (int i = 0; i < sprite_list.size(); i++)
+	{
+		if (sprite_list[i] == block)
+		{
+			sprite_list.erase(sprite_list.begin() + i);
+			std::cout << "POP SPRITE" << std::endl;
+			break;
+		}
+	}
+
+	//const int block_num = block_list.size();
+	for (int i = 0; i < block_list.size(); i++)
+	{
+		if (block_list[i] == block)
+		{
+			delete block;
+			block = NULL;
+			block_list.erase(block_list.begin() + i);
+			//std::cout << "POP BLOCK" << std::endl;
+			break;
+		}
+	}
+}
+
+vector<Sprite*> Game::getBlockList()
 {
 	return block_list;
+}
+
+vector<Sprite*> Game::getSpriteList()
+{
+	return sprite_list;
 }
 
 sf::Vector2f Game::getWindowSize() const
@@ -71,19 +99,26 @@ void Game::draw_sprites()
 	const int sprite_num = sprite_list.size();
 	for (int i = 0; i < sprite_num; i++)
 	{
-		if(sprite_list[i]->isAlive())
-			sprite_list[i]->draw(*window);
+		sprite_list[i]->draw(*window);
 	}
+	/*const int sprite_num = block_list.size();
+	for (int i = 0; i < sprite_num; i++)
+	{
+		if (block_list[i]->isAlive())
+			block_list[i]->draw(*window);
+	}
+	ball->draw(*window);
+	player->draw(*window);*/
 	window->display();
 }
 
 void Game::update_sprites()
 {
-	const int sprite_num = sprite_list.size();
-	for (int i = 0; i < sprite_num; i++)
+	//const int sprite_num = sprite_list.size();
+	for (int i = 0; i < sprite_list.size(); i++)
 	{
-		if (sprite_list[i]->isAlive())
-			sprite_list[i]->update(*this);
+		//if (sprite_list[i]->isAlive())
+		sprite_list[i]->update(*this);
 	}
 }
 
@@ -101,13 +136,6 @@ void Game::event_input()
 			break;
 		}
 	}
-}
-
-void Game::removeBlock()
-{
-	block_num--;
-	if (block_num == 0)
-		finished = true;
 }
 
 Sprite* Game::getPlayer()

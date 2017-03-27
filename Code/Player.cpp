@@ -2,7 +2,7 @@
 
 Player::Player()
 	:
-	Sprite("ipad.png", 120, 30, 260, 570)
+	Sprite("brick.png", 120, 30, 260, 570)
 { 
 	alive = true;
 	moving = true;
