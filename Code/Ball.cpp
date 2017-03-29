@@ -37,11 +37,11 @@ void Ball::checkBlockCollision(Game& game)
 	for (int i = 0; i < list_size; i++)
 	{
 		if (!block_list[i]->isAlive()) continue;
-		if (getSprite().getGlobalBounds().intersects(block_list[i]->getSprite().getGlobalBounds()))
+		if (collide(*block_list[i]))
 		{
 			
 			//block_list[i]->inactivate();
-			if (center().x > block_list[i]->left() && center().x < block_list[i]->right())
+			if (collideVertically(*block_list[i]))
 			{
 				move(0, -getVY());
 				setMovement(getVX(), -getVY());
@@ -76,5 +76,5 @@ void Ball::checkPlayerCollision(Sprite* player)
 void Ball::launch()
 {
 	started = true;
-	setMovement(0.125f, -0.2f);
+	setMovement(10, -15);
 }

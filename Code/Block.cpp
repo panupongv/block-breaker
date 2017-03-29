@@ -9,9 +9,13 @@ Block::Block(std::string texture_name, const BlockData & block_data)
 	getSprite().setColor(block_data.getColor());
 }
 
-Block::Block(std::string texture_name, float x, float y)
+Block::Block(std::string texture_name, float x, float y, bool endless)
 : Sprite(texture_name, block_size_x, block_size_y, x , y ) 
 {
+	if (endless)
+	{
+		this->endless = true;
+	}
 }
 
 Block::Block(const BlockData & block_data)
@@ -28,13 +32,20 @@ Block::Block(BlockType type, float x, float y)
 
 void Block::update(Game& game)
 {
-	if (!moving) return;
-	move(getVX(), getVY());
-	if ((left() >= second_point.x && getVX() > 0) || (left() <= first_point.x && getVX() < 0)
-		|| (top() >= second_point.y && getVY() > 0) || top() <= first_point.y && getVY() < 0)
+	if (!endless)
 	{
-		setMovement(-getVX(), -getVY());
-		//std::cout << "bounce" << std::endl;
+		if (!moving) return;
+		move(getVX(), getVY());
+		if ((left() >= second_point.x && getVX() > 0) || (left() <= first_point.x && getVX() < 0)
+			|| (top() >= second_point.y && getVY() > 0) || top() <= first_point.y && getVY() < 0)
+		{
+			setMovement(-getVX(), -getVY());
+			//std::cout << "bounce" << std::endl;
+		}
+	}
+	else
+	{
+		move(0, 0.1f);
 	}
 }
 
@@ -69,9 +80,9 @@ void Block::setGridPosition(int x, int y)
 	}
 }
 
-sf::Vector2u Block::getBlockSize()
+sf::Vector2i Block::getBlockSize()
 {
-	return sf::Vector2u(block_size_x, block_size_y);
+	return sf::Vector2i(block_size_x, block_size_y);
 }
 
 

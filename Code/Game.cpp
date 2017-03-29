@@ -9,11 +9,12 @@ Game::Game(sf::RenderWindow * window)
 	player = new Player();
 	ball = new Ball();
 
-	for (int i = 0; i < 5; i++)
+	for (int i = 0; i < 12; i++)
 	{
-		for (int j = 0; j < 4; j++)
+		for (int j = 0; j < 8; j++)
 		{
-			block_list.push_back(new Block("brick.png", Block::getBlockSize().x * i, Block::getBlockSize().y * j));
+			Block* new_block = new Block("brick.png", Block::getBlockSize().x * i, Block::getBlockSize().y * j, true);
+			block_list.push_back(new_block);
 		}
 	}
 	sprite_list.assign(block_list.begin(), block_list.end());

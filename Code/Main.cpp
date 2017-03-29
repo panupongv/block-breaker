@@ -12,26 +12,11 @@
 int main()
 {
 	sf::RenderWindow window(sf::VideoMode(600, 600), "SFML works!");//, sf::Style::Fullscreen);
-	
-	Game game(&window, "stage1.csv");
-	game.run();
+	window.setFramerateLimit(60);
 
-	int counter = 0;
-	while (window.isOpen())
-	{
-		sf::Event event;
-		while (window.pollEvent(event))
-		{
-			if (event.type == sf::Event::Closed)
-				window.close();
-			if (event.type == sf::Event::KeyPressed)
-			{
-				window.close();
-			}
-		}
- 		window.clear();
-		window.display();
-	}
+	Game game(&window);
+	game.run();
+	window.close();
 
 	system("pause"); 
 	return 0;

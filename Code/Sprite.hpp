@@ -32,6 +32,10 @@ public:
 	float bottom() const;
 	sf::Vector2f center() const;
 
+	bool collide(Sprite& another_sprite);
+	bool collideHorizontally(Sprite& another_sprite);
+	bool collideVertically(Sprite& another_sprite);
+
 	float getVX() const;
 	float getVY() const;
 
@@ -55,8 +59,8 @@ private:
 	sf::Sprite sprite;
 	sf::Texture texture;
 
-	const int frame_width;
-	const int frame_height;
+	int frame_width;
+	int frame_height;
 
 	int frame_number;
 	int current_frame;
