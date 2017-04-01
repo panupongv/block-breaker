@@ -24,7 +24,7 @@ public:
 	void draw(sf::RenderWindow& window) const;
 	void inactivate();
 
-	sf::Sprite& getSprite();
+	//sf::Sprite& getSprite();
 
 	float left() const;
 	float right() const;
@@ -46,7 +46,8 @@ public:
 	void setCenter(float x, float y);
 	void move(float x, float y);
 	void setMovement(float x, float y);
-	
+
+	void setColor(const sf::Color& color);
 	void setFrame(int frame_id);
 	void nextFrame();
 	void resetFrame();

@@ -6,7 +6,10 @@ Block::Block(std::string texture_name, const BlockData & block_data)
        block_data.getStartGrid().x * block_size_x, block_data.getStartGrid().y * block_size_y)
 {
 	initializeData(block_data.getMovement());
-	getSprite().setColor(block_data.getColor());
+
+
+	//////////////
+	setColor(block_data.getColor());
 }
 
 Block::Block(std::string texture_name, float x, float y, bool endless)
@@ -90,7 +93,7 @@ std::string Block::getTextureNameFromType(BlockType type)
 {
     switch (type) {
         case normal:
-            return "brick.png";
+            return "block1.png";
         case item:
             return "kuy item";
         case breakable :

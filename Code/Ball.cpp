@@ -58,18 +58,16 @@ void Ball::checkBlockCollision(Game& game)
 
 void Ball::checkPlayerCollision(Sprite* player)
 {
-	if (getSprite().getGlobalBounds().intersects(player->getSprite().getGlobalBounds()))
+
+	if (collideVertically(*player))
 	{
-		if (center().x > player->left() && center().x < player->right())
-		{
-			move(0, -getVY());
-			setMovement(getVX(), -getVY());
-		}
-		else
-		{
-			move(-getVX(), 0);
-			setMovement(-getVX(), getVY());
-		}
+		move(0, -getVY());
+		setMovement(getVX(), -getVY());
+	}
+	else if (collideHorizontally(*player))
+	{
+		move(-getVX(), 0);
+		setMovement(-getVX(), getVY());
 	}
 }
 

@@ -13,7 +13,7 @@ Game::Game(sf::RenderWindow * window)
 	{
 		for (int j = 0; j < 8; j++)
 		{
-			Block* new_block = new Block("brick.png", Block::getBlockSize().x * i, Block::getBlockSize().y * j, true);
+			Block* new_block = new Block("block2.png", Block::getBlockSize().x * i, Block::getBlockSize().y * j, true);
 			block_list.push_back(new_block);
 		}
 	}

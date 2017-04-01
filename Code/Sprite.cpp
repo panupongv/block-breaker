@@ -41,11 +41,6 @@ void Sprite::inactivate()
 	moving = false;
 }
 
-sf::Sprite & Sprite::getSprite()
-{
-	return sprite;
-}
-
 float Sprite::left() const
 {
 	return sprite.getPosition().x;
@@ -74,7 +69,7 @@ sf::Vector2f Sprite::center() const
 
 bool Sprite::collide(Sprite & another_sprite)
 {
-	return sprite.getGlobalBounds().intersects(another_sprite.getSprite().getGlobalBounds());
+	return sprite.getGlobalBounds().intersects(another_sprite.sprite.getGlobalBounds());
 }
 
 bool Sprite::collideHorizontally(Sprite & another_sprite)
@@ -128,6 +123,11 @@ void Sprite::setMovement(float x, float y)
 {
 	vx = x;
 	vy = y;
+}
+
+void Sprite::setColor(const sf::Color & color)
+{
+	sprite.setColor(color);
 }
 
 void Sprite::setFrame(int frame_id)
