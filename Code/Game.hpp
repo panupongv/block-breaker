@@ -36,12 +36,15 @@ public:
 	static const int game_width = 600;
 	static const int game_height = 600;
 private:
+	bool initializeAttributes();
 	void draw_sprites();
 	void update_sprites();
 	void event_input();
 private:
 	sf::RenderWindow* window;
 	sf::Event event;
+	sf::Texture background_texture;
+	sf::Sprite background;
 
 	Player* player;
 	Ball* ball;

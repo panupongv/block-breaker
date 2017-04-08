@@ -6,20 +6,19 @@ Game::Game(sf::RenderWindow * window)
 	finished(false),
 	endless(true)
 {
-	player = new Player();
-	ball = new Ball();
-
+	if (!initializeAttributes())
+	{
+		std::cout << "Game setup failed" << std::endl;
+	}
 	for (int i = 0; i < game_width / Block::block_size_x; i++)
 	{
 		for (int j = 0; j < 8; j++)
 		{
 			Block* new_block = new Block("block3.png", left_bound + Block::block_size_x * i, upper_bound + Block::block_size_y * j, true);
 			block_list.push_back(new_block);
+			sprite_list.push_back(block_list.back());
 		}
 	}
-	sprite_list.assign(block_list.begin(), block_list.end());
-	sprite_list.push_back(ball);
-	sprite_list.push_back(player);
 }
 
 Game::Game(sf::RenderWindow * window, std::string file_name)
@@ -34,21 +33,21 @@ Game::Game(sf::RenderWindow * window, std::string file_name)
 		std::cout << "No map found" << std::endl;
 	}
 
-	player = new Player();
-	ball = new Ball();
+	if (!initializeAttributes())
+	{
+		std::cout << "Game setup failed" << std::endl;
+	}
 
 	vector<BlockData> block_datas = stage_data.getBlocksData();
 	block_num = block_datas.size();
 	for (int i = 0; i < block_num; i++)
 	{
 		//Block * temp_block = new Block(block_datas[i]);
-		block_list.push_back(new Block("brick.png", block_datas[i]));
+		block_list.push_back(new Block("block5.png", block_datas[i]));
 		block_list.back()->move(left_bound, upper_bound);
-		std::cout << "Brick[" << i << "] at " << block_datas[i].getStartGrid().x << ", " << block_datas[i].getStartGrid().y << std::endl;
+		sprite_list.push_back(block_list.back());
+		//std::cout << "Brick[" << i << "] at " << block_datas[i].getStartGrid().x << ", " << block_datas[i].getStartGrid().y << std::endl;
 	}
-	sprite_list.assign(block_list.begin(), block_list.end());
-	sprite_list.push_back(ball);
-	sprite_list.push_back(player);
 }
 
 Game::~Game()
@@ -116,9 +115,26 @@ sf::Vector2f Game::getMousePosition() const
 	return sf::Vector2f(sf::Mouse::getPosition(*window).x, sf::Mouse::getPosition(*window).y);
 }
 
+bool Game::initializeAttributes()
+{
+	player = new Player();
+	ball = new Ball();
+
+	sprite_list.push_back(player);
+	sprite_list.push_back(ball);
+
+	if (!background_texture.loadFromFile("block-breaker\\Resources\\brick-wall.png"))
+	{
+		return false;
+	}
+	background.setTexture(background_texture);
+	return true;
+}
+
 void Game::draw_sprites()
 {
 	window->clear();
+	window->draw(background);
 	const int sprite_num = sprite_list.size();
 	for (int i = 0; i < sprite_num; i++)
 	{

@@ -16,9 +16,9 @@ void Ball::update(Game& game)
 	{
 		move(getVX(), getVY());
 		//Collide with edges
-		if ((left() <= 0 && getVX() < 0) || (right() >= game.getWindowSize().x && getVX() > 0))
+		if ((left() <= game.left_bound && getVX() < 0) || (right() >= game.right_bound && getVX() > 0))
 			setMovement(-getVX(), getVY());
-		if ((top() <= 0 && getVY() < 0) || (bottom() >= game.getWindowSize().y && getVY() > 0))
+		if ((top() <= game.upper_bound && getVY() < 0) || (bottom() >= game.lower_bound && getVY() > 0))
 			setMovement(getVX(), -getVY());
 		checkBlockCollision(game);
 		checkPlayerCollision(game.getPlayer());
