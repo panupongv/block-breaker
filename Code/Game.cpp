@@ -9,11 +9,11 @@ Game::Game(sf::RenderWindow * window)
 	player = new Player();
 	ball = new Ball();
 
-	for (int i = 0; i < 12; i++)
+	for (int i = 0; i < game_width / Block::block_size_x; i++)
 	{
 		for (int j = 0; j < 8; j++)
 		{
-			Block* new_block = new Block("block3.png", Block::getBlockSize().x * i, Block::getBlockSize().y * j, true);
+			Block* new_block = new Block("block3.png", left_bound + Block::block_size_x * i, upper_bound + Block::block_size_y * j, true);
 			block_list.push_back(new_block);
 		}
 	}
@@ -43,6 +43,7 @@ Game::Game(sf::RenderWindow * window, std::string file_name)
 	{
 		//Block * temp_block = new Block(block_datas[i]);
 		block_list.push_back(new Block("brick.png", block_datas[i]));
+		block_list.back()->move(left_bound, upper_bound);
 		std::cout << "Brick[" << i << "] at " << block_datas[i].getStartGrid().x << ", " << block_datas[i].getStartGrid().y << std::endl;
 	}
 	sprite_list.assign(block_list.begin(), block_list.end());
@@ -60,7 +61,7 @@ Game::~Game()
 
 void Game::run()
 {
-	while (!finished)
+	while (!finished && window->isOpen())
 	{
 		draw_sprites();
 		update_sprites();
@@ -150,6 +151,8 @@ void Game::event_input()
 	{
 		switch(event.type)
 		{
+		case sf::Event::Closed:
+			window->close();
 		case sf::Event::MouseButtonPressed:
 			ball->launch();
 			break;

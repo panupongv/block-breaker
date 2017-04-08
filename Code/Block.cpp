@@ -77,12 +77,6 @@ void Block::setGridPosition(int x, int y)
 	}
 }
 
-sf::Vector2i Block::getBlockSize()
-{
-	return sf::Vector2i(block_size_x, block_size_y);
-}
-
-
 std::string Block::getTextureNameFromType(BlockType type)
 {
     switch (type) {

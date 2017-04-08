@@ -28,6 +28,17 @@ public:
 	vector<Sprite*> getSpriteList();
 	sf::Vector2f getWindowSize() const;
 	sf::Vector2f getMousePosition() const;
+public:
+	static const int left_bound = 100;
+	static const int right_bound = 700;
+	static const int upper_bound = 10;
+	static const int lower_bound = 610;
+	static const int game_width = 600;
+	static const int game_height = 600;
+private:
+	void draw_sprites();
+	void update_sprites();
+	void event_input();
 private:
 	sf::RenderWindow* window;
 	sf::Event event;
@@ -41,8 +52,4 @@ private:
 	int block_num;
 	bool endless;
 	bool finished;
-
-	void draw_sprites();
-	void update_sprites();
-	void event_input();
 };

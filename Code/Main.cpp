@@ -6,16 +6,29 @@
     #include <SFML\Graphics.hpp>
 #endif
 
+#include "Menu.hpp"
 #include "Game.hpp"
 #include <iostream>
 
 int main()
 {
-	sf::RenderWindow window(sf::VideoMode(600, 600), "SFML works!");//, sf::Style::Fullscreen);
+	sf::RenderWindow window(sf::VideoMode(800, 620), "SFML works!");//, sf::Style::Fullscreen);
 	window.setFramerateLimit(60);
 
-	Game game(&window, "stage1.csv");
-	game.run();
+	while (window.isOpen())
+	{
+		Menu menu(&window);
+		menu.run();
+		switch (menu.getChoice())
+		{
+		case 0:
+			Game(&window).run();
+			break;
+		case 1:
+			Game(&window, "stage1.csv").run();
+			break;
+		}
+	}
 	window.close();
 
 	system("pause"); 
