@@ -14,7 +14,7 @@ int main()
 	sf::RenderWindow window(sf::VideoMode(600, 600), "SFML works!");//, sf::Style::Fullscreen);
 	window.setFramerateLimit(60);
 
-	Game game(&window);
+	Game game(&window, "stage1.csv");
 	game.run();
 	window.close();
 
