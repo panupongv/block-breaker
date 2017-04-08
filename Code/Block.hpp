@@ -34,5 +34,5 @@ private:
 
     float move_speed = 0.1f;
 
-	void initializeData(vector<sf::Vector2i> points);
+	void initializeData(std::vector<sf::Vector2i> points);
 };

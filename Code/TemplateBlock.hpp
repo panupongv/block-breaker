@@ -1,18 +1,20 @@
 #pragma once
 
-#include "SelectableBlock.hpp"
-#include "Clickable.hpp"
-#include "BlockData.hpp"
+#include "Block.hpp"
+#include "TemplateData.hpp"
 
-class TemplateBlock : public SelectableBlock , public Clickable
+class TemplateBlock : public Block
 {
 public:
     TemplateBlock(BlockType type,sf::Color color, float x , float y);
-    virtual void update();//Game& game TODO
     BlockType getType();
     sf::Color getColor();
+    void setType( BlockType type);
+    void setColor ( sf::Color color );
+    
+    virtual void update();//Game& game TODO 
+    
     
 private:
-    BlockType type;
-    sf::Color color;
+    TemplateData data;
 };

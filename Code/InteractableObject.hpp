@@ -1,13 +1,12 @@
 #pragma once
 
-#include "Block.hpp"
 #include <string>
 
-class SelectableBlock : public Block
+//abstract class
+class InteractableObject
 {
 public:
-    SelectableBlock(std::string texture_name , float x , float y);
-    SelectableBlock(BlockType type , float x , float y );
+    virtual ~InteractableObject() = 0; // mark abstract
     bool isSelected();
     bool isInteractable();
     void select();
@@ -20,6 +19,8 @@ protected:
     virtual void onDeselected() = 0;
     virtual void onEnabled() = 0;
     virtual void onDiabled() = 0;
+    virtual void onClickLeft() = 0;
+    virtual void onClickRight() = 0;
     
 private:
     bool selected = false;

@@ -6,15 +6,16 @@
 #include <SFML\Graphics.hpp>
 #endif
 
-#include "Block.cpp"
+#include "TemplateBlock.hpp"
 
-class DraftBlock : public Block
+class DraftBlock : public TemplateBlock
 {
 public:
-    DraftBlock();//TODO
-    virtual void update();//TODO
+    DraftBlock(TemplateBlock tb);
+    bool isAvailable();
     void setAvailability(bool available);
-    sf::Vector2i getMagnetGrid( float x, float y);
+    
+    virtual void update();//TODO
     
 private:
     const sf::Uint8 transparency = 128;

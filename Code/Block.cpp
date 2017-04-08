@@ -21,17 +21,11 @@ Block::Block(std::string texture_name, float x, float y, bool endless)
 	}
 }
 
-Block::Block(const BlockData & block_data)
-	:
-	Block(getTextureNameFromType(block_data.getType()), block_data.getStartGrid().x * block_size_x, block_data.getStartGrid().y * block_size_y)
-{
-}
+Block::Block(const BlockData& block_data)
+: Block(getTextureNameFromType(block_data.getType()),block_data) { };
 
-Block::Block(BlockType type, float x, float y)
-	:
-	Block(getTextureNameFromType(type), x, y)
-{
-}
+Block::Block(BlockType type , float x , float y)
+: Block(getTextureNameFromType(type),x,y) { }
 
 void Block::update(Game& game)
 {

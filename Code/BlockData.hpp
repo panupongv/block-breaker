@@ -1,34 +1,29 @@
 #pragma once
 
-#ifdef __APPLE__
-    #include <SFML/Graphics.hpp>
-#else
-    #include <SFML\Graphics.hpp>
-#endif
-
+#include "TemplateData.hpp"
 #include <iostream>
 #include <vector>
 #include <string>
 
-using namespace std;
 
-enum BlockType { normal , breakable , item };
-
-class BlockData
+class BlockData : public TemplateData
 {
 public:
-    BlockData(string raw);
-    BlockData(BlockType type , sf::Color color , sf::Vector2i startGrid , vector<sf::Vector2i> movement );
-    BlockType getType() const;
-    sf::Color getColor() const;
+    BlockData();
+    BlockData(std::string raw);
+    BlockData(BlockType type , sf::Color color , sf::Vector2i startGrid , std::vector<sf::Vector2i> movement );
+    BlockData(TemplateData templateData , sf::Vector2i startGrid , std::vector<sf::Vector2i> movement );
+    
     sf::Vector2i getStartGrid() const;
-    const vector<sf::Vector2i>& getMovement() const;
+    const std::vector<sf::Vector2i>& getMovement() const;
+    void setStartGrid( int x , int y );
+    void setStartGrid( sf::Vector2i startGrid );
+    void setMovement ( std::vector<sf::Vector2i> movement );
+
+	friend std::ostream& operator<< (std::ostream& strm, const BlockData& blockData);
     
 private:
-    BlockType type;
-    sf::Color color;
     sf::Vector2i startGrid;
-    vector<sf::Vector2i> movement;
+    std::vector<sf::Vector2i> movement;
 };
 
-ostream& operator<< ( ostream& strm , const BlockData& blockData );
