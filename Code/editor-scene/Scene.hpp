@@ -1,14 +1,9 @@
 #pragma once
 
-#ifdef __APPLE__
-#include <SFML/Graphics.hpp>
-#else
-#include <SFML\Graphics.hpp>
-#endif
-
+#include "sfml.hpp"
 #include <string>
 #include <vector>
-#include "Sprite.hpp"
+#include "BaseObject.hpp"
 
 class Scene
 {
@@ -30,8 +25,8 @@ public:
     Scene* getNextScene() const;
     
     //actions
-    void addObject( Sprite* sprite );
-    void removeObject( Sprite* sprite );
+    void addObject( BaseObject* sprite );
+    void removeObject( BaseObject* sprite );
     
     //need sub class implementation
     virtual void update(sf::Event& event) = 0; // called when not starting not ending
@@ -48,6 +43,6 @@ private:
     bool starting = true;
     bool ending = false;
     bool ended = false;
-    std::vector<Sprite*> sprites;
+    std::vector<BaseObject*> sprites;
     Scene* nextScene = NULL;
 };

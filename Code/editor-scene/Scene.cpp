@@ -68,12 +68,12 @@ Scene* Scene::getNextScene() const
     return this->nextScene;
 }
 
-void Scene::addObject(Sprite* sprite)
+void Scene::addObject(BaseObject* sprite)
 {
     this->sprites.push_back(sprite);
 }
 
-void Scene::removeObject(Sprite* sprite)
+void Scene::removeObject(BaseObject* sprite)
 {
     for(int i = 0 ; i < this->sprites.size() ; ++i)
     {
