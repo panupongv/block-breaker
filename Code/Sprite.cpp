@@ -8,8 +8,6 @@ Sprite::Sprite(std::string texture_name, int frame_width, int frame_height, floa
 
 Sprite::Sprite(std::string texture_name, int frame_width, int frame_height, float initial_x, float initial_y, float vx, float vy)
 	:
-	frame_width(frame_width),
-	frame_height(frame_height),
 	current_frame(0),
 	vx(vx),
 	vy(vy)
@@ -21,10 +19,15 @@ Sprite::Sprite(std::string texture_name, int frame_width, int frame_height, floa
 		exit(0);
 	}
 	sprite.setTexture(texture);
-	setPosition(initial_x, initial_y);
-	sprite.setTextureRect(sf::IntRect(current_frame * frame_width, 0, frame_width, frame_height));
 
+	sprite.setScale(sf::Vector2f(static_cast<float>(frame_width) / texture.getSize().x, static_cast<float>(frame_height) / texture.getSize().y));
+	setPosition(initial_x, initial_y);
+	//sprite.setTextureRect(sf::IntRect(current_frame * frame_width, 0, frame_width, frame_height));
+	
+	this->frame_width = static_cast<int>(frame_width * sprite.getScale().x);
+	this->frame_height = static_cast<int>(frame_height * sprite.getScale().y);
 	frame_number = static_cast<int>(texture.getSize().x / frame_width);
+
 }
 
 void Sprite::draw(sf::RenderWindow & window) const
@@ -32,9 +35,10 @@ void Sprite::draw(sf::RenderWindow & window) const
 	window.draw(sprite);
 }
 
-sf::Sprite & Sprite::getSprite()
+void Sprite::inactivate()
 {
-	return sprite;
+	alive = false;
+	moving = false;
 }
 
 float Sprite::left() const
@@ -44,12 +48,12 @@ float Sprite::left() const
 
 float Sprite::right() const
 {
-	return sprite.getPosition().x + texture.getSize().x;
+	return sprite.getPosition().x + texture.getSize().x * sprite.getScale().x;
 }
 
 float Sprite::top() const
 {
-	return sprite.getPosition().y;
+	return sprite.getPosition().y + texture.getSize().y * sprite.getScale().y;
 }
 
 float Sprite::bottom() const
@@ -63,6 +67,23 @@ sf::Vector2f Sprite::center() const
 						sprite.getPosition().y + (texture.getSize().y / 2));
 }
 
+bool Sprite::collide(Sprite & another_sprite)
+{
+	return sprite.getGlobalBounds().intersects(another_sprite.sprite.getGlobalBounds());
+}
+
+bool Sprite::collideHorizontally(Sprite & another_sprite)
+{
+	return collide(another_sprite)
+		&& (center().x < another_sprite.left() || center().x > another_sprite.right());
+}
+
+bool Sprite::collideVertically(Sprite & another_sprite)
+{
+	return collide(another_sprite)
+		&& (center().y < another_sprite.top() || center().y > another_sprite.bottom());
+}
+
 float Sprite::getVX() const
 {
 	return vx;
@@ -71,6 +92,16 @@ float Sprite::getVX() const
 float Sprite::getVY() const
 {
 	return vy;
+}
+
+bool Sprite::isAlive() const
+{
+	return alive;
+}
+
+bool Sprite::isMoving() const
+{
+	return moving;
 }
 
 void Sprite::setPosition(float x, float y)
@@ -92,6 +123,11 @@ void Sprite::setMovement(float x, float y)
 {
 	vx = x;
 	vy = y;
+}
+
+void Sprite::setColor(const sf::Color & color)
+{
+	sprite.setColor(color);
 }
 
 void Sprite::setFrame(int frame_id)

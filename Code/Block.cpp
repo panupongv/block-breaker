@@ -2,63 +2,24 @@
 
 Block::Block(std::string texture_name, const BlockData & block_data)
 :
-Sprite(texture_name, block_size_x, block_size_y,
+	Sprite(texture_name, block_size_x, block_size_y,
        block_data.getStartGrid().x * block_size_x, block_data.getStartGrid().y * block_size_y)
 {
-    if (block_data.getMovement().size() != 0)
-    {
-        sf::Vector2i point1 = block_data.getMovement()[0], point2 = block_data.getMovement()[1];
-        float vx = 0, vy = 0;
-        if (point1.x != point2.x) //move horizontally
-        {
-			if (point1.x < point2.x) //right first
-			{
-				first_point = sf::Vector2u(point1.x * block_size_x, point1.y * block_size_y);
-				second_point = sf::Vector2u(point2.x * block_size_x, point2.y * block_size_y);
-				vx = move_speed;
-			}
-			else // left first
-			{
-				first_point = sf::Vector2u(point2.x * block_size_x, point2.y * block_size_y);
-				second_point = sf::Vector2u(point1.x * block_size_x, point1.y * block_size_y);
-				vx = -move_speed;
-			}
-			vy = 0;
-        }
-        else if (point1.y != point2.y) // move vertically
-        {
-            
-			if (point1.y < point2.y) //down first
-			{
-				first_point = sf::Vector2u(point1.x * block_size_x, point1.y * block_size_y);
-				second_point = sf::Vector2u(point2.x * block_size_x, point2.y * block_size_y);
-				vy = move_speed;
-			}
-			else //up first
-			{
-				first_point = sf::Vector2u(point2.x * block_size_x, point2.y * block_size_y);
-				second_point = sf::Vector2u(point1.x * block_size_x, point1.y * block_size_y);
-				vx = -move_speed;
-			}
-			vx = 0;
-        }
-		
-		
-        setMovement(vx, vy);
-		moving = true;
-    }
-    else
-    {
-		first_point = second_point = sf::Vector2u(left(), top());
-        moving = false;
-        setMovement(0, 0);
-    }
-    
-    getSprite().setColor(block_data.getColor());
+	initializeData(block_data.getMovement());
+
+
+	//////////////
+	setColor(block_data.getColor());
 }
 
-Block::Block(std::string texture_name, float x, float y)
-: Sprite(texture_name, block_size_x, block_size_y, x , y ) { }
+Block::Block(std::string texture_name, float x, float y, bool endless)
+: Sprite(texture_name, block_size_x, block_size_y, x , y ) 
+{
+	if (endless)
+	{
+		this->endless = true;
+	}
+}
 
 Block::Block(const BlockData & block_data)
 	:
@@ -74,18 +35,25 @@ Block::Block(BlockType type, float x, float y)
 
 void Block::update(Game& game)
 {
-	if (!moving) return;
-	move(getVX(), getVY());
-	if ((left() >= second_point.x && getVX() > 0) || (left() <= first_point.x && getVX() < 0)
-		|| (top() >= second_point.y && getVY() > 0) || top() <= first_point.y && getVY() < 0)
+	if (!endless)
 	{
-		setMovement(-getVX(), -getVY());
-		//std::cout << "bounce" << std::endl;
+		if (!moving) return;
+		move(getVX(), getVY());
+		if ((left() >= second_point.x && getVX() > 0) || (left() <= first_point.x && getVX() < 0)
+			|| (top() >= second_point.y && getVY() > 0) || top() <= first_point.y && getVY() < 0)
+		{
+			setMovement(-getVX(), -getVY());
+			//std::cout << "bounce" << std::endl;
+		}
+	}
+	else
+	{
+		move(0, 0.1f);
 	}
 }
 
-void Block::checkCollision() //Ball& ball
-{
+//void Block::checkCollision() //Ball& ball
+//{
 	//Praman nee
 	//Corner bounce diew kid eek tee
 
@@ -101,7 +69,7 @@ void Block::checkCollision() //Ball& ball
 			ball.bounceHorizontally();
 	}*/
 
-}
+//}
 
 void Block::setGridPosition(int x, int y)
 {
@@ -115,9 +83,9 @@ void Block::setGridPosition(int x, int y)
 	}
 }
 
-sf::Vector2u Block::getBlockSize()
+sf::Vector2i Block::getBlockSize()
 {
-	return sf::Vector2u(block_size_x, block_size_y);
+	return sf::Vector2i(block_size_x, block_size_y);
 }
 
 
@@ -125,7 +93,7 @@ std::string Block::getTextureNameFromType(BlockType type)
 {
     switch (type) {
         case normal:
-            return "normal kuy";
+            return "block1.png";
         case item:
             return "kuy item";
         case breakable :
@@ -133,5 +101,56 @@ std::string Block::getTextureNameFromType(BlockType type)
         default:
             return "";
     }
+}
+
+void Block::initializeData(vector<sf::Vector2i> points)
+{
+	alive = true;
+	if (points.size() != 0)
+	{
+		sf::Vector2i point1 = points[0], point2 = points[1];
+		float vx = 0, vy = 0;
+		if (point1.x != point2.x) //move horizontally
+		{
+			if (point1.x < point2.x) //right first
+			{
+				first_point = sf::Vector2u(point1.x * block_size_x, point1.y * block_size_y);
+				second_point = sf::Vector2u(point2.x * block_size_x, point2.y * block_size_y);
+				vx = move_speed;
+			}
+			else // left first
+			{
+				first_point = sf::Vector2u(point2.x * block_size_x, point2.y * block_size_y);
+				second_point = sf::Vector2u(point1.x * block_size_x, point1.y * block_size_y);
+				vx = -move_speed;
+			}
+			vy = 0;
+		}
+		else if (point1.y != point2.y) // move vertically
+		{
+
+			if (point1.y < point2.y) //down first
+			{
+				first_point = sf::Vector2u(point1.x * block_size_x, point1.y * block_size_y);
+				second_point = sf::Vector2u(point2.x * block_size_x, point2.y * block_size_y);
+				vy = move_speed;
+			}
+			else //up first
+			{
+				first_point = sf::Vector2u(point2.x * block_size_x, point2.y * block_size_y);
+				second_point = sf::Vector2u(point1.x * block_size_x, point1.y * block_size_y);
+				vx = -move_speed;
+			}
+			vx = 0;
+		}
+		setMovement(vx, vy);
+		moving = true;
+	}
+	else
+	{
+		first_point = second_point = sf::Vector2u(left(), top());
+		moving = false;
+		setMovement(0, 0);
+	}
 }
 

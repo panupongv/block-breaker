@@ -12,24 +12,27 @@ class Block : public Sprite
 {
 public:
     Block(std::string texture_name, const BlockData& block_data);
-    Block(std::string texture_name, float x, float y);
+    Block(std::string texture_name, float x, float y, bool endless = false);
 	Block(const BlockData& block_data);
 	Block(BlockType type, float x, float y);
     
 	void update(Game& game);
-    void checkCollision(); //Ball& ball
+
     void setGridPosition(int x, int y);
-    static sf::Vector2u getBlockSize();
+    static sf::Vector2i getBlockSize();
 
 protected:
     std::string getTextureNameFromType(BlockType type);
-    static constexpr int block_size_x = 100; //Just Assume
-    static constexpr int block_size_y = 30;  //
+    static const int block_size_x = 50; //Just Assume
+    static const int block_size_y = 18;  //
 
 private:
+	bool endless = false;
+
 	sf::Vector2u first_point;
 	sf::Vector2u second_point;
 
     float move_speed = 0.1f;
-    bool moving;
+
+	void initializeData(vector<sf::Vector2i> points);
 };
