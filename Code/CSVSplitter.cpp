@@ -2,10 +2,10 @@
 
 CSVSplitter::CSVSplitter( string raw )
 {
-    setString(raw);
+    setRawString(raw);
 }
 
-void CSVSplitter::setString( string raw )
+void CSVSplitter::setRawString( string raw )
 {
     this->raw = raw;
     this->splitted = false;
@@ -13,28 +13,43 @@ void CSVSplitter::setString( string raw )
 
 vector<string> CSVSplitter::getResult()
 {
-    if( splitted )
-        return result;
-    
-    this->splitted = true;
-    
-    result = vector<string>();
-    string substring = "";
-    int i = 0;
-    while(i < raw.length())
+    if( this->isNotSplitted() )
     {
-        if(raw[i] == ',')
-        {
-            result.push_back(substring);
-            substring = "";
-        }
-        else
-            substring += raw[i];
-        
-        i++;
+        this->split();
     }
     
-    result.push_back(substring);
-    
     return result;
+}
+
+void CSVSplitter::split()
+{
+    this->result.clear();
+    string value;
+    
+    for(int i = 0 ; i < raw.length();i++)
+    {
+        char character = raw[i];
+        
+        if(isComma(character))
+        {
+            this->result.push_back(value);
+            value = "";
+        }
+        else
+        {
+            value += character;
+        }
+    }
+    
+    this->splitted = true;
+}
+
+bool CSVSplitter::isComma(char c)
+{
+    return c == ',';
+}
+
+bool CSVSplitter::isNotSplitted()
+{
+    return this->splitted == false;
 }
