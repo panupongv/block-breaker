@@ -8,7 +8,7 @@ class DraftBlock: public SpriteObject
 public: 
     
     DraftBlock();
-    DraftBlock( std::string textureName , sf::Color color );
+    DraftBlock( std::string textureName , sf::RenderWindow &window , sf::Color color = sf::Color::White );
     
     //getter setter
     void setAvailability(bool available);
@@ -23,4 +23,7 @@ public:
 private: 
     const float transparency = 0.5;
     bool available = true;
+    sf::RenderWindow* window;
+    
+    void followCursor();
 };

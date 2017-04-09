@@ -8,7 +8,7 @@
 class Scene
 {
 public:
-    Scene( std::string n );
+    Scene( std::string n , sf::RenderWindow& window );
     virtual ~Scene();
     
     //getters setters
@@ -18,6 +18,7 @@ public:
     void flagEnded();
     void flagEnding();
     void setNextScene(Scene* scene_ptr);
+    sf::RenderWindow& getWindow();
     bool isInited() const;
     bool isStarting() const;
     bool isEnded() const;
@@ -30,7 +31,7 @@ public:
     
     //need sub class implementation
     virtual void update(sf::Event& event) = 0; // called when not starting not ending
-    virtual void draw(sf::RenderWindow& window) = 0;//always called
+    virtual void draw() = 0;//always called
     
 protected:
     virtual void begin() = 0; //called when starting
@@ -45,4 +46,5 @@ private:
     bool ended = false;
     std::vector<BaseObject*> sprites;
     Scene* nextScene = NULL;
+    sf::RenderWindow* window;
 };
