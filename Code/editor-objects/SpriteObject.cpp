@@ -5,18 +5,18 @@
 
 using namespace std;
 
-SpriteObject::SpriteObject(string name , RenderLayer layer, string textureName , float x, float y)
+SpriteObject::SpriteObject(string name , RenderLayer layer, string textureName )
 :BaseObject(name,layer)
 {
     this->setTexture(textureName);
-    this->setPosition(x, y);
+    this->setPosition(0, 0);
 }
 
-SpriteObject::SpriteObject(string name , RenderLayer layer , string textureSheetName , float x , float y , int width , int height )
+SpriteObject::SpriteObject(string name , RenderLayer layer , string textureSheetName , int width , int height )
 :BaseObject(name , layer)
 {
     this->setTextureSheet(textureSheetName, width, height);
-    this->setPosition(x, y);
+    this->setPosition(0, 0);
 }
 
 sf::Sprite& SpriteObject::getSprite()
