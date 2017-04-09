@@ -20,18 +20,34 @@ void EditorScene::draw(sf::RenderWindow &window)
 
 void EditorScene::init()
 {
-    this->stage_title = new TextObject("stage text",RenderLayer::Foreground,"dummy text",100,100);
-    this->stage_title->setColor(sf::Color::Blue);
-    this->stage_title->setSize( 60 );
+    this->stage_title = new TextObject
+    (
+        "stage text",RenderLayer::Foreground,
+        "stage-title.bbstage",
+        300,20,
+        PositioningMode::Center
+    );
+    this->stage_title->setColor(sf::Color::White);
+    this->stage_title->setSize( 30 );
     
-//    this->background = new SpriteObject
-//    (
-//     "editor background" ,
-//     RenderLayer::Background,
-//     );
+    this->background = new SpriteObject
+    (
+        "editor background" ,
+        RenderLayer::Background ,
+        "editor-background.png",
+        0,0
+    );
     
-//    this->addObject(this->background);
-//    this->addObject(this->option_panel);
+    this->option_panel = new SpriteObject
+    (
+        "panel background" ,
+        RenderLayer::Background ,
+        "editor-panel-background.png",
+         600,0
+    );
+    
+    this->addObject(this->background);
+    this->addObject(this->option_panel);
     this->addObject(this->stage_title);
 }
 
