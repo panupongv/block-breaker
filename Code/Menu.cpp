@@ -37,9 +37,9 @@ Menu::Menu(sf::RenderWindow * window)
 			height / (3 + 1) * (i + 1)));
 		std::cout << (texts[i].getCharacterSize() * texts[i].getString().getSize()) << ", *///" << texts[i].getPosition().x << " " << texts[i].getPosition().y << std::endl;
 	}
-	texts[0].setFillColor(sf::Color::Red); 
+	//texts[0].setFillColor(sf::Color::Red); 
 
-	selected = 0;
+	selected = -1;
 }
 
 void Menu::run()
