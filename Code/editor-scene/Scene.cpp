@@ -1,4 +1,5 @@
 #include "Scene.hpp"
+#include <iostream>
 
 using namespace std;
 
@@ -98,6 +99,14 @@ void Scene::update(sf::Event& event)
     {
         end();
         return;
+    }
+}
+
+void Scene::draw(sf::RenderWindow &window)
+{
+    for(int i = 0 ; i < this->sprites.size() ; ++i)
+    {
+        this->sprites[i]->draw(window);
     }
 }
 

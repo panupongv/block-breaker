@@ -1,6 +1,7 @@
 #include "SpriteObject.hpp"
 #include "ResourcePath.hpp"
 #include <exception>
+#include <iostream>
 
 using namespace std;
 
@@ -18,7 +19,7 @@ SpriteObject::SpriteObject(string name , RenderLayer layer , string textureSheet
     this->setPosition(x, y);
 }
 
-sf::Sprite SpriteObject::getSprite() const
+sf::Sprite& SpriteObject::getSprite()
 {
     return this->sprite;
 }
@@ -43,7 +44,7 @@ void SpriteObject::resetFrame() {
 
 bool SpriteObject::insideRect(float x, float y) const
 {
-    sf::FloatRect rect = this->getSprite().getGlobalBounds();
+    sf::FloatRect rect = this->sprite.getGlobalBounds();
     
     return
     x > rect.left &&
@@ -54,8 +55,8 @@ bool SpriteObject::insideRect(float x, float y) const
 
 void SpriteObject::setTexture(string textureName)
 {
-    sf::Texture texture;
-    texture.loadFromFile(resourcePath() + textureName);
+    this->texture = sf::Texture();
+    this->texture.loadFromFile(resourcePath() + textureName);
     this->sprite.setTexture(texture);
     
     this->num_col = 1;
@@ -67,7 +68,7 @@ void SpriteObject::setTexture(string textureName)
 
 void SpriteObject::setTextureSheet(string textureSheetName, int width, int height)
 {
-    sf::Texture texture;
+    this->texture = sf::Texture();
     texture.loadFromFile(resourcePath() + textureSheetName);
     this->sprite.setTexture(texture);
     this->sprite.setTextureRect(sf::IntRect(0,0,width,height));
@@ -92,7 +93,7 @@ void SpriteObject::applyCurrentFrame()
         (row+1)*height
     );
     
-    this->getSprite().setTextureRect(frame);
+    this->sprite.setTextureRect(frame);
 }
 
 int SpriteObject::getNumFrame()  const
@@ -117,17 +118,20 @@ void SpriteObject::update(void *ptr)
 
 void SpriteObject::draw(sf::RenderWindow &window)
 {
-    window.draw(this->getSprite());
+    window.draw(this->sprite);
 }
 
 void SpriteObject::setPosition(float x, float y , PositioningMode mode )
 {
+    cout << "set position" << endl;
+    
     if(mode == PositioningMode::TopLeft)
-        this->getSprite().setPosition(x, y);
+        this->sprite.setPosition(x, y);
     else if(mode == PositioningMode::Center)
     {
         float mid_x = x - this->width/2;
         float mid_y = y - this->height/2;
+        this->sprite.setPosition(mid_x, mid_y);
     }
     else
     {
@@ -138,10 +142,10 @@ void SpriteObject::setPosition(float x, float y , PositioningMode mode )
 sf::Vector2f SpriteObject::getPosition( PositioningMode mode ) const
 {
     if(mode == PositioningMode::TopLeft)
-        return this->getSprite().getPosition();
+        return this->sprite.getPosition();
     else if(mode == PositioningMode::Center)
     {
-        sf::FloatRect rect = this->getSprite().getGlobalBounds();
+        sf::FloatRect rect = this->sprite.getGlobalBounds();
         float mid_x = rect.left + rect.width/2;
         float mid_y = rect.top + rect.height/2;
         return sf::Vector2f(mid_x,mid_y);
@@ -164,6 +168,6 @@ void SpriteObject::setColor(const sf::Color &color)
 
 sf::Color SpriteObject::getColor() const
 {
-    return this->getSprite().getColor();
+    return this->sprite.getColor();
 }
 
