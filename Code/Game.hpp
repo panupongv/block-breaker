@@ -40,6 +40,7 @@ private:
 	void draw_sprites();
 	void update_sprites();
 	void event_input();
+	void generateBlock();
 private:
 	sf::RenderWindow* window;
 	sf::Event event;
@@ -55,4 +56,6 @@ private:
 	int block_num;
 	bool endless;
 	bool finished;
+
+	int frame_past;
 };

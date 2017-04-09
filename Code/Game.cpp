@@ -4,7 +4,8 @@ Game::Game(sf::RenderWindow * window)
 	:
 	window(window),
 	finished(false),
-	endless(true)
+	endless(true),
+	frame_past(0)
 {
 	if (!initializeAttributes())
 	{
@@ -16,7 +17,7 @@ Game::Game(sf::RenderWindow * window)
 		{
 			Block* new_block = new Block("block3.png", left_bound + Block::block_size_x * i, upper_bound + Block::block_size_y * j, true);
 			block_list.push_back(new_block);
-			sprite_list.push_back(block_list.back());
+			sprite_list.push_back(new_block);
 		}
 	}
 }
@@ -43,9 +44,10 @@ Game::Game(sf::RenderWindow * window, std::string file_name)
 	for (int i = 0; i < block_num; i++)
 	{
 		//Block * temp_block = new Block(block_datas[i]);
-		block_list.push_back(new Block("block5.png", block_datas[i]));
-		block_list.back()->move(left_bound, upper_bound);
-		sprite_list.push_back(block_list.back());
+		Block* new_block = new Block("block5.png", block_datas[i]);
+		new_block->move(left_bound, upper_bound);
+		block_list.push_back(new_block);
+		sprite_list.push_back(new_block);
 		//std::cout << "Brick[" << i << "] at " << block_datas[i].getStartGrid().x << ", " << block_datas[i].getStartGrid().y << std::endl;
 	}
 }
@@ -65,6 +67,9 @@ void Game::run()
 		draw_sprites();
 		update_sprites();
 		event_input();
+		frame_past++;
+		if (frame_past == static_cast<int>(Block::block_size_y / Block::move_speed))
+			generateBlock();
 	}
 	std::cout << "Game ended" << std::endl;
 }
@@ -177,6 +182,17 @@ void Game::event_input()
 			break;
 		}
 	}
+}
+
+void Game::generateBlock()
+{
+	for (int i = 0; i < game_width / Block::block_size_x; i++)
+	{
+		Block* new_block = new Block("block2.png", left_bound + i * Block::block_size_x, upper_bound - Block::block_size_y, true);
+		block_list.push_back(new_block);
+		sprite_list.push_back(new_block);
+	}
+	frame_past = 0;
 }
 
 Sprite* Game::getPlayer()

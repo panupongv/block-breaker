@@ -46,25 +46,6 @@ void Block::update(Game& game)
 	}
 }
 
-//void Block::checkCollision() //Ball& ball
-//{
-	//Praman nee
-	//Corner bounce diew kid eek tee
-
-	/*if(ball.right() >= left() && ball.left() <= right())
-	{
-		if (ball.top() <= bottom() || ball.bottom() >= top())
-			ball.bounceVertically();
-	}
-	
-	if (ball.top() <= top() && ball.bottom >= bottom())
-	{
-		if (ball.left() < right() || ball.right > left())
-			ball.bounceHorizontally();
-	}*/
-
-//}
-
 void Block::setGridPosition(int x, int y)
 {
 	if (static_cast<int> (top()) % static_cast<int> (block_size_y) != 0)

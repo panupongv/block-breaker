@@ -18,9 +18,13 @@ public:
     
 	void update(Game& game);
 
+	
     void setGridPosition(int x, int y);
+	
+public:
 	static const int block_size_x = 50; //Just Assume
 	static const int block_size_y = 18;  //
+	static constexpr float move_speed = 0.1f;
 
 protected:
     std::string getTextureNameFromType(BlockType type);
@@ -29,7 +33,6 @@ private:
 	bool endless = false;
 	sf::Vector2u first_point;
 	sf::Vector2u second_point;
-    float move_speed = 0.1f;
 
 private:
 	void initializeData(std::vector<sf::Vector2i> points);

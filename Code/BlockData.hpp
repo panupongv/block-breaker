@@ -5,7 +5,6 @@
 #include <vector>
 #include <string>
 
-
 class BlockData : public TemplateData
 {
 public:
