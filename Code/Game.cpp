@@ -98,6 +98,8 @@ void Game::popBlock(Sprite * block)
 			break;
 		}
 	}
+	if (!endless && block_list.empty())
+		finished = true;
 }
 
 vector<Sprite*> Game::getBlockList()
@@ -139,20 +141,12 @@ bool Game::initializeAttributes()
 void Game::draw_sprites()
 {
 	window->clear();
-	window->draw(background);
 	const int sprite_num = sprite_list.size();
 	for (int i = 0; i < sprite_num; i++)
 	{
 		sprite_list[i]->draw(*window);
 	}
-	/*const int sprite_num = block_list.size();
-	for (int i = 0; i < sprite_num; i++)
-	{
-		if (block_list[i]->isAlive())
-			block_list[i]->draw(*window);
-	}
-	ball->draw(*window);
-	player->draw(*window);*/
+	window->draw(background);
 	window->display();
 }
 

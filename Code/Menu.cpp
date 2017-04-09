@@ -77,6 +77,9 @@ void Menu::update()
 		{
 			in_text = true;
 			selected = i;
+		}
+		if (selected == i)
+		{
 			texts[i].setFillColor(sf::Color::Red);
 		}
 		else
@@ -110,8 +113,24 @@ void Menu::event_input()
 		}
 		break;
 		case sf::Event::KeyPressed:
-			finished = true;
-			break;
+		{
+			if (event.key.code == sf::Keyboard::Up)
+			{
+				selected = (selected + TEXT_NUM - 1) % TEXT_NUM;
+				sf::Mouse::setPosition(sf::Vector2i(texts[selected].getPosition().x, texts[selected].getPosition().y), *window);
+			}
+			else if (event.key.code == sf::Keyboard::Down)
+			{
+				selected = (selected + 1) % TEXT_NUM;
+				sf::Mouse::setPosition(sf::Vector2i(texts[selected].getPosition().x, texts[selected].getPosition().y), *window);
+			}
+			else if (event.key.code == sf::Keyboard::Return)
+			{
+				if (selected != -1)
+					finished = true;
+			}
+		}
+		break;
 		}
 	}
 }

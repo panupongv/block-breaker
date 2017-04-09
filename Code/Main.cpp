@@ -7,16 +7,13 @@
 #endif
 
 #include "Menu.hpp"
+#include "StageSelect.hpp"
 #include "Game.hpp"
-#include "DirectoryReader.hpp"
 #include <iostream>
 
 int main()
 {
-	vector<string> names = DirectoryReader("block-breaker\\stages").getFileNames();
-	for (int i = 0; i < names.size(); i++)
-		cout << names[i] << endl;
-	cout << "*******\n";
+
 
 	sf::RenderWindow window(sf::VideoMode(800, 620), "SFML works!");//, sf::Style::Fullscreen);
 	window.setFramerateLimit(60);
@@ -31,7 +28,10 @@ int main()
 			Game(&window).run();
 			break;
 		case 1:
-			Game(&window, "stage1.csv").run();
+			StageSelect stage_select(&window, "block-breaker\\stages");
+			stage_select.run();
+			if(window.isOpen())
+				Game(&window, stage_select.getSelectedName()).run();
 			break;
 		}
 	}
