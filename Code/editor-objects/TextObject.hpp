@@ -6,7 +6,7 @@
 class TextObject: public BaseObject {
 public: 
     TextObject();
-    TextObject(std::string name , RenderLayer layer, std::string text , std::string fontName = "sansation.tff" );
+    TextObject(std::string name , RenderLayer layer, std::string text , std::string fontName = "sansation.ttf" );
     
     //setters
     void setText(std::string text);
