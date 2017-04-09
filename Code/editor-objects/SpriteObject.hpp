@@ -5,12 +5,12 @@
 class SpriteObject: public BaseObject
 {
 public: 
-    
+    SpriteObject();
     SpriteObject( std::string name , RenderLayer layer, std::string textureName , float x, float y);
     
     SpriteObject( std::string name , RenderLayer layer,std::string textureSheetName, float x , float y , int width , int height);
     
-    sf::Sprite getSprite() const;
+    sf::Sprite& getSprite();
     
     void setFrame( int frame_id );
     
@@ -30,6 +30,7 @@ public:
     
 private:
     sf::Sprite sprite;
+    sf::Texture texture;
     int current_frame = 0;
     int num_row;
     int num_col;

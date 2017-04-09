@@ -9,6 +9,7 @@ enum PositioningMode { TopLeft , Center };
 class BaseObject
 {
 public:
+    BaseObject();
     BaseObject(std::string name, RenderLayer layer);
     std::string getName() const;
     RenderLayer getLayer() const;
@@ -24,6 +25,6 @@ public:
     virtual sf::Color getColor() const = 0;
     
 private: 
-    std::string name;
-    RenderLayer layer;
+    std::string name = "unnamed object";
+    RenderLayer layer = RenderLayer::Background;
 };

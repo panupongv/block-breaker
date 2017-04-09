@@ -3,6 +3,8 @@
 #include <string>
 #include <vector>
 #include "Scene.hpp"
+#include "TextObject.hpp"
+#include "SpriteObject.hpp"
 
 class EditorScene : public Scene
 {
@@ -17,6 +19,10 @@ protected:
     virtual void init();
     
 private:
+    SpriteObject* background;
+    SpriteObject* option_panel;
+    TextObject* stage_title;
+    
 //    void createSelectionBlock();
 //    void createEditableBlock();
 //    void createDraftBlock();

@@ -5,13 +5,14 @@
 
 class TextObject: public BaseObject {
 public: 
-    
-    TextObject(std::string name , RenderLayer layer, std::string text, float x , float y);
+    TextObject();
+    TextObject(std::string name , RenderLayer layer, std::string text, float x , float y , PositioningMode mode = PositioningMode::TopLeft);
     
     void setText(std::string text);
     std::string getText() const;
     void setSize(int font_size);
     int getSize() const;
+    void setFont(std::string fontName);
     
     virtual void update(void* ptr);
     virtual void draw(sf::RenderWindow &window);
@@ -22,7 +23,7 @@ public:
     virtual void setColor(const sf::Color& color);
     virtual sf::Color getColor() const;
     
-private: 
+private:
+    sf::Font font;
     sf::Text textRender;
-    std::string name;
 };
