@@ -6,22 +6,29 @@
 class TextObject: public BaseObject {
 public: 
     TextObject();
-    TextObject(std::string name , RenderLayer layer, std::string text, float x , float y , PositioningMode mode = PositioningMode::TopLeft);
+    TextObject(std::string name , RenderLayer layer, std::string text , std::string fontName = "sansation.tff" );
     
+    //setters
     void setText(std::string text);
-    std::string getText() const;
     void setSize(int font_size);
-    int getSize() const;
     void setFont(std::string fontName);
     
+    //getters
+    std::string getText() const;
+    int getSize() const;
+    
+    //abstract setters, mutators
+    virtual void setPosition(float x, float y, PositioningMode mode= PositioningMode::TopLeft);
+    virtual void setColor(const sf::Color& color);
+    virtual void move(float x, float y);
+    
+    //abstract getters
+    virtual sf::Vector2f getPosition(PositioningMode mode = PositioningMode::TopLeft) const;
+    virtual sf::Color getColor() const;
+    
+    //polymorphism behaviors
     virtual void update(void* ptr);
     virtual void draw(sf::RenderWindow &window);
-    
-    virtual void setPosition(float x, float y, PositioningMode mode= PositioningMode::TopLeft);
-    virtual sf::Vector2f getPosition(PositioningMode mode = PositioningMode::TopLeft) const;
-    virtual void move(float x, float y);
-    virtual void setColor(const sf::Color& color);
-    virtual sf::Color getColor() const;
     
 private:
     sf::Font font;

@@ -20,7 +20,6 @@ void EditorScene::draw(sf::RenderWindow &window)
 
 void EditorScene::init()
 {
-    this->stage_title = new TextObject("stage text",RenderLayer::Foreground,"dummy text",100,100);
     this->stage_title->setColor(sf::Color::Blue);
     this->stage_title->setSize( 60 );
     
