@@ -3,12 +3,12 @@
 
 using namespace std;
 
-TextObject::TextObject(string name , RenderLayer layer, string text, float x , float y , PositioningMode mode )
+TextObject::TextObject(string name , RenderLayer layer, string text, string fontName )
 :BaseObject(name , layer)
 {
-    this->setFont("sansation.ttf");
-    this->setText(text);
-    this->setPosition(x, y , mode);
+    this->setFont( fontName );
+    this->setText( text );
+    this->setPosition( 0 , 0 );
 }
 
 void TextObject::setText(string text) {
