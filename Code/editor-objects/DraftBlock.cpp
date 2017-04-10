@@ -31,15 +31,16 @@ void DraftBlock::update(void *ptr)
     SpriteObject::update(ptr);
     
     followCursor();
-//    cout << mouse_position.x << endl;
-    
-    //todo : check availability
 }
 
 void DraftBlock::followCursor()
 {
-    sf::Vector2i mouse_position;
-    mouse_position = sf::Mouse::getPosition(*(this->window));
+    sf::Vector2i mouse_position = sf::Mouse::getPosition(*(this->window));
     float ratio = ScreenSetting::ratio;
-    this->setPosition(mouse_position.x/ratio, mouse_position.y/ratio,PositioningMode::Center);
+    sf::Vector2f block_position;
+    
+    block_position.x = mouse_position.x / ratio;
+    block_position.y = mouse_position.y / ratio;
+    
+    this->setPosition(block_position.x,block_position.y,PositioningMode::Center);
 }
