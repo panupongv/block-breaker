@@ -1,12 +1,14 @@
 #include "TextObject.hpp"
+#include "ResourcePath.hpp"
 
 using namespace std;
 
-TextObject::TextObject(string name , RenderLayer layer, string text, float x , float y)
+TextObject::TextObject(string name , RenderLayer layer, string text, string fontName )
 :BaseObject(name , layer)
 {
-    this->setText(text);
-    this->setPosition(x, y);
+    this->setFont( fontName );
+    this->setText( text );
+    this->setPosition( 0 , 0 );
 }
 
 void TextObject::setText(string text) {
@@ -26,6 +28,14 @@ void TextObject::setSize(int font_size)
 int TextObject::getSize() const
 {
     this->textRender.getCharacterSize();
+}
+
+void TextObject::setFont(std::string fontName)
+{
+    if(this->font.loadFromFile(resourcePath() + fontName))
+       this->textRender.setFont(this->font);
+    else
+       throw invalid_argument("cannot find font : " + fontName );
 }
 
 void TextObject::update(void *ptr)
@@ -71,7 +81,6 @@ sf::Vector2f TextObject::getPosition(PositioningMode mode) const
         return position;
     }
 }
-
 
 void TextObject::move(float x , float y )
 {

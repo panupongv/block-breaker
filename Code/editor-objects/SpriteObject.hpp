@@ -1,0 +1,52 @@
+#pragma once
+
+#include "BaseObject.hpp"
+
+class SpriteObject: public BaseObject
+{
+public: 
+    SpriteObject();
+    SpriteObject( std::string name , RenderLayer layer, std::string textureName );
+    SpriteObject( std::string name , RenderLayer layer , std::string textureSheetName , int width , int height);
+    
+    //getters
+    sf::Sprite& getSprite();
+    
+    //mutators
+    void setFrame( int frame_id );
+    void nextFrame( );
+    void resetFrame( );
+    
+    //queries
+    bool insideRect( float x, float y ) const;
+    
+    //abstract
+    virtual void setPosition( float x, float y, PositioningMode mode = PositioningMode::TopLeft );
+    virtual sf::Vector2f getPosition( PositioningMode mode = PositioningMode::TopLeft ) const;
+    virtual void setColor( const sf::Color& color );
+    virtual sf::Color getColor( ) const;
+    virtual void move( float offset_x, float offset_y );
+    
+    //polymorphysm
+    virtual void update( void* ptr );
+    virtual void draw( sf::RenderWindow& window );
+    
+private:
+    sf::Sprite sprite;
+    sf::Texture texture;
+    int current_frame = 0;
+    int num_row;
+    int num_col;
+    int width;
+    int height;
+    
+    //mutators
+    void setTexture(std::string textureName);
+    void setTextureSheet(std::string textureSheetName , int width , int height );
+    void applyCurrentFrame();
+    
+    //queries
+    int getNumFrame() const;
+    int getCurrentRow() const;
+    int getCurrentColumn() const;
+};

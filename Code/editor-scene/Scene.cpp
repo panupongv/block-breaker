@@ -1,8 +1,12 @@
 #include "Scene.hpp"
+#include <iostream>
 
 using namespace std;
 
-Scene::Scene( string n ) : name(n) { }
+Scene::Scene( string n , sf::RenderWindow& window) : name(n)
+{
+    this->window = &window;
+}
 
 Scene::~Scene()
 {
@@ -43,6 +47,10 @@ void Scene::setNextScene(Scene* ptr)
     this->nextScene = ptr;
 }
 
+sf::RenderWindow& Scene::getWindow()
+{
+    return *window;
+}
 bool Scene::isStarting() const
 {
     return this->starting;
@@ -98,6 +106,14 @@ void Scene::update(sf::Event& event)
     {
         end();
         return;
+    }
+}
+
+void Scene::draw()
+{
+    for(int i = 0 ; i < this->sprites.size() ; ++i)
+    {
+        this->sprites[i]->draw(this->getWindow());
     }
 }
 
