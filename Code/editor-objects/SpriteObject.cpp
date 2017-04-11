@@ -123,8 +123,6 @@ void SpriteObject::draw(sf::RenderWindow &window)
 
 void SpriteObject::setPosition(float x, float y , PositioningMode mode )
 {
-    cout << "set position" << endl;
-    
     if(mode == PositioningMode::TopLeft)
         this->sprite.setPosition(x, y);
     else if(mode == PositioningMode::Center)

@@ -3,7 +3,7 @@
 
 using namespace std;
 
-EditorScene::EditorScene() : Scene("editor") { };
+EditorScene::EditorScene( sf::RenderWindow& window ) : Scene("editor",window) { };
 
 void EditorScene::update(sf::Event &event)
 {
@@ -11,11 +11,13 @@ void EditorScene::update(sf::Event &event)
     
     //implement update here
 //    brick->move(10, 10);
+    
+    this->draft_block->update( NULL );
 }
 
-void EditorScene::draw(sf::RenderWindow &window)
+void EditorScene::draw()
 {
-    Scene::draw(window);
+    Scene::draw();
 }
 
 void EditorScene::init()
@@ -45,8 +47,15 @@ void EditorScene::init()
     );
     this->option_panel->setPosition( 600, 0 );
     
+    this->draft_block = new DraftBlock
+    (
+        "brick.png",
+        this->getWindow()
+    );
+    
     this->addObject(this->background);
     this->addObject(this->option_panel);
+    this->addObject(this->draft_block);
     this->addObject(this->stage_title);
 }
 
