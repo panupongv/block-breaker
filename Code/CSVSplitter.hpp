@@ -15,10 +15,14 @@ class CSVSplitter
 {
 public:
     CSVSplitter(string raw = "");
-    void setString(string raw);
+    void setRawString(string raw);
     vector<string> getResult();
 
 private:
+    void split();
+    bool isComma(char c);
+    bool isNotSplitted();
+    
     string raw = "";
     bool splitted = false;
     vector<string> result;
