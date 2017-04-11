@@ -82,14 +82,14 @@ void Block::initializeData(std::vector<sf::Vector2i> points)
 		{
 			if (point1.x < point2.x) //right first
 			{
-				first_point = sf::Vector2u(point1.x * block_size_x, point1.y * block_size_y);
-				second_point = sf::Vector2u(point2.x * block_size_x, point2.y * block_size_y);
+				first_point = sf::Vector2u(Game::left_bound + point1.x * block_size_x, Game::upper_bound + point1.y * block_size_y);
+				second_point = sf::Vector2u(Game::left_bound + point2.x * block_size_x, Game::upper_bound + point2.y * block_size_y);
 				vx = move_speed;
 			}
 			else // left first
 			{
-				first_point = sf::Vector2u(point2.x * block_size_x, point2.y * block_size_y);
-				second_point = sf::Vector2u(point1.x * block_size_x, point1.y * block_size_y);
+				first_point = sf::Vector2u(Game::left_bound + point2.x * block_size_x, Game::upper_bound + point2.y * block_size_y);
+				second_point = sf::Vector2u(Game::left_bound + point1.x * block_size_x, Game::upper_bound + point1.y * block_size_y);
 				vx = -move_speed;
 			}
 			vy = 0;
@@ -99,14 +99,14 @@ void Block::initializeData(std::vector<sf::Vector2i> points)
 
 			if (point1.y < point2.y) //down first
 			{
-				first_point = sf::Vector2u(point1.x * block_size_x, point1.y * block_size_y);
-				second_point = sf::Vector2u(point2.x * block_size_x, point2.y * block_size_y);
+				first_point = sf::Vector2u(Game::left_bound + point1.x * block_size_x, Game::upper_bound + point1.y * block_size_y);
+				second_point = sf::Vector2u(Game::left_bound + point2.x * block_size_x, Game::upper_bound + point2.y * block_size_y);
 				vy = move_speed;
 			}
 			else //up first
 			{
-				first_point = sf::Vector2u(point2.x * block_size_x, point2.y * block_size_y);
-				second_point = sf::Vector2u(point1.x * block_size_x, point1.y * block_size_y);
+				first_point = sf::Vector2u(Game::left_bound + point2.x * block_size_x, Game::upper_bound + point2.y * block_size_y);
+				second_point = sf::Vector2u(Game::left_bound + point1.x * block_size_x, Game::upper_bound + point1.y * block_size_y);
 				vx = -move_speed;
 			}
 			vx = 0;
