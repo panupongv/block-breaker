@@ -4,36 +4,49 @@
 #include "Sprite.hpp"
 #include "BlockData.hpp"
 
-//class Sprite;
+class Sprite;
 class Game;
 class Ball;
 
 class Block : public Sprite
 {
 public:
-    Block(std::string texture_name, const BlockData& block_data);
+	Block(const BlockData& block_data, bool endless = false);
     Block(std::string texture_name, float x, float y, bool endless = false);
-	Block(const BlockData& block_data);
-	Block(BlockType type, float x, float y);
+	Block(BlockType type, float x, float y, bool endless = false);
     
 	void update(Game& game);
+	virtual void hitAction(Game& game);
 
-	
-    void setGridPosition(int x, int y);
-	
+	static std::string getTextureNameFromType(BlockType type);
 public:
-	static const int block_size_x = 50; //Just Assume
-	static const int block_size_y = 18;  //
+	static constexpr int block_size_x = 50; //Just Assume
+	static constexpr int block_size_y = 18;  //
 	static constexpr float move_speed = 0.1f;
 
 protected:
-    std::string getTextureNameFromType(BlockType type);
+	void initializeData(std::vector<sf::Vector2i> points);
 
 private:
 	bool endless = false;
 	sf::Vector2u first_point;
 	sf::Vector2u second_point;
+};
 
-private:
-	void initializeData(std::vector<sf::Vector2i> points);
+class BreakableBlock : public Block
+{
+public:
+	BreakableBlock(const BlockData& block_data, bool endless = false);
+	BreakableBlock(std::string texture_name, float x, float y, bool endless = false);
+
+	virtual void hitAction(Game& game);
+};
+
+class ItemBlock : public BreakableBlock
+{
+public:
+	ItemBlock(const BlockData& block_data, bool endless = false);
+	ItemBlock(std::string texture_name, float x, float y, bool endless = false);
+
+	void hitAction(Game& game);
 };

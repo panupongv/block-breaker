@@ -11,11 +11,11 @@ public:
 	void run();
 	int getChoice() const;
 private:
-	void event_input();
+	void eventInput();
 	void draw();
 	void update();
 private:
-	static const int TEXT_NUM = 3;
+	static constexpr int TEXT_NUM = 3;
 
 	sf::RenderWindow *window;
 	sf::Font font;

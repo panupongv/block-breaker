@@ -35,7 +35,7 @@ void StageSelect::run()
 {
 	while (!finished && window->isOpen())
 	{
-		event_input();
+		eventInput();
 		draw();
 		update();
 	}
@@ -47,7 +47,7 @@ std::string StageSelect::getSelectedName() const
 	return texts[selected].getString();
 }
 
-void StageSelect::event_input()
+void StageSelect::eventInput()
 {
 	while (window->pollEvent(event))
 	{

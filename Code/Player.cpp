@@ -4,8 +4,8 @@ Player::Player()
 	:
 	Sprite("brick.png", 120, 30, 260, 570)
 { 
-	alive = true;
-	moving = true;
+	setAlive(true);
+	setMoving(true);
 }
 
 void Player::update(Game& game)

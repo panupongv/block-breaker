@@ -2,12 +2,12 @@
 
 Ball::Ball()
 	:
-	Sprite("ball.png", 50, 50, 0, 0),
+	Sprite("ball.png", 20, 20, 0, 0),
 	started(false)
 {
 		//Sprite::Sprite("ball.png", 70, 70, 250, 500);
-	alive = true;
-	moving = true;
+	setAlive(true);
+	setMoving(true);
 }
 
 void Ball::update(Game& game)
@@ -32,11 +32,10 @@ void Ball::update(Game& game)
 
 void Ball::checkBlockCollision(Game& game)
 {
-	vector<Sprite*> block_list = game.getBlockList();
+	std::vector<Block*> block_list = game.getBlockList();
 	const int list_size = block_list.size();
 	for (int i = 0; i < list_size; i++)
 	{
-		if (!block_list[i]->isAlive()) continue;
 		if (collide(*block_list[i]))
 		{
 			
@@ -51,7 +50,7 @@ void Ball::checkBlockCollision(Game& game)
 				move(-getVX(), 0);
 				setMovement(-getVX(), getVY());
 			}
-			game.popBlock(block_list[i]);
+			block_list[i]->hitAction(game);
 		}
 	}
 }
@@ -74,5 +73,5 @@ void Ball::checkPlayerCollision(Sprite* player)
 void Ball::launch()
 {
 	started = true;
-	setMovement(10, -15);
+	setMovement(3, -5);
 }

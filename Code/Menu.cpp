@@ -47,7 +47,7 @@ void Menu::run()
 	std::cout << "Menu started" << std::endl;
 	while (!finished && window->isOpen())
 	{
-		event_input();
+		eventInput();
 		draw();
 		update();
 	}
@@ -91,7 +91,7 @@ void Menu::update()
 		selected = -1;
 }
 
-void Menu::event_input()
+void Menu::eventInput()
 {
 	while (window->pollEvent(event))
 	{

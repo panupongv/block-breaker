@@ -13,13 +13,12 @@
 
 int main()
 {
-
-
 	sf::RenderWindow window(sf::VideoMode(800, 620), "SFML works!");//, sf::Style::Fullscreen);
 	window.setFramerateLimit(60);
 
 	while (window.isOpen())
 	{
+
 		Menu menu(&window);
 		menu.run();
 		switch (menu.getChoice())

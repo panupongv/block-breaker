@@ -1,6 +1,8 @@
 #include "StageData.hpp"
 #include <fstream>
 
+using namespace std;
+
 StageData::StageData(string file_name)
 {
     this->file_name = file_name;

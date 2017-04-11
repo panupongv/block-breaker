@@ -13,7 +13,7 @@ public:
 	void run();
 	std::string getSelectedName() const;
 private:
-	void event_input();
+	void eventInput();
 	void draw();
 	void update();
 	void moveText(int delta);
