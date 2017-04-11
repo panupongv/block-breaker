@@ -5,8 +5,7 @@
 
 class DraftBlock: public SpriteObject
 {
-public: 
-    
+public:
     DraftBlock();
     DraftBlock( std::string textureName , sf::RenderWindow &window , sf::Color color = sf::Color::White );
     

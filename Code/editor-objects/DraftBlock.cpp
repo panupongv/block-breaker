@@ -1,5 +1,5 @@
 #include "DraftBlock.hpp"
-#include "ScreenSetting.hpp"
+#include "ScreenManager.hpp"
 
 using namespace std;
 
@@ -22,7 +22,7 @@ bool DraftBlock::getAvailability() const
 
 void DraftBlock::setColor(sf::Color color)
 {
-//    color.a = 255*this->transparency;
+    color.a = 255*this->transparency;
     SpriteObject::setColor(color);
 }
 
@@ -35,12 +35,6 @@ void DraftBlock::update(void *ptr)
 
 void DraftBlock::followCursor()
 {
-    sf::Vector2i mouse_position = sf::Mouse::getPosition(*(this->window));
-    float ratio = ScreenSetting::ratio;
-    sf::Vector2f block_position;
-    
-    block_position.x = mouse_position.x / ratio;
-    block_position.y = mouse_position.y / ratio;
-    
-    this->setPosition(block_position.x,block_position.y,PositioningMode::Center);
+    sf::Vector2f mouse_position = ScreenManager::getMousePosition( *window );
+    this->setPosition(mouse_position.x,mouse_position.y,PositioningMode::Center);
 }
