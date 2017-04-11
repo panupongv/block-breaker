@@ -1,11 +1,13 @@
 #include "DraftBlock.hpp"
+#include "ScreenManager.hpp"
 
 using namespace std;
 
-DraftBlock::DraftBlock( string textureName , sf::Color color )
+DraftBlock::DraftBlock( string textureName , sf::RenderWindow& window , sf::Color color )
 :SpriteObject("draft block" , RenderLayer::Foreground , textureName )
 {
-    this->setColor(sf::Color::White);
+    this->setColor( color );
+    this->window = &window;
 }
 
 void DraftBlock::setAvailability(bool available)
@@ -28,9 +30,11 @@ void DraftBlock::update(void *ptr)
 {
     SpriteObject::update(ptr);
     
-    sf::Vector2i mouse_position;
-    mouse_position = sf::Mouse::getPosition();
-    setPosition(mouse_position.x, mouse_position.y);
-    
-    //todo : check availability
+    followCursor();
+}
+
+void DraftBlock::followCursor()
+{
+    sf::Vector2f mouse_position = ScreenManager::getMousePosition( *window );
+    this->setPosition(mouse_position.x,mouse_position.y,PositioningMode::Center);
 }
