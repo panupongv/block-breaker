@@ -4,22 +4,27 @@ Game::Game(sf::RenderWindow * window)
 	:
 	window(window),
 	finished(false),
-	endless(true)
+	endless(true),
+	frame_passed(0)
 {
-	player = new Player();
-	ball = new Ball();
-
-	for (int i = 0; i < 12; i++)
+	srand(time(NULL));
+	if (!initializeAttributes())
+	{
+		std::cout << "Game setup failed" << std::endl;
+	}
+	for (int i = 0; i < game_width / Block::block_size_x; i++)
 	{
 		for (int j = 0; j < 8; j++)
 		{
-			Block* new_block = new Block("block3.png", Block::getBlockSize().x * i, Block::getBlockSize().y * j, true);
+			Block* new_block;// = new Block("block3.png", left_bound + Block::block_size_x * i, upper_bound + Block::block_size_y * j, true);
+			if (rand() % 8 > 6)
+				new_block = BlockGenerator::create(item, left_bound + Block::block_size_x * i, upper_bound + Block::block_size_y * j, true);
+			else
+				new_block = BlockGenerator::create(normal, left_bound + Block::block_size_x * i, upper_bound + Block::block_size_y * j, true);
 			block_list.push_back(new_block);
+			sprite_list.push_back(new_block);
 		}
 	}
-	sprite_list.assign(block_list.begin(), block_list.end());
-	sprite_list.push_back(ball);
-	sprite_list.push_back(player);
 }
 
 Game::Game(sf::RenderWindow * window, std::string file_name)
@@ -34,20 +39,22 @@ Game::Game(sf::RenderWindow * window, std::string file_name)
 		std::cout << "No map found" << std::endl;
 	}
 
-	player = new Player();
-	ball = new Ball();
+	if (!initializeAttributes())
+	{
+		std::cout << "Game setup failed" << std::endl;
+	}
 
-	vector<BlockData> block_datas = stage_data.getBlocksData();
+	std::vector<BlockData> block_datas = stage_data.getBlocksData();
 	block_num = block_datas.size();
 	for (int i = 0; i < block_num; i++)
 	{
 		//Block * temp_block = new Block(block_datas[i]);
-		block_list.push_back(new Block("brick.png", block_datas[i]));
-		std::cout << "Brick[" << i << "] at " << block_datas[i].getStartGrid().x << ", " << block_datas[i].getStartGrid().y << std::endl;
+		Block* new_block = BlockGenerator::create(block_datas[i], false);
+		new_block->move(left_bound, upper_bound);
+		block_list.push_back(new_block);
+		sprite_list.push_back(new_block);
+		//std::cout << "Brick[" << i << "] at " << block_datas[i].getStartGrid().x << ", " << block_datas[i].getStartGrid().y << std::endl;
 	}
-	sprite_list.assign(block_list.begin(), block_list.end());
-	sprite_list.push_back(ball);
-	sprite_list.push_back(player);
 }
 
 Game::~Game()
@@ -60,13 +67,29 @@ Game::~Game()
 
 void Game::run()
 {
-	while (!finished)
+	while (!finished && window->isOpen())
 	{
 		draw_sprites();
 		update_sprites();
 		event_input();
+		frame_passed++;
+		if (frame_passed == static_cast<int>(Block::block_size_y / Block::move_speed))
+			generateBlock();
 	}
 	std::cout << "Game ended" << std::endl;
+}
+
+void Game::add(Ball * ball)
+{
+	ball_list.push_back(ball);
+	sprite_list.push_back(ball);
+}
+
+void Game::add(Item * item)
+{
+	item_list.push_back(item);
+	sprite_list.push_back(item);
+
 }
 
 void Game::popBlock(Sprite * block)
@@ -93,14 +116,16 @@ void Game::popBlock(Sprite * block)
 			break;
 		}
 	}
+	if (!endless && block_list.empty())
+		finished = true;
 }
 
-vector<Sprite*> Game::getBlockList()
+std::vector<Block*> Game::getBlockList()
 {
 	return block_list;
 }
 
-vector<Sprite*> Game::getSpriteList()
+std::vector<Sprite*> Game::getSpriteList()
 {
 	return sprite_list;
 }
@@ -115,6 +140,21 @@ sf::Vector2f Game::getMousePosition() const
 	return sf::Vector2f(sf::Mouse::getPosition(*window).x, sf::Mouse::getPosition(*window).y);
 }
 
+bool Game::initializeAttributes()
+{
+	player = new Player();
+	ball_list.push_back(new Ball());
+	sprite_list.push_back(ball_list.back());
+	sprite_list.push_back(player);
+
+	if (!background_texture.loadFromFile("block-breaker\\Resources\\brick-wall.png"))
+	{
+		return false;
+	}
+	background.setTexture(background_texture);
+	return true;
+}
+
 void Game::draw_sprites()
 {
 	window->clear();
@@ -123,14 +163,7 @@ void Game::draw_sprites()
 	{
 		sprite_list[i]->draw(*window);
 	}
-	/*const int sprite_num = block_list.size();
-	for (int i = 0; i < sprite_num; i++)
-	{
-		if (block_list[i]->isAlive())
-			block_list[i]->draw(*window);
-	}
-	ball->draw(*window);
-	player->draw(*window);*/
+	window->draw(background);
 	window->display();
 }
 
@@ -150,14 +183,27 @@ void Game::event_input()
 	{
 		switch(event.type)
 		{
+		case sf::Event::Closed:
+			window->close();
 		case sf::Event::MouseButtonPressed:
-			ball->launch();
+			ball_list[0]->launch();
 			break;
 		case sf::Event::KeyPressed:
 			finished = true;
 			break;
 		}
 	}
+}
+
+void Game::generateBlock()
+{
+	for (int i = 0; i < game_width / Block::block_size_x; i++)
+	{
+		Block* new_block = new Block("block2.png", left_bound + i * Block::block_size_x, upper_bound - Block::block_size_y, true);
+		block_list.push_back(new_block);
+		sprite_list.push_back(new_block);
+	}
+	frame_passed = 0;
 }
 
 Sprite* Game::getPlayer()

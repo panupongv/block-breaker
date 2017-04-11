@@ -22,9 +22,6 @@ public:
 	Sprite(std::string texture_name, int frame_width, int frame_height, float initial_x, float initial_y, float vx, float vy);
 	virtual void update(Game& game) = 0; //Game& game
 	void draw(sf::RenderWindow& window) const;
-	void inactivate();
-
-	//sf::Sprite& getSprite();
 
 	float left() const;
 	float right() const;
@@ -36,11 +33,11 @@ public:
 	bool collideHorizontally(Sprite& another_sprite);
 	bool collideVertically(Sprite& another_sprite);
 
-	float getVX() const;
-	float getVY() const;
-
 	bool isAlive() const;
 	bool isMoving() const;
+
+	float getVX() const;
+	float getVY() const;
 
 	void setPosition(float x, float y);
 	void setCenter(float x, float y);
@@ -52,9 +49,8 @@ public:
 	void nextFrame();
 	void resetFrame();
 
-protected:
-	bool alive = true;
-	bool moving;
+	void setMoving(bool status);
+	void setAlive(bool status);
 
 private:
 	sf::Sprite sprite;
@@ -68,4 +64,7 @@ private:
 
 	float vx;
 	float vy;
+
+	bool alive = true;
+	bool moving;
 };

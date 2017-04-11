@@ -35,12 +35,6 @@ void Sprite::draw(sf::RenderWindow & window) const
 	window.draw(sprite);
 }
 
-void Sprite::inactivate()
-{
-	alive = false;
-	moving = false;
-}
-
 float Sprite::left() const
 {
 	return sprite.getPosition().x;
@@ -146,4 +140,14 @@ void Sprite::nextFrame()
 void Sprite::resetFrame()
 {
 	current_frame = 0;
+}
+
+void Sprite::setMoving(bool status)
+{
+	moving = status;
+}
+
+void Sprite::setAlive(bool status)
+{
+	alive = status;
 }
