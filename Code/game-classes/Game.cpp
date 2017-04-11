@@ -5,7 +5,8 @@ Game::Game(sf::RenderWindow * window)
 	window(window),
 	finished(false),
 	endless(true),
-	frame_passed(0)
+	frame_passed(0),
+	move_counter(0)
 {
 	srand(time(NULL));
 	if (!initializeAttributes())
@@ -14,13 +15,13 @@ Game::Game(sf::RenderWindow * window)
 	}
 	for (int i = 0; i < game_width / Block::block_size_x; i++)
 	{
-		for (int j = 0; j < 8; j++)
+		for (int j = -1; j < 8; j++)
 		{
 			Block* new_block;// = new Block("block3.png", left_bound + Block::block_size_x * i, upper_bound + Block::block_size_y * j, true);
-			if (rand() % 8 > 6)
+			if (rand() % 8 == 0)
 				new_block = BlockGenerator::create(item, left_bound + Block::block_size_x * i, upper_bound + Block::block_size_y * j, true);
 			else
-				new_block = BlockGenerator::create(normal, left_bound + Block::block_size_x * i, upper_bound + Block::block_size_y * j, true);
+				new_block = BlockGenerator::create(breakable, left_bound + Block::block_size_x * i, upper_bound + Block::block_size_y * j, true);
 			block_list.push_back(new_block);
 			sprite_list.push_back(new_block);
 		}
@@ -73,7 +74,8 @@ void Game::run()
 		update_sprites();
 		event_input();
 		frame_passed++;
-		if (frame_passed == static_cast<int>(Block::block_size_y / Block::move_speed))
+		move_counter++;
+		if (frame_passed == static_cast<int>(Block::block_size_y / Block::move_speed) * Block::frame_to_move)
 			generateBlock();
 	}
 	std::cout << "Game ended" << std::endl;
@@ -143,10 +145,10 @@ sf::Vector2f Game::getMousePosition() const
 bool Game::initializeAttributes()
 {
 	player = new Player();
+	sprite_list.push_back(player);
 	ball_list.push_back(new Ball());
 	sprite_list.push_back(ball_list.back());
-	sprite_list.push_back(player);
-
+	
 	if (!background_texture.loadFromFile("block-breaker\\Resources\\brick-wall.png"))
 	{
 		return false;
@@ -199,7 +201,12 @@ void Game::generateBlock()
 {
 	for (int i = 0; i < game_width / Block::block_size_x; i++)
 	{
-		Block* new_block = new Block("block2.png", left_bound + i * Block::block_size_x, upper_bound - Block::block_size_y, true);
+		
+		Block* new_block;//= new Block("block2.png", left_bound + i * Block::block_size_x, upper_bound - Block::block_size_y, true);
+		if (rand() % 8 == 0)
+			new_block = BlockGenerator::create(item, left_bound + Block::block_size_x * i, upper_bound - Block::block_size_y, true);
+		else
+			new_block = BlockGenerator::create(breakable, left_bound + Block::block_size_x * i, upper_bound - Block::block_size_y, true);
 		block_list.push_back(new_block);
 		sprite_list.push_back(new_block);
 	}

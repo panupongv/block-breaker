@@ -24,21 +24,27 @@ Block::Block(BlockType type , float x , float y, bool endless)
 
 void Block::update(Game& game)
 {
-	if (!endless)
+	if (frame_passed == frame_to_move)
 	{
-		if (!isMoving()) return;
-		move(getVX(), getVY());
-		if ((left() >= second_point.x && getVX() > 0) || (left() <= first_point.x && getVX() < 0)
-			|| (top() >= second_point.y && getVY() > 0) || top() <= first_point.y && getVY() < 0)
+		if (!endless)
 		{
-			setMovement(-getVX(), -getVY());
-			//std::cout << "bounce" << std::endl;
+			if (!isMoving()) return;
+			move(getVX(), getVY());
+			if ((left() >= second_point.x && getVX() > 0) || (left() <= first_point.x && getVX() < 0)
+				|| (top() >= second_point.y && getVY() > 0) || top() <= first_point.y && getVY() < 0)
+			{
+				setMovement(-getVX(), -getVY());
+				//std::cout << "bounce" << std::endl;
+			}
 		}
+		else
+		{
+			move(0, move_speed);
+		}
+		frame_passed = 0;
 	}
-	else
-	{
-		move(0, move_speed);
-	}
+	frame_passed++;
+
 }
 
 void Block::hitAction(Game & game)
@@ -46,7 +52,12 @@ void Block::hitAction(Game & game)
 	;
 }
 
-std::string Block::getTextureNameFromType(BlockType type) 
+int Block::getFrameToMove()
+{
+	return frame_to_move;
+}
+
+std::string Block::getTextureNameFromType(BlockType type)
 {
     switch (type) {
         case normal:

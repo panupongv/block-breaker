@@ -64,5 +64,6 @@ private:
 	bool endless;
 	bool finished;
 
+	int move_counter;
 	int frame_passed;
 };

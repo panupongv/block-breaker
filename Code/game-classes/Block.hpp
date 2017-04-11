@@ -18,13 +18,15 @@ public:
 	void update(Game& game);
 	virtual void hitAction(Game& game);
 
+	static int getFrameToMove();
 	static std::string getTextureNameFromType(BlockType type);
 public:
 	static constexpr int block_size_x = 50; //Just Assume
 	static constexpr int block_size_y = 18;  //
-	static constexpr float move_speed = 0.1f;
-
+	static constexpr int move_speed = 1;
+	static constexpr int frame_to_move = 5;
 protected:
+	int frame_passed = 0;
 	void initializeData(std::vector<sf::Vector2i> points);
 
 private:
