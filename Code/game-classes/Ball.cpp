@@ -31,9 +31,9 @@ void Ball::update(Game& game)
 			setMovement(getVX(), -getVY());
 		}
 		if (top() > game.lower_bound)
-			game.popBall(this);
+			game.pop(this);
 		checkBlockCollision(game);
-		checkPlayerCollision(game.getPlayer());
+		checkPlayerCollision(game);
 	}
 	else
 	{ 
@@ -67,9 +67,9 @@ void Ball::checkBlockCollision(Game& game)
 	}
 }
 
-void Ball::checkPlayerCollision(Sprite* player)
+void Ball::checkPlayerCollision(Game& game)
 {
-
+	Player* player = game.getPlayer();
 	if (collideVertically(*player))
 	{
 		setMovement(getVX(), -getVY());

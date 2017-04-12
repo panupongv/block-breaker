@@ -47,9 +47,6 @@ public:
 	void setMovement(float x, float y);
 
 	void setColor(const sf::Color& color);
-	void setFrame(int frame_id);
-	void nextFrame();
-	void resetFrame();
 
 	void setMoving(bool status);
 	void setAlive(bool status);
@@ -60,9 +57,6 @@ private:
 
 	int frame_width;
 	int frame_height;
-
-	int frame_number;
-	int current_frame;
 
 	float vx;
 	float vy;

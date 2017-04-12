@@ -58,7 +58,7 @@ Game::~Game()
 	const int sprite_num = sprite_list.size();
 	for (int i = 0; i < sprite_num; i++)
 		delete sprite_list[i];
-	std::cout << "Freed sprites" << std::endl;
+	std::cout << "Freed " << sprite_num << " sprites" << std::endl;
 }
 
 void Game::run()
@@ -89,7 +89,7 @@ void Game::add(Item * item)
 
 }
 
-void Game::popBall(Ball * ball)
+void Game::pop(Ball * ball)
 {
 	for (int i = 0; i < sprite_list.size(); i++)
 	{
@@ -120,7 +120,7 @@ void Game::popBall(Ball * ball)
 	}
 }
 
-void Game::popBlock(Block * block)
+void Game::pop(Block * block)
 {
 	//const int sprite_num = sprite_list.size();
 	for (int i = 0; i < sprite_list.size(); i++)
@@ -244,7 +244,7 @@ void Game::generateRow(int y)
 	frame_passed = 0;
 }
 
-Sprite* Game::getPlayer()
+Player* Game::getPlayer()
 {
 	return player;
 }

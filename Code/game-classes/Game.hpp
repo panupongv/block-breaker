@@ -29,9 +29,9 @@ public:
 	void run();
 	void add(Ball* ball);
 	void add(Item* item);
-	void popBall(Ball* ball);
-	void popBlock(Block* block);
-	Sprite* getPlayer();
+	void pop(Ball* ball);
+	void pop(Block* block);
+	Player* getPlayer();
 	std::vector<Sprite*> getSpriteList();
 	std::vector<Block*> getBlockList();
 	sf::Vector2f getWindowSize() const;
