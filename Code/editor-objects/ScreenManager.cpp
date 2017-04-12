@@ -1,5 +1,4 @@
 #include "ScreenManager.hpp"
-#include <iostream>
 
 using namespace std;
 

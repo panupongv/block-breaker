@@ -40,7 +40,7 @@ void CSVSplitter::split()
             value += character;
         }
     }
-    
+	this->result.push_back(value);
     this->splitted = true;
 }
 

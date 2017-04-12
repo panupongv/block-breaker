@@ -27,7 +27,7 @@ void TextObject::setSize(int font_size)
 
 int TextObject::getSize() const
 {
-    this->textRender.getCharacterSize();
+    return this->textRender.getCharacterSize();
 }
 
 void TextObject::setFont(std::string fontName)
