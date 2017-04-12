@@ -21,6 +21,8 @@ std::vector<std::string> DirectoryReader::getFileNames() const
 {
     vector<string> names;
 #ifdef __APPLE__
+    //reference
+    //http://www.linuxquestions.org/questions/programming-9/c-list-files-in-directory-379323/
     
     DIR *dp;
     struct dirent *dirp;
