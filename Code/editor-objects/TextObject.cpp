@@ -30,6 +30,10 @@ int TextObject::getSize() const
     return this->textRender.getCharacterSize();
 }
 
+const sf::FloatRect TextObject::getRect() const
+{
+    return this->textRender.getGlobalBounds();
+}
 void TextObject::setFont(std::string fontName)
 {
     if(this->font.loadFromFile(resourcePath() + fontName))
@@ -92,7 +96,7 @@ void TextObject::setColor(const sf::Color &color)
     this->textRender.setFillColor(color);
 }
 
-sf::Color TextObject::getColor() const
+const sf::Color TextObject::getColor() const
 {
     return this->textRender.getFillColor();
 }

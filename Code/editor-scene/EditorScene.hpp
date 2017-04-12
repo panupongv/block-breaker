@@ -6,12 +6,13 @@
 #include "TextObject.hpp"
 #include "SpriteObject.hpp"
 #include "DraftBlock.hpp"
+#include "EventHandler.hpp"
 
 class EditorScene : public Scene
 {
 public:
     EditorScene( sf::RenderWindow& window );
-    virtual void update(sf::Event& event);
+    virtual void update(EventHandler& eHandler);
     virtual void draw();
     
 protected:

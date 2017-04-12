@@ -1,13 +1,15 @@
 #include "EditorScene.hpp"
+#include "EventHandler.hpp"
+
 #include <iostream>
 
 using namespace std;
 
 EditorScene::EditorScene( sf::RenderWindow& window ) : Scene("editor",window) { };
 
-void EditorScene::update(sf::Event &event)
+void EditorScene::update(EventHandler& eHandler)
 {
-    Scene::update(event);
+    Scene::update(eHandler);
     
     //implement update here
 //    brick->move(10, 10);

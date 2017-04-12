@@ -10,10 +10,10 @@ Scene::Scene( string n , sf::RenderWindow& window) : name(n)
 
 Scene::~Scene()
 {
-    while(this->sprites.size() > 0)
+    while(this->objects.size() > 0)
     {
-        delete this->sprites.back();
-        this->sprites.pop_back();
+        delete this->objects.back();
+        this->objects.pop_back();
     }
 }
 
@@ -51,6 +51,7 @@ sf::RenderWindow& Scene::getWindow()
 {
     return *window;
 }
+
 bool Scene::isStarting() const
 {
     return this->starting;
@@ -76,25 +77,25 @@ Scene* Scene::getNextScene() const
     return this->nextScene;
 }
 
-void Scene::addObject(BaseObject* sprite)
+void Scene::addObject(BaseObject* object)
 {
-    this->sprites.push_back(sprite);
+    this->objects.push_back(object);
 }
 
-void Scene::removeObject(BaseObject* sprite)
+void Scene::removeObject(BaseObject* object)
 {
-    for(int i = 0 ; i < this->sprites.size() ; ++i)
+    for(int i = 0 ; i < this->objects.size() ; ++i)
     {
-        if(sprite == this->sprites[i])
+        if(object == this->objects[i])
         {
-            this->sprites.erase(this->sprites.begin()+i);
-            delete sprite;
+            this->objects.erase(this->objects.begin()+i);
+            delete object;
             return;
         }
     }
 }
 
-void Scene::update(sf::Event& event)
+void Scene::update(EventHandler& eHandler)
 {
     if(isStarting())
     {
@@ -111,9 +112,9 @@ void Scene::update(sf::Event& event)
 
 void Scene::draw()
 {
-    for(int i = 0 ; i < this->sprites.size() ; ++i)
+    for(int i = 0 ; i < this->objects.size() ; ++i)
     {
-        this->sprites[i]->draw(this->getWindow());
+        this->objects[i]->draw(this->getWindow());
     }
 }
 

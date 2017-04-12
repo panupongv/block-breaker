@@ -5,6 +5,7 @@
 #include <windows.h>
 #endif
 
+#include "FileNameUtility.hpp"
 #include "DirectoryReader.hpp"
 #include <iostream>
 #include <iomanip>
@@ -17,10 +18,12 @@ DirectoryReader::DirectoryReader(const std::string & folder_name)
 {
 }
 
-std::vector<std::string> DirectoryReader::getFileNames() const
+vector<string> DirectoryReader::getFileNames() const
 {
     vector<string> names;
 #ifdef __APPLE__
+    //reference
+    //http://www.linuxquestions.org/questions/programming-9/c-list-files-in-directory-379323/
     
     DIR *dp;
     struct dirent *dirp;
@@ -28,8 +31,10 @@ std::vector<std::string> DirectoryReader::getFileNames() const
         throw invalid_argument("no such directory : " + this->folder_name);
     
     while ((dirp = readdir(dp)) != NULL)
+    {
+        
         names.push_back(string(dirp->d_name));
-    
+    }
     closedir(dp);
 
 #else
@@ -48,4 +53,25 @@ std::vector<std::string> DirectoryReader::getFileNames() const
 	}
 #endif
 	return names;
+}
+
+BBStageFileFinder::BBStageFileFinder(const string& folder_name)
+:DirectoryReader(folder_name){}
+
+std::vector<string> BBStageFileFinder::getFileNames() const
+{
+    vector<string> file_names = DirectoryReader::getFileNames();
+    
+    FileNameUtility util;
+    
+    for(int i = 0 ; i < file_names.size() ; ++i)
+    {
+        if( util.extension_of(file_names[i]) != ".bbstage")
+        {
+            file_names.erase(file_names.begin() + i);
+            i--;
+        }
+    }
+    
+    return file_names;
 }
