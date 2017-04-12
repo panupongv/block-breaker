@@ -29,7 +29,8 @@ public:
 	void run();
 	void add(Ball* ball);
 	void add(Item* item);
-	void popBlock(Sprite* block);
+	void popBall(Ball* ball);
+	void popBlock(Block* block);
 	Sprite* getPlayer();
 	std::vector<Sprite*> getSpriteList();
 	std::vector<Block*> getBlockList();
@@ -43,11 +44,11 @@ public:
 	static const int game_width = 600;
 	static const int game_height = 600;
 private:
-	bool initializeAttributes();
+	bool setup();
 	void draw_sprites();
 	void update_sprites();
 	void event_input();
-	void generateBlock();
+	void generateRow(int y);
 private:
 	sf::RenderWindow* window;
 	sf::Event event;
@@ -55,15 +56,16 @@ private:
 	sf::Sprite background;
 
 	Player* player;
-	std::vector<Sprite*> sprite_list;
 	std::vector<Ball*> ball_list;
 	std::vector<Block*> block_list;
 	std::vector<Item*> item_list;
+	std::vector<Sprite*> sprite_list;
 
+	int lives;
 	int block_num;
 	bool endless;
 	bool finished;
 
-	int move_counter;
+	int current_color;
 	int frame_passed;
 };

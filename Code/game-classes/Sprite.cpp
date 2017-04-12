@@ -35,6 +35,16 @@ void Sprite::draw(sf::RenderWindow & window) const
 	window.draw(sprite);
 }
 
+int Sprite::getFrameWidth() const
+{
+	return frame_width;
+}
+
+int Sprite::getFrameHeight() const
+{
+	return frame_height;
+}
+
 float Sprite::left() const
 {
 	return sprite.getPosition().x;
@@ -42,23 +52,23 @@ float Sprite::left() const
 
 float Sprite::right() const
 {
-	return sprite.getPosition().x + texture.getSize().x * sprite.getScale().x;
+	return sprite.getPosition().x + frame_width;
 }
 
 float Sprite::top() const
 {
-	return sprite.getPosition().y + texture.getSize().y * sprite.getScale().y;
+	return sprite.getPosition().y;
 }
 
 float Sprite::bottom() const
 {
-	return sprite.getPosition().y + texture.getSize().y;
+	return sprite.getPosition().y + frame_height;
 }
 
 sf::Vector2f Sprite::center() const
 {
-	return sf::Vector2f(sprite.getPosition().x + (texture.getSize().x / 2),
-						sprite.getPosition().y + (texture.getSize().y / 2));
+	return sf::Vector2f(sprite.getPosition().x + (frame_width/ 2.0),
+						sprite.getPosition().y + (frame_height / 2.0));
 }
 
 bool Sprite::collide(Sprite & another_sprite)
@@ -105,7 +115,7 @@ void Sprite::setPosition(float x, float y)
 
 void Sprite::setCenter(float x, float y)
 {
-	setPosition(x - frame_width / 2, y - frame_height / 2);
+	setPosition(x - frame_width / 2.0f, y - frame_height / 2.0f);
 }
 
 void Sprite::move(float x, float y)

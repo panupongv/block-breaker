@@ -32,7 +32,6 @@ Menu::Menu(sf::RenderWindow * window)
 			text_rect.top + text_rect.height / 2.0f);
 		texts[i].setPosition(sf::Vector2f(width / 2.0f, height / 6.0f * (i + 1) + 200));
 
-		std::cout << (texts[i].getCharacterSize() * texts[i].getString().getSize()) << ", " << texts[i].getPosition().x << " " << texts[i].getPosition().y << std::endl;
 		/*texts[i].setPosition(sf::Vector2f((width / 2) - (texts[i].getCharacterSize() * texts[i].getString().getSize() / 2.0),
 			height / (3 + 1) * (i + 1)));
 		std::cout << (texts[i].getCharacterSize() * texts[i].getString().getSize()) << ", *///" << texts[i].getPosition().x << " " << texts[i].getPosition().y << std::endl;
@@ -44,14 +43,12 @@ Menu::Menu(sf::RenderWindow * window)
 
 void Menu::run()
 {
-	std::cout << "Menu started" << std::endl;
 	while (!finished && window->isOpen())
 	{
 		eventInput();
 		draw();
 		update();
 	}
-	std::cout << "Menu ended" << std::endl;
 }
 
 int Menu::getChoice() const

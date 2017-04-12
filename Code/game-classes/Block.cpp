@@ -34,7 +34,6 @@ void Block::update(Game& game)
 				|| (top() >= second_point.y && getVY() > 0) || top() <= first_point.y && getVY() < 0)
 			{
 				setMovement(-getVX(), -getVY());
-				//std::cout << "bounce" << std::endl;
 			}
 		}
 		else
@@ -52,20 +51,15 @@ void Block::hitAction(Game & game)
 	;
 }
 
-int Block::getFrameToMove()
-{
-	return frame_to_move;
-}
-
 std::string Block::getTextureNameFromType(BlockType type)
 {
     switch (type) {
         case normal:
-            return "block1.png";
-        case item:
-            return "block2.png";
-        case breakable :
-            return "block3.png";
+            return "normal.png";
+        case breakable:
+            return "breakable.png";
+        case item :
+            return "item.png";
         default:
             return "";
     }
@@ -153,6 +147,6 @@ ItemBlock::ItemBlock(std::string texture_name, float x, float y, bool endless)
 
 void ItemBlock::hitAction(Game & game)
 {
+	game.add(new Ball(center().x, center().y));
 	game.popBlock(this);
-	//Create item;
 }

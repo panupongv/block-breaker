@@ -11,10 +11,13 @@ class Ball : public Sprite
 {
 public:
 	Ball();
+	Ball(float x, float y);
 	void update(Game& game);
 	void checkBlockCollision(Game& game);
 	void checkPlayerCollision(Sprite* player);
 	void launch();
 private:
 	bool started;
+	float launch_speed_x = 3;
+	float launch_speed_y = -5;
 };

@@ -6,6 +6,7 @@ Player::Player()
 { 
 	setAlive(true);
 	setMoving(true);
+	
 }
 
 void Player::update(Game& game)

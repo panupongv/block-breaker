@@ -10,5 +10,6 @@ class Player : public Sprite
 public:
 	Player();
 	void update(Game& game);
-//private:
+private:
+	int fixed_x;
 };

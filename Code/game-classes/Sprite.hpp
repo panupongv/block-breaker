@@ -23,6 +23,8 @@ public:
 	virtual void update(Game& game) = 0; //Game& game
 	void draw(sf::RenderWindow& window) const;
 
+	int getFrameWidth() const;
+	int getFrameHeight() const;
 	float left() const;
 	float right() const;
 	float top() const;

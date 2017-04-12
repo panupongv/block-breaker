@@ -6,33 +6,28 @@ Game::Game(sf::RenderWindow * window)
 	finished(false),
 	endless(true),
 	frame_passed(0),
-	move_counter(0)
+	current_color(0),
+	lives(1)
 {
 	srand(time(NULL));
-	if (!initializeAttributes())
+	if (!setup())
 	{
 		std::cout << "Game setup failed" << std::endl;
 	}
-	for (int i = 0; i < game_width / Block::block_size_x; i++)
+	
+	for (int j = -1; j < 8; j++)
 	{
-		for (int j = -1; j < 8; j++)
-		{
-			Block* new_block;// = new Block("block3.png", left_bound + Block::block_size_x * i, upper_bound + Block::block_size_y * j, true);
-			if (rand() % 8 == 0)
-				new_block = BlockGenerator::create(item, left_bound + Block::block_size_x * i, upper_bound + Block::block_size_y * j, true);
-			else
-				new_block = BlockGenerator::create(breakable, left_bound + Block::block_size_x * i, upper_bound + Block::block_size_y * j, true);
-			block_list.push_back(new_block);
-			sprite_list.push_back(new_block);
-		}
+		generateRow(upper_bound + j * Block::block_size_y);
 	}
+	
 }
 
 Game::Game(sf::RenderWindow * window, std::string file_name)
 	:
 	window(window),
 	finished(false),
-	endless(false)
+	endless(false),
+	lives(1)
 {
 	StageData stage_data(file_name);
 	if (!stage_data.load())
@@ -40,7 +35,7 @@ Game::Game(sf::RenderWindow * window, std::string file_name)
 		std::cout << "No map found" << std::endl;
 	}
 
-	if (!initializeAttributes())
+	if (!setup())
 	{
 		std::cout << "Game setup failed" << std::endl;
 	}
@@ -74,9 +69,8 @@ void Game::run()
 		update_sprites();
 		event_input();
 		frame_passed++;
-		move_counter++;
 		if (frame_passed == static_cast<int>(Block::block_size_y / Block::move_speed) * Block::frame_to_move)
-			generateBlock();
+			generateRow(upper_bound - Block::block_size_y);
 	}
 	std::cout << "Game ended" << std::endl;
 }
@@ -85,6 +79,7 @@ void Game::add(Ball * ball)
 {
 	ball_list.push_back(ball);
 	sprite_list.push_back(ball);
+	std::cout << ball->left() << ", " << ball->top() << std::endl;
 }
 
 void Game::add(Item * item)
@@ -94,7 +89,38 @@ void Game::add(Item * item)
 
 }
 
-void Game::popBlock(Sprite * block)
+void Game::popBall(Ball * ball)
+{
+	for (int i = 0; i < sprite_list.size(); i++)
+	{
+		if (sprite_list[i] == ball)
+		{
+			sprite_list.erase(sprite_list.begin() + i);
+			break;
+		}
+	}
+
+	//const int block_num = block_list.size();
+	for (int i = 0; i < ball_list.size(); i++)
+	{
+		if (ball_list[i] == ball)
+		{
+			delete ball;
+			ball = NULL;
+			ball_list.erase(ball_list.begin() + i);
+			//std::cout << "POP BLOCK" << std::endl;
+			break;
+		}
+	}
+	if (ball_list.empty())
+	{
+		lives--;
+		if (lives == 0)
+			finished = true;
+	}
+}
+
+void Game::popBlock(Block * block)
 {
 	//const int sprite_num = sprite_list.size();
 	for (int i = 0; i < sprite_list.size(); i++)
@@ -142,7 +168,7 @@ sf::Vector2f Game::getMousePosition() const
 	return sf::Vector2f(sf::Mouse::getPosition(*window).x, sf::Mouse::getPosition(*window).y);
 }
 
-bool Game::initializeAttributes()
+bool Game::setup()
 {
 	player = new Player();
 	sprite_list.push_back(player);
@@ -197,16 +223,21 @@ void Game::event_input()
 	}
 }
 
-void Game::generateBlock()
+void Game::generateRow(int y)
 {
 	for (int i = 0; i < game_width / Block::block_size_x; i++)
 	{
-		
 		Block* new_block;//= new Block("block2.png", left_bound + i * Block::block_size_x, upper_bound - Block::block_size_y, true);
 		if (rand() % 8 == 0)
-			new_block = BlockGenerator::create(item, left_bound + Block::block_size_x * i, upper_bound - Block::block_size_y, true);
+		{
+			new_block = BlockGenerator::create(item, left_bound + Block::block_size_x * i, y, true);
+		}
 		else
-			new_block = BlockGenerator::create(breakable, left_bound + Block::block_size_x * i, upper_bound - Block::block_size_y, true);
+		{
+			new_block = BlockGenerator::create(breakable, left_bound + Block::block_size_x * i, y, true);
+			new_block->setColor(BlockGenerator::getColor(BlockGenerator::ColorCode(current_color)));
+			current_color = (current_color + 1) % BlockGenerator::COLOR_NUM;
+		}
 		block_list.push_back(new_block);
 		sprite_list.push_back(new_block);
 	}

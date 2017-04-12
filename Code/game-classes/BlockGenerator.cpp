@@ -30,3 +30,18 @@ Block * BlockGenerator::create(BlockType type, float x, float y, bool endless)
 	}
 }
 
+sf::Color BlockGenerator::getColor(ColorCode color_code)
+{
+	switch (color_code)
+	{
+	case RED: return sf::Color::Red;
+	case ORANGE: return sf::Color(255, 127, 0);
+	case YELLOW: return sf::Color::Yellow;
+	case GREEN: return	sf::Color::Green;
+	case BLUE: return	sf::Color::Blue;
+	case INDIGO: return	sf::Color(50, 0, 150);
+	case VIOLET: return	sf::Color(148, 0, 211);
+	default: return sf::Color::White;
+	}
+}
+
