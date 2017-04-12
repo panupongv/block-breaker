@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include "BaseObject.hpp"
+#include "EventHandler.hpp"
 
 class Scene
 {
@@ -30,7 +31,7 @@ public:
     void removeObject( BaseObject* sprite );
     
     //need sub class implementation
-    virtual void update(sf::Event& event) = 0; // called when not starting not ending
+    virtual void update(EventHandler& eHandler) = 0; // called when not starting not ending
     virtual void draw() = 0;//always called
     
 protected:
@@ -44,7 +45,7 @@ private:
     bool starting = true;
     bool ending = false;
     bool ended = false;
-    std::vector<BaseObject*> sprites;
+    std::vector<BaseObject*> objects;
     Scene* nextScene = NULL;
     sf::RenderWindow* window;
 };
