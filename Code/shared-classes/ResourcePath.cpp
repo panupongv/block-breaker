@@ -32,8 +32,12 @@
 ////////////////////////////////////////////////////////////
 std::string resourcePath(void)
 {
+#ifdef __APPLE__
+    return "_resources/";
+#else
     return "";
-//    
+#endif
+//
 //    NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
 //
 //    std::string rpath;
