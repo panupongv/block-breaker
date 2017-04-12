@@ -24,7 +24,8 @@ public:
     
     //abstract getters
     virtual sf::Vector2f getPosition(PositioningMode mode = PositioningMode::TopLeft) const;
-    virtual sf::Color getColor() const;
+    virtual const sf::Color getColor() const;
+    virtual const sf::FloatRect getRect() const;
     
     //polymorphism behaviors
     virtual void update(void* ptr);

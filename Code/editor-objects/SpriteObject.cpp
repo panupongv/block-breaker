@@ -164,8 +164,12 @@ void SpriteObject::setColor(const sf::Color &color)
     this->getSprite().setColor(color);
 }
 
-sf::Color SpriteObject::getColor() const
+const sf::Color SpriteObject::getColor() const
 {
     return this->sprite.getColor();
 }
 
+const sf::FloatRect SpriteObject::getRect() const
+{
+    return this->sprite.getGlobalBounds();
+}
