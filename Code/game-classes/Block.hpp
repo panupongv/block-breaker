@@ -26,7 +26,6 @@ public:
 	static constexpr int move_speed = 1;
 
 protected:
-	
 	int frame_passed = 0;
 	void initializeData(std::vector<sf::Vector2i> points);
 

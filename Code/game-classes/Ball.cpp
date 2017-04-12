@@ -70,13 +70,22 @@ void Ball::checkBlockCollision(Game& game)
 void Ball::checkPlayerCollision(Game& game)
 {
 	Player* player = game.getPlayer();
-	if (collideVertically(*player))
+	if (bottom() >= player->getHitLine() && getVY() > 0)
 	{
-		setMovement(getVX(), -getVY());
-	}
-	else if (collideHorizontally(*player))
-	{
-		setMovement(-getVX(), getVY());
+		switch (player->getHitZone(center().x))
+		{
+		case 1: setMovement(-abs(getVX() * 2), -(getVY() - 3));
+			break;
+		case 2: setMovement(getVX() - 6, -(getVY() * 1.1));
+			break;
+		case 3: setMovement(getVX(), -getVY());
+			break;
+		case 4: setMovement(getVX() + 6, -(getVY() *1.1));
+			break;
+		case 5: setMovement(abs(getVX() * 2), -(getVY() - 3));
+			break;
+		default: break;
+		}
 	}
 }
 
@@ -87,4 +96,9 @@ void Ball::launch()
 		started = true;
 		setMovement(launch_speed_x, launch_speed_y);
 	}
+}
+
+void Ball::accelerate()
+{
+
 }

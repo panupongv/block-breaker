@@ -2,6 +2,7 @@
 
 #include "Sprite.hpp"
 #include "Game.hpp"
+#include <cmath>
 
 class Game;
 class Sprite;
@@ -16,6 +17,7 @@ public:
 	void checkBlockCollision(Game& game);
 	void checkPlayerCollision(Game& game);
 	void launch();
+	void accelerate();
 private:
 	bool started;
 	float launch_speed_x = 3;

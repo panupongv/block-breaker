@@ -9,6 +9,7 @@ Game::Game(sf::RenderWindow * window)
 	current_color(0),
 	lives(1)
 {
+	std::cout << sizeof(Block) << std::endl;
 	srand(time(NULL));
 	if (!setup())
 	{

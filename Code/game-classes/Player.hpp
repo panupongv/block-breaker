@@ -10,6 +10,9 @@ class Player : public Sprite
 public:
 	Player();
 	void update(Game& game);
+	int getHitLine() const;
+	int getHitZone(float x) const;
 private:
-	int fixed_x;
+	unsigned int status;
+	const int hit_line = 590;
 };
