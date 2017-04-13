@@ -1,5 +1,5 @@
 #include "DraftBlock.hpp"
-#include "ScreenManager.hpp"
+#include "WindowHelper.hpp"
 
 using namespace std;
 
@@ -35,6 +35,6 @@ void DraftBlock::update(void *ptr)
 
 void DraftBlock::followCursor()
 {
-    sf::Vector2f mouse_position = ScreenManager::getMousePosition( *window );
+    sf::Vector2f mouse_position = WindowHelper::getMousePosition( *window );
     this->setPosition(mouse_position.x,mouse_position.y,PositioningMode::Center);
 }

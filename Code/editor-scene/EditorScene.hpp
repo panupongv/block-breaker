@@ -25,10 +25,4 @@ private:
     SpriteObject* option_panel;
     TextObject* stage_title;
     DraftBlock* draft_block;
-    
-//    void createSelectionBlock();
-//    void createEditableBlock();
-//    void createDraftBlock();
-    //and more
-    
 };
