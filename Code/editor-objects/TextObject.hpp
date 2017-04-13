@@ -36,5 +36,5 @@ public:
 private:
     sf::Font font;
     sf::Text textRender;
-    sf::Color color;
+    sf::Color color = sf::Color::White;
 };

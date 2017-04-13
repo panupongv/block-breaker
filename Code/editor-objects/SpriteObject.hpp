@@ -37,7 +37,7 @@ public:
 private:
     sf::Sprite sprite;
     sf::Texture texture;
-    sf::Color color;
+    sf::Color color = sf::Color::White;
     int current_frame = 0;
     int num_row;
     int num_col;
