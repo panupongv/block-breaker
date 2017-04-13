@@ -29,6 +29,11 @@ void EventHandler::poll(sf::Event &event)
         closed = true;
 }
 
+bool EventHandler::gotClickOn(const BaseObject* object , sf::Mouse::Button button) const
+{
+    return gotClickOn(*object,button);
+}
+
 bool EventHandler::gotClickOn(const BaseObject& object , sf::Mouse::Button button) const
 {
     return gotClickOn(object.getRect(),button);
@@ -37,6 +42,11 @@ bool EventHandler::gotClickOn(const BaseObject& object , sf::Mouse::Button butto
 bool EventHandler::gotClickOn(const sf::FloatRect &rect, sf::Mouse::Button button) const
 {
     return mouseEventHandler->gotClickOn(rect,button);
+}
+
+bool EventHandler::gotDragOn(const BaseObject* object,sf::Mouse::Button button) const
+{
+    return this->gotDragOn(*object , button);
 }
 
 bool EventHandler::gotDragOn(const BaseObject &object,sf::Mouse::Button button) const

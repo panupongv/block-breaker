@@ -14,8 +14,10 @@ public:
     EventHandler( sf::RenderWindow& window );
     ~EventHandler();
     void poll( sf::Event& event );
+    bool gotClickOn(const BaseObject* object , sf::Mouse::Button button = sf::Mouse::Left) const;
     bool gotClickOn(const BaseObject& object , sf::Mouse::Button button = sf::Mouse::Left) const;
     bool gotClickOn(const sf::FloatRect& rect , sf::Mouse::Button button = sf::Mouse::Left) const;
+    bool gotDragOn(const BaseObject* object , sf::Mouse::Button button = sf::Mouse::Left) const;
     bool gotDragOn(const BaseObject& object , sf::Mouse::Button button = sf::Mouse::Left) const;
     bool gotDragOn(const sf::FloatRect& rect , sf::Mouse::Button button = sf::Mouse::Left) const;
     bool gotKey(sf::Keyboard::Key key) const;
