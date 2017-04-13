@@ -3,7 +3,16 @@
 #include "sfml.hpp"
 #include <string>
 
-enum RenderLayer {Background , Midground , Foreground , Top};
+enum RenderLayer {
+    BackgroundLayer ,
+    EditingSpaceBackgroundLayer,
+    DraftBlockLayer,
+    BlockLayer,
+    PinLayer,
+    PanelBackgroundLayer,
+    PanelElementLayer,
+    TitleLayer
+};
 enum PositioningMode { TopLeft , Center };
 
 class BaseObject
@@ -38,6 +47,6 @@ public:
     
 private: 
     std::string name = "unnamed base object";
-    RenderLayer layer = RenderLayer::Background;
+    RenderLayer layer = RenderLayer::BackgroundLayer;
     bool active = true;
 };
