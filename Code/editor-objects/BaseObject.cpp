@@ -19,7 +19,22 @@ RenderLayer BaseObject::getLayer() const
     return this->layer;
 }
 
+bool BaseObject::isActive() const
+{
+    return this->active;
+}
+
 void BaseObject::setLayer(RenderLayer layer)
 {
     this->layer = layer;
+}
+
+void BaseObject::enable()
+{
+    this->active = true;
+}
+
+void BaseObject::disable()
+{
+    this->active = false;
 }
