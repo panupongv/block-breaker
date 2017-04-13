@@ -79,7 +79,22 @@ Scene* Scene::getNextScene() const
 
 void Scene::addObject(BaseObject* object)
 {
-    this->objects.push_back(object);
+    objects.push_back(object);
+    
+    for(int i = objects.size()-1 ; i >= 1 ; --i)
+    {
+        RenderLayer layer_left = objects[i-1]->getLayer();
+        RenderLayer layer_right = objects[i]->getLayer();
+        
+        if((int)layer_left > (int)layer_right)
+        {
+            BaseObject* temp = objects[i];
+            objects[i] = objects[i-1];
+            objects[i-1] = temp;
+        }
+        else
+            break;
+    }
 }
 
 void Scene::removeObject(BaseObject* object)
@@ -114,6 +129,7 @@ void Scene::draw()
 {
     for(int i = 0 ; i < this->objects.size() ; ++i)
     {
+//        cout << "draw " << this->objects[i]->getName() << endl;
         this->objects[i]->draw(this->getWindow());
     }
 }
