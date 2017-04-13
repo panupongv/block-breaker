@@ -16,6 +16,8 @@ public:
     void setFrame( int frame_id );
     void nextFrame( );
     void resetFrame( );
+    virtual void enable();
+    virtual void disable();
     
     //queries
     bool insideRect( float x, float y ) const;
@@ -35,6 +37,7 @@ public:
 private:
     sf::Sprite sprite;
     sf::Texture texture;
+    sf::Color color = sf::Color::White;
     int current_frame = 0;
     int num_row;
     int num_col;

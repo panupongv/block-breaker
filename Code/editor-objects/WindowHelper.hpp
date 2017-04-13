@@ -2,7 +2,7 @@
 
 #include "sfml.hpp"
 
-class ScreenManager
+class WindowHelper
 {
 public:
     static const int res_x = 800;

@@ -42,6 +42,18 @@ void SpriteObject::resetFrame() {
     this->applyCurrentFrame();
 }
 
+void SpriteObject::enable()
+{
+    BaseObject::enable();
+    this->setColor(this->color);
+}
+
+void SpriteObject::disable()
+{
+    //must use built-in
+    this->sprite.setColor(sf::Color(0,0,0,0));
+    BaseObject::disable();
+}
 bool SpriteObject::insideRect(float x, float y) const
 {
     sf::FloatRect rect = this->sprite.getGlobalBounds();
@@ -118,7 +130,8 @@ void SpriteObject::update(void *ptr)
 
 void SpriteObject::draw(sf::RenderWindow &window)
 {
-    window.draw(this->sprite);
+    if(this->isActive())
+        window.draw(this->sprite);
 }
 
 void SpriteObject::setPosition(float x, float y , PositioningMode mode )
@@ -161,7 +174,10 @@ void SpriteObject::move(float offset_x, float offset_y)
 
 void SpriteObject::setColor(const sf::Color &color)
 {
-    this->getSprite().setColor(color);
+    this->color = color;
+    
+    if(this->isActive())
+        this->getSprite().setColor(this->color);
 }
 
 const sf::Color SpriteObject::getColor() const

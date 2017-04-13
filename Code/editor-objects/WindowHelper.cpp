@@ -1,8 +1,8 @@
-#include "ScreenManager.hpp"
+#include "WindowHelper.hpp"
 
 using namespace std;
 
-sf::Vector2f ScreenManager::getMousePosition(sf::RenderWindow &window)
+sf::Vector2f WindowHelper::getMousePosition(sf::RenderWindow &window)
 {
     sf::Vector2i raw_mouse_position = sf::Mouse::getPosition(window);
     
@@ -16,7 +16,7 @@ sf::Vector2f ScreenManager::getMousePosition(sf::RenderWindow &window)
 }
 
 
-sf::RenderWindow& ScreenManager::createWindow()
+sf::RenderWindow& WindowHelper::createWindow()
 {
     sf::VideoMode mode(res_x,res_y,sf::Style::Close);
     
@@ -27,7 +27,7 @@ sf::RenderWindow& ScreenManager::createWindow()
     return *window;
 }
 
-void ScreenManager::resizeWindow(sf::RenderWindow& window, int x , int y )
+void WindowHelper::resizeWindow(sf::RenderWindow& window, int x , int y )
 {
     window.setSize(sf::Vector2u(x,y));
 }

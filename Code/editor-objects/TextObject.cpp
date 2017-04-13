@@ -1,5 +1,6 @@
 #include "TextObject.hpp"
 #include "ResourcePath.hpp"
+#include <iostream>
 
 using namespace std;
 
@@ -42,6 +43,19 @@ void TextObject::setFont(std::string fontName)
        throw invalid_argument("cannot find font : " + fontName );
 }
 
+void TextObject::enable()
+{
+    BaseObject::enable();
+    this->setColor(this->color);
+}
+
+void TextObject::disable()
+{
+    //must use built in
+    textRender.setFillColor(sf::Color(0,0,0,0));
+    BaseObject::disable();
+}
+
 void TextObject::update(void *ptr)
 {
     return;
@@ -49,7 +63,12 @@ void TextObject::update(void *ptr)
 
 void TextObject::draw(sf::RenderWindow &window)
 {
-    window.draw(this->textRender);
+    if(this->isActive())
+    {
+//        cout << "draw " << getName() << endl;
+//        cout << (int)textRender.getFillColor().a << endl;
+        window.draw(this->textRender);
+    }
 }
 
 void TextObject::setPosition(float x,float y,PositioningMode mode )
@@ -93,6 +112,9 @@ void TextObject::move(float x , float y )
 
 void TextObject::setColor(const sf::Color &color)
 {
+    this->color = color;
+    
+    if(this->isActive())
     this->textRender.setFillColor(color);
 }
 

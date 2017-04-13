@@ -1,10 +1,11 @@
 #include "EventHandler.hpp"
-#include "ScreenManager.hpp"
+#include "WindowHelper.hpp"
 
 using namespace std;
 
 //EVENT HANDLER
 EventHandler::EventHandler( sf::RenderWindow& window )
+: window(window)
 {
     this->mouseEventHandler = new MouseEventHandler(window);
     this->keyEventHandler = new KeyEventHandler(window);
@@ -28,14 +29,61 @@ void EventHandler::poll(sf::Event &event)
         closed = true;
 }
 
+bool EventHandler::cursorOn(const BaseObject* object) const
+{
+    return cursorOn(*object);
+}
+
+bool EventHandler::cursorOn(const BaseObject &object) const
+{
+    if(object.isActive() == false)
+        return false;
+    return cursorOn(object.getRect());
+}
+
+bool EventHandler::cursorOn(const sf::FloatRect &rect) const
+{
+    sf::Vector2f mouse_pos = WindowHelper::getMousePosition(window);
+    return rect.contains(mouse_pos);
+}
+
+bool EventHandler::gotClickOn(const BaseObject* object , sf::Mouse::Button button) const
+{
+    return gotClickOn(*object,button);
+}
+
 bool EventHandler::gotClickOn(const BaseObject& object , sf::Mouse::Button button) const
 {
+    if(object.isActive() == false)
+        return false;
+    
     return gotClickOn(object.getRect(),button);
 }
 
 bool EventHandler::gotClickOn(const sf::FloatRect &rect, sf::Mouse::Button button) const
 {
     return mouseEventHandler->gotClickOn(rect,button);
+}
+
+bool EventHandler::gotDragOn(const BaseObject* object,sf::Mouse::Button button) const
+{
+    return this->gotDragOn(*object , button);
+}
+
+bool EventHandler::gotDragOn(const BaseObject &object,sf::Mouse::Button button) const
+{
+    if(object.isActive() == false)
+        return false;
+    
+    return this->gotDragOn(object.getRect(),button);
+}
+
+bool EventHandler::gotDragOn(const sf::FloatRect &rect , sf::Mouse::Button button) const
+{
+    bool mouse_down = sf::Mouse::isButtonPressed(button);
+    bool mouse_on = cursorOn(rect);
+    
+    return mouse_on && mouse_down;
 }
 
 bool EventHandler::gotKey(sf::Keyboard::Key key) const
@@ -134,7 +182,7 @@ bool MouseEventHandler::gotClickOn(const sf::FloatRect rect ,sf::Mouse::Button b
     if(any(sf::Event::EventType::MouseButtonPressed))
         if(any_mouse(button))
         {
-            sf::Vector2f mouse_pos = ScreenManager::getMousePosition(window);
+            sf::Vector2f mouse_pos = WindowHelper::getMousePosition(window);
     
             return rect.contains( mouse_pos );
         }

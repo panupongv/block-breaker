@@ -12,6 +12,8 @@ public:
     void setText(std::string text);
     void setSize(int font_size);
     void setFont(std::string fontName);
+    virtual void enable();
+    virtual void disable();
     
     //getters
     std::string getText() const;
@@ -34,4 +36,5 @@ public:
 private:
     sf::Font font;
     sf::Text textRender;
+    sf::Color color = sf::Color::White;
 };

@@ -3,7 +3,16 @@
 #include "sfml.hpp"
 #include <string>
 
-enum RenderLayer {Background , Midground , Foreground , Top};
+enum RenderLayer {
+    BackgroundLayer ,
+    EditingSpaceBackgroundLayer,
+    DraftBlockLayer,
+    BlockLayer,
+    PinLayer,
+    PanelBackgroundLayer,
+    PanelElementLayer,
+    TitleLayer
+};
 enum PositioningMode { TopLeft , Center };
 
 class BaseObject
@@ -15,9 +24,12 @@ public:
     //getters
     std::string getName() const;
     RenderLayer getLayer() const;
+    virtual bool isActive() const;
     
-    //setters
+    //setters - mutators
     void setLayer(RenderLayer layer);
+    virtual void enable();
+    virtual void disable();
     
     //abstract setters,mutators
     virtual void setPosition(float x, float y, PositioningMode mode = PositioningMode::TopLeft) = 0;
@@ -35,5 +47,6 @@ public:
     
 private: 
     std::string name = "unnamed base object";
-    RenderLayer layer = RenderLayer::Background;
+    RenderLayer layer = RenderLayer::BackgroundLayer;
+    bool active = true;
 };
