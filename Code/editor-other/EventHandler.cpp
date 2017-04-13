@@ -36,6 +36,8 @@ bool EventHandler::cursorOn(const BaseObject* object) const
 
 bool EventHandler::cursorOn(const BaseObject &object) const
 {
+    if(object.isActive() == false)
+        return false;
     return cursorOn(object.getRect());
 }
 
@@ -52,6 +54,9 @@ bool EventHandler::gotClickOn(const BaseObject* object , sf::Mouse::Button butto
 
 bool EventHandler::gotClickOn(const BaseObject& object , sf::Mouse::Button button) const
 {
+    if(object.isActive() == false)
+        return false;
+    
     return gotClickOn(object.getRect(),button);
 }
 
@@ -67,6 +72,9 @@ bool EventHandler::gotDragOn(const BaseObject* object,sf::Mouse::Button button) 
 
 bool EventHandler::gotDragOn(const BaseObject &object,sf::Mouse::Button button) const
 {
+    if(object.isActive() == false)
+        return false;
+    
     return this->gotDragOn(object.getRect(),button);
 }
 

@@ -42,6 +42,18 @@ void TextObject::setFont(std::string fontName)
        throw invalid_argument("cannot find font : " + fontName );
 }
 
+void TextObject::enable()
+{
+    BaseObject::enable();
+    this->setColor(this->color);
+}
+
+void TextObject::disable()
+{
+    this->setColor(sf::Color(0,0,0,0));
+    BaseObject::disable();
+}
+
 void TextObject::update(void *ptr)
 {
     return;
@@ -93,6 +105,9 @@ void TextObject::move(float x , float y )
 
 void TextObject::setColor(const sf::Color &color)
 {
+    this->color = color;
+    
+    if(this->isActive())
     this->textRender.setFillColor(color);
 }
 
