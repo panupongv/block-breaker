@@ -12,7 +12,8 @@ void EditorScene::update(EventHandler& eHandler)
     Scene::update(eHandler);
     
     //implement update here
-//    brick->move(10, 10);
+    if(eHandler.gotDragOn(*stage_title))
+        cout << "drag on text : " << rand()%100 << endl;
     
     this->draft_block->update( NULL );
 }

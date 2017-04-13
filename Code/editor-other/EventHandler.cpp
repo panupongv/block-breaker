@@ -5,6 +5,7 @@ using namespace std;
 
 //EVENT HANDLER
 EventHandler::EventHandler( sf::RenderWindow& window )
+: window(window)
 {
     this->mouseEventHandler = new MouseEventHandler(window);
     this->keyEventHandler = new KeyEventHandler(window);
@@ -36,6 +37,20 @@ bool EventHandler::gotClickOn(const BaseObject& object , sf::Mouse::Button butto
 bool EventHandler::gotClickOn(const sf::FloatRect &rect, sf::Mouse::Button button) const
 {
     return mouseEventHandler->gotClickOn(rect,button);
+}
+
+bool EventHandler::gotDragOn(const BaseObject &object,sf::Mouse::Button button) const
+{
+    return this->gotDragOn(object.getRect(),button);
+}
+
+bool EventHandler::gotDragOn(const sf::FloatRect &rect , sf::Mouse::Button button) const
+{
+    sf::Vector2f mouse_pos = WindowHelper::getMousePosition(window);
+    bool mouse_down = sf::Mouse::isButtonPressed(button);
+    bool mouse_on = rect.contains(mouse_pos);
+    
+    return mouse_on && mouse_down;
 }
 
 bool EventHandler::gotKey(sf::Keyboard::Key key) const
