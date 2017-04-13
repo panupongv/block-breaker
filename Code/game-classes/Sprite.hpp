@@ -31,6 +31,7 @@ public:
 	float bottom() const;
 	sf::Vector2f center() const;
 
+	bool collide(const sf::FloatRect& rect);
 	bool collide(Sprite& another_sprite);
 	bool collideHorizontally(Sprite& another_sprite);
 	bool collideVertically(Sprite& another_sprite);

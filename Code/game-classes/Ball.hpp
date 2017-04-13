@@ -24,7 +24,11 @@ private:
 	float vyByAngle();
 private:
 	bool started;
+	int hit_counter;
+	static constexpr int hit_to_accelerate = 3;
+
 	int y_direction;
 	float speed = 5;
+	float speed_limit = 10;
 	float angle;
 };

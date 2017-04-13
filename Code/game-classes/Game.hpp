@@ -31,10 +31,12 @@ public:
 	void add(Item* item);
 	void pop(Ball* ball);
 	void pop(Block* block);
+	void explodeBlocks(float x, float y);
 	Player* getPlayer();
-	std::vector<Sprite*> getSpriteList();
-	std::vector<Block*> getBlockList();
-	sf::Vector2f getWindowSize() const;
+	std::vector<Block*> getBlockList() const;
+	std::vector<Ball*> getBallList() const;
+	std::vector<Item*> getItemList() const;
+	//sf::Vector2f getWindowSize() const;
 	sf::Vector2f getMousePosition() const;
 public:
 	static const int left_bound = 100;

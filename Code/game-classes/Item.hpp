@@ -1,16 +1,19 @@
 #pragma once
 
 #include "Sprite.hpp"
-#include "Game.hpp"
-#include "Player.hpp"
 
 class Game;
 class Player;
 
+const int TYPE_NUM = 4;
+enum ItemType {ADDBALL, MARIOBALL, MACHINEGUN, EXPLOSIVE};
+
 class Item : public Sprite
 {
 public:
-	Item(Game& game, Block* block);
+	Item(Block* block);
 	void update(Game& game);
-	virtual void applyPower(Player* player);
+	void applyPower(Game& game);
+private:
+	ItemType type;
 };

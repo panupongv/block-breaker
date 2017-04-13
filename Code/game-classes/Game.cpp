@@ -15,9 +15,9 @@ Game::Game(sf::RenderWindow * window)
 		std::cout << "Game setup failed" << std::endl;
 	}
 	
-	for (int j = -1; j < 8; j++)
+	for (int i = 8; i > -2; i--)
 	{
-		generateRow(upper_bound + j * Block::block_size_y);
+		generateRow(upper_bound + i * Block::block_size_y);
 	}
 	
 }
@@ -149,19 +149,31 @@ void Game::pop(Block * block)
 		finished = true;
 }
 
-std::vector<Block*> Game::getBlockList()
+void Game::explodeBlocks(float x, float y)
+{
+	for (int i = 0; i < block_list.size(); i++)
+	{
+		if(x - 5 < block_list[i]->left() + Block::block_size_x &&
+		   x + Block::block_size_x + 10 > block_list[i]->left() &&
+		   y - 5 < block_list[i]->top() + Block::block_size_y &&
+		   y + Block::block_size_y + 10 > block_list[i]->top())
+			pop(block_list[i]);
+	}
+}
+
+std::vector<Block*> Game::getBlockList() const
 {
 	return block_list;
 }
 
-std::vector<Sprite*> Game::getSpriteList()
+std::vector<Ball*> Game::getBallList() const
 {
-	return sprite_list;
+	return ball_list;
 }
 
-sf::Vector2f Game::getWindowSize() const
+std::vector<Item*> Game::getItemList() const
 {
-	return sf::Vector2f(window->getSize().x, window->getSize().y);
+	return item_list;
 }
 
 sf::Vector2f Game::getMousePosition() const
@@ -171,7 +183,7 @@ sf::Vector2f Game::getMousePosition() const
 
 bool Game::setup()
 {
-	player = new Player();
+	player = new Player("catpad.png");
 	sprite_list.push_back(player);
 	ball_list.push_back(new Ball());
 	sprite_list.push_back(ball_list.back());
@@ -226,7 +238,8 @@ void Game::event_input()
 
 void Game::generateRow(int y)
 {
-	for (int i = 0; i < game_width / Block::block_size_x; i++)
+	int column_num = game_width / Block::block_size_x;
+	for (int i = 0; i < column_num; i++)
 	{
 		Block* new_block;//= new Block("block2.png", left_bound + i * Block::block_size_x, upper_bound - Block::block_size_y, true);
 		if (rand() % 8 == 0)

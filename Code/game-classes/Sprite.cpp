@@ -69,6 +69,11 @@ sf::Vector2f Sprite::center() const
 						sprite.getPosition().y + (frame_height / 2.0));
 }
 
+bool Sprite::collide(const sf::FloatRect & rect)
+{
+	return sprite.getGlobalBounds().intersects(rect);
+}
+
 bool Sprite::collide(Sprite & another_sprite)
 {
 	return sprite.getGlobalBounds().intersects(another_sprite.sprite.getGlobalBounds());

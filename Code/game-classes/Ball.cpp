@@ -4,7 +4,7 @@ Ball::Ball()
 	:
 	Sprite("ball.png", 20, 20, 0, 0),
 	angle((rand() % 60) - 30),
-	//angle(90),
+	hit_counter(0),
 	started(false)
 {
 		//Sprite::Sprite("ball.png", 70, 70, 250, 500);
@@ -28,10 +28,12 @@ void Ball::update(Game& game)
 		checkEdgeCollision(game);
 		checkBlockCollision(game);
 		checkPlayerCollision(game);
+		if (hit_counter == hit_to_accelerate)
+			accelerate();
 	}
 	else
 	{ 
-		setCenter(game.getMousePosition().x, game.getPlayer()->top() - getFrameHeight()/2 + 1);
+		setCenter(game.getMousePosition().x, game.getPlayer()->getHitLine() - getFrameHeight()/2 + 1);
 	}
 }
 
@@ -41,7 +43,6 @@ void Ball::checkEdgeCollision(Game & game)
 	{
 		//angle = 180 - angle;
 		setMovement(-getVX(), getVY());
-		std::cout << (angle *= -1) << std::endl;
 	}
 	if ((top() <= game.upper_bound && getVY() < 0))
 	{
@@ -78,6 +79,7 @@ void Ball::checkBlockCollision(Game& game)
 				setMovement(-getVX(), getVY());
 				angle *= -1;
 			}
+			hit_counter++;
 			block_list[i]->hitAction(game);
 			break;
 		}
@@ -87,43 +89,40 @@ void Ball::checkBlockCollision(Game& game)
 void Ball::checkPlayerCollision(Game& game)
 {
 	Player* player = game.getPlayer();
-	if (bottom() >= player->getHitLine() && getVY() > 0)
+	if (bottom() >= player->getHitLine() && bottom() <= player->getHitLine() + player->getFrameHeight() / 2.0f && getVY() > 0)
 	{
+		y_direction = -1;
 		switch (player->getHitZone(center().x))
 		{
 		case 1: 
 		{
-			y_direction = -1;
 			angle = -60; setMovement(vxByAngle(), vyByAngle()); 
 		}break;
 		case 2:
 		{
-			y_direction = -1;
 			angle = -30; setMovement(vxByAngle(), vyByAngle());
 		}break;
 		case 3:
 		{
-			y_direction = -1;
 			setMovement(getVX(), -getVY());
 		}break;
 		case 4:
 		{
-			y_direction = -1;
-			angle = 0; setMovement(vxByAngle(), vyByAngle());
+			angle = (static_cast<int>(angle) % 90) * 0.75f; setMovement(vxByAngle(), vyByAngle());
 		}break;
 		case 5: 
 		{
-			y_direction = -1;
 			angle = 30; setMovement(vxByAngle(), vyByAngle());
 		}break;
 		case 6:
 		{
-			y_direction = -1;
 			angle = 60; setMovement(vxByAngle(), vyByAngle());
 		}break;
-		default: break;
+		default: y_direction = -1;
+			break;
 		}
-		std::cout << angle << std::endl;
+		if(y_direction == -1)
+			hit_counter++;
 		/*switch (player->getHitZone(center().x))
 		{
 		case 1: setMovement(-abs(getVX() * 2), -(getVY() - 3));
@@ -153,7 +152,9 @@ void Ball::launch()
 
 void Ball::accelerate()
 {
-
+	if (speed < speed_limit)
+		speed += 0.5f;
+	hit_counter = 0;
 }
 
 float Ball::vxByAngle()
