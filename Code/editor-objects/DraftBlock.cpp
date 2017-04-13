@@ -4,7 +4,7 @@
 using namespace std;
 
 DraftBlock::DraftBlock( string textureName , sf::RenderWindow& window , sf::Color color )
-:SpriteObject("draft block" , RenderLayer::Foreground , textureName )
+:SpriteObject("draft block" , RenderLayer::DraftBlockLayer , textureName )
 {
     this->setColor( color );
     this->window = &window;
