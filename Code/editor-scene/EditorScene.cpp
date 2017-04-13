@@ -12,8 +12,11 @@ void EditorScene::update(EventHandler& eHandler)
     Scene::update(eHandler);
     
     //implement update here
-    if(eHandler.gotDragOn(*stage_title))
-        cout << "drag on text : " << rand()%100 << endl;
+//    if(eHandler.cursorOn(stage_title))
+//        cout << "drag on text : " << rand()%100 << endl;
+    
+//    if(eHandler.cursorOn(background))
+//        cout << "cursor on bg : " << rand()%1000 << endl;
     
     this->draft_block->update( NULL );
 }

@@ -29,6 +29,27 @@ void EventHandler::poll(sf::Event &event)
         closed = true;
 }
 
+bool EventHandler::cursorOn(const BaseObject* object) const
+{
+    return cursorOn(*object);
+}
+
+bool EventHandler::cursorOn(const BaseObject &object) const
+{
+    return cursorOn(object.getRect());
+}
+
+bool EventHandler::cursorOn(const sf::FloatRect &rect) const
+{
+    sf::Vector2f mouse_pos = WindowHelper::getMousePosition(window);
+    return rect.contains(mouse_pos);
+}
+
+bool EventHandler::gotClickOn(const BaseObject* object , sf::Mouse::Button button) const
+{
+    return gotClickOn(*object,button);
+}
+
 bool EventHandler::gotClickOn(const BaseObject& object , sf::Mouse::Button button) const
 {
     return gotClickOn(object.getRect(),button);
@@ -39,6 +60,11 @@ bool EventHandler::gotClickOn(const sf::FloatRect &rect, sf::Mouse::Button butto
     return mouseEventHandler->gotClickOn(rect,button);
 }
 
+bool EventHandler::gotDragOn(const BaseObject* object,sf::Mouse::Button button) const
+{
+    return this->gotDragOn(*object , button);
+}
+
 bool EventHandler::gotDragOn(const BaseObject &object,sf::Mouse::Button button) const
 {
     return this->gotDragOn(object.getRect(),button);
@@ -46,9 +72,8 @@ bool EventHandler::gotDragOn(const BaseObject &object,sf::Mouse::Button button) 
 
 bool EventHandler::gotDragOn(const sf::FloatRect &rect , sf::Mouse::Button button) const
 {
-    sf::Vector2f mouse_pos = WindowHelper::getMousePosition(window);
     bool mouse_down = sf::Mouse::isButtonPressed(button);
-    bool mouse_on = rect.contains(mouse_pos);
+    bool mouse_on = cursorOn(rect);
     
     return mouse_on && mouse_down;
 }
