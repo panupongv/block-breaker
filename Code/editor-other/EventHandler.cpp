@@ -1,5 +1,5 @@
 #include "EventHandler.hpp"
-#include "ScreenManager.hpp"
+#include "WindowHelper.hpp"
 
 using namespace std;
 
@@ -134,7 +134,7 @@ bool MouseEventHandler::gotClickOn(const sf::FloatRect rect ,sf::Mouse::Button b
     if(any(sf::Event::EventType::MouseButtonPressed))
         if(any_mouse(button))
         {
-            sf::Vector2f mouse_pos = ScreenManager::getMousePosition(window);
+            sf::Vector2f mouse_pos = WindowHelper::getMousePosition(window);
     
             return rect.contains( mouse_pos );
         }
