@@ -7,6 +7,7 @@
 #include "SpriteObject.hpp"
 #include "DraftBlock.hpp"
 #include "EventHandler.hpp"
+#include "OptionPanel.hpp"
 
 class EditorScene : public Scene
 {
@@ -21,8 +22,8 @@ protected:
     virtual void init();
     
 private:
+    OptionPanel panel;
     SpriteObject* background;
-    SpriteObject* option_panel;
     TextObject* stage_title;
     DraftBlock* draft_block;
 };
