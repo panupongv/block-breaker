@@ -9,7 +9,6 @@ Game::Game(sf::RenderWindow * window)
 	current_color(0),
 	lives(1)
 {
-	std::cout << sizeof(Block) << std::endl;
 	srand(time(NULL));
 	if (!setup())
 	{
@@ -30,6 +29,7 @@ Game::Game(sf::RenderWindow * window, std::string file_name)
 	endless(false),
 	lives(1)
 {
+	srand(time(NULL));
 	StageData stage_data(file_name);
 	if (!stage_data.load())
 	{

@@ -14,12 +14,17 @@ public:
 	Ball();
 	Ball(float x, float y);
 	void update(Game& game);
+	void checkEdgeCollision(Game& game);
 	void checkBlockCollision(Game& game);
 	void checkPlayerCollision(Game& game);
 	void launch();
 	void accelerate();
 private:
+	float vxByAngle();
+	float vyByAngle();
+private:
 	bool started;
-	float launch_speed_x = 3;
-	float launch_speed_y = -5;
+	int y_direction;
+	float speed = 5;
+	float angle;
 };

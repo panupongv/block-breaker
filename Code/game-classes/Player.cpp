@@ -20,15 +20,20 @@ int Player::getHitLine() const
 
 int Player::getHitZone(float x) const
 {
-	if (center().x - 60 < x && x < center().x - 50)
+	float center_x = center().x;
+	if (center_x - 60 <= x && x < center_x - 50)
 		return 1;
-	if (center().x - 50 < x && x < center().x - 30)
+	if (center_x - 50 <= x && x < center_x - 30)
 		return 2;
-	if (center().x - 30 < x && x < center().x + 30)
+	if (center_x - 30 <= x && x < center_x - 5)
 		return 3;
-	if (center().x + 30 < x && x < center().x + 50)
+	if (center_x - 5 <= x && x <= center_x + 5)
 		return 4;
-	if (center().x + 50 < x && x < center().x + 60)
+	if (center_x + 5 < x && x <= center_x + 30)
+		return 3;
+	if (center_x + 30 < x && x <= center_x + 50)
 		return 5;
+	if (center_x + 50 < x && x <= center_x + 60)
+		return 6;
 	return 0;
 }
