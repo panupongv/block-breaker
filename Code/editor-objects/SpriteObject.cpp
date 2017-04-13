@@ -50,7 +50,8 @@ void SpriteObject::enable()
 
 void SpriteObject::disable()
 {
-    this->setColor(sf::Color(0,0,0,0));
+    //must use built-in
+    this->sprite.setColor(sf::Color(0,0,0,0));
     BaseObject::disable();
 }
 bool SpriteObject::insideRect(float x, float y) const

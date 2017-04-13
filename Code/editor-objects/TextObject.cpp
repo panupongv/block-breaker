@@ -1,5 +1,6 @@
 #include "TextObject.hpp"
 #include "ResourcePath.hpp"
+#include <iostream>
 
 using namespace std;
 
@@ -50,7 +51,8 @@ void TextObject::enable()
 
 void TextObject::disable()
 {
-    this->setColor(sf::Color(0,0,0,0));
+    //must use built in
+    textRender.setFillColor(sf::Color(0,0,0,0));
     BaseObject::disable();
 }
 
@@ -61,7 +63,12 @@ void TextObject::update(void *ptr)
 
 void TextObject::draw(sf::RenderWindow &window)
 {
-    window.draw(this->textRender);
+    if(this->isActive())
+    {
+//        cout << "draw " << getName() << endl;
+//        cout << (int)textRender.getFillColor().a << endl;
+        window.draw(this->textRender);
+    }
 }
 
 void TextObject::setPosition(float x,float y,PositioningMode mode )

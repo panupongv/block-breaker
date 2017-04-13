@@ -5,23 +5,23 @@
 
 using namespace std;
 
-EditorScene::EditorScene( sf::RenderWindow& window ) : Scene("editor",window) { };
+EditorScene::EditorScene( sf::RenderWindow& window ) : Scene("editor",window),panel(*this) { };
 
 void EditorScene::update(EventHandler& eHandler)
 {
     Scene::update(eHandler);
     
     //implement update here
-    if(eHandler.gotClickOn(stage_title))
-    {
-        cout << "drag on text : " << rand()%100 << endl;
-        stage_title->disable();
-    }
+//    if(eHandler.gotClickOn(stage_title))
+//    {
+//        cout << "drag on text : " << rand()%100 << endl;
+//        stage_title->disable();
+//    }
     
 //    if(eHandler.cursorOn(background))
 //        cout << "cursor on bg : " << rand()%1000 << endl;
     
-    this->draft_block->update( NULL );
+    panel.update(eHandler);
 }
 
 void EditorScene::draw()
@@ -34,7 +34,7 @@ void EditorScene::init()
     this->stage_title = new TextObject
     (
         "stage text",
-        RenderLayer::Foreground,
+        RenderLayer::TitleLayer,
         "stage-title.bbstage"
     );
     this->stage_title->setPosition(300, 20 , PositioningMode::Center );
@@ -44,17 +44,10 @@ void EditorScene::init()
     this->background = new SpriteObject
     (
         "editor background" ,
-        RenderLayer::Background ,
+        RenderLayer::BackgroundLayer ,
         "editor-background.png"
     );
     
-    this->option_panel = new SpriteObject
-    (
-        "panel background" ,
-        RenderLayer::Background ,
-        "editor-panel-background.png"
-    );
-    this->option_panel->setPosition( 600, 0 );
     
     this->draft_block = new DraftBlock
     (
@@ -63,7 +56,6 @@ void EditorScene::init()
     );
     
     this->addObject(this->background);
-    this->addObject(this->option_panel);
     this->addObject(this->draft_block);
     this->addObject(this->stage_title);
 }
