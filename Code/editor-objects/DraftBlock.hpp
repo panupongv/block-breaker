@@ -18,6 +18,7 @@ public:
     
     //polymorphysm
     virtual void update( void* ptr );
+    virtual void draw( sf::RenderWindow& window );
     
 private: 
     const float transparency = 0.5;
@@ -25,4 +26,5 @@ private:
     sf::RenderWindow* window;
     
     void followCursor();
+    void snapToGrid();
 };

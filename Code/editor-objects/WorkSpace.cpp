@@ -1,6 +1,6 @@
 #include "WorkSpace.hpp"
 
-WorkSpace::WorkSpace(Scene& scene)
+WorkSpace::WorkSpace(Scene& scene,sf::RenderWindow& window)
 {
     background = new SpriteObject
     (
@@ -11,7 +11,14 @@ WorkSpace::WorkSpace(Scene& scene)
     
     background->setColor(sf::Color(0,0,0,120));
     
+    this->draft_block = new DraftBlock
+    (
+     "brick.png",
+     window
+     );
+    
     scene.addObject(background);
+    scene.addObject(draft_block);
 }
 
 void WorkSpace::update(EventHandler &e)
