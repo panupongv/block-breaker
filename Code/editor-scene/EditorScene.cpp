@@ -5,7 +5,7 @@
 
 using namespace std;
 
-EditorScene::EditorScene( sf::RenderWindow& window ) : Scene("editor",window),panel(*this) { };
+EditorScene::EditorScene( sf::RenderWindow& window ) : Scene("editor",window),panel(*this),space(*this) { };
 
 void EditorScene::update(EventHandler& eHandler)
 {
@@ -22,8 +22,10 @@ void EditorScene::update(EventHandler& eHandler)
 //        cout << "cursor on bg : " << rand()%1000 << endl;
     
     panel.update(eHandler);
-    PanelOperation panelOperation = panel.getUpdateOperation();
+    UpdateOperation panelOperation = panel.getUpdateOperation();
     
+    space.update(eHandler);
+    UpdateOperation spaceOperation = space.getUpdateOperation();
     
 }
 

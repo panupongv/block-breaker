@@ -6,7 +6,7 @@
 
 enum OptionMode { Load , Edit , Save };
 
-enum PanelOperation { None, NewStage , LoadStage , SaveFile , ReplaceFile , Exit };
+enum UpdateOperation { None, NewStage , LoadStage , SaveFile , ReplaceFile , Exit };
 
 class OptionPanel
 {
@@ -14,7 +14,7 @@ public:
     OptionPanel(Scene& scene);
     void update(EventHandler& eHandler);
     OptionMode getCurrentMode() const;
-    PanelOperation getUpdateOperation( ) const;
+    UpdateOperation getUpdateOperation( ) const;
     
 private:
     void collectButton(TextObject* button,Scene& scene);
@@ -31,7 +31,7 @@ private:
     const int left_edge = 615;
     
     std::string file_name;
-    PanelOperation operation = PanelOperation::None;
+    UpdateOperation operation = None;
     
     std::vector<TextObject*> buttons;
     std::vector<BaseObject*> elements;
