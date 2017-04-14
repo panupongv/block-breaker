@@ -17,7 +17,7 @@ public:
     virtual void setColor( sf::Color color );
     
     //polymorphysm
-    virtual void update( void* ptr );
+    virtual void update( EventHandler& e );
     virtual void draw( sf::RenderWindow& window );
     
 private: 

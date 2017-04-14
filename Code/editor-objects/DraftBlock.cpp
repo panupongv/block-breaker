@@ -26,9 +26,9 @@ void DraftBlock::setColor(sf::Color color)
     SpriteObject::setColor(color);
 }
 
-void DraftBlock::update(void *ptr)
+void DraftBlock::update( EventHandler& e )
 {
-    SpriteObject::update(ptr);
+    SpriteObject::update(e);
     
     followCursor();
     snapToGrid();

@@ -3,6 +3,7 @@
 #include "TextObject.hpp"
 #include "Scene.hpp"
 #include "EventHandler.hpp"
+#include "InputField.hpp"
 
 enum OptionMode { Load , Edit , Save };
 
@@ -38,6 +39,8 @@ private:
     SpriteObject* background;
     OptionMode mode = OptionMode::Load;
     OptionMode prevMode = OptionMode::Load;
+    
+    InputField* input_field;
     
     TextObject* button_new;
     TextObject* button_load;

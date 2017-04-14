@@ -123,7 +123,7 @@ int SpriteObject::getCurrentColumn() const
     return this->current_frame % this->num_col;
 }
 
-void SpriteObject::update(void *ptr)
+void SpriteObject::update( EventHandler& e)
 {
     return;
 }

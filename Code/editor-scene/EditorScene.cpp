@@ -20,9 +20,23 @@ void EditorScene::update(EventHandler& eHandler)
     
 //    if(eHandler.cursorOn(background))
 //        cout << "cursor on bg : " << rand()%1000 << endl;
+//    static string s;
+//    if(eHandler.getString()[0] == 8)
+//        s.erase(s.size()-1);
+//    else
+//        s += eHandler.getString();
+//    if(eHandler.getString().empty() == false)
+//        cout << s << endl;
     
     panel.update(eHandler);
     UpdateOperation panelOperation = panel.getUpdateOperation();
+    
+    if(panelOperation == Exit)
+    {
+        flagEnded();
+        setNextScene(NULL);
+        return;
+    }
     
     space.update(eHandler);
     UpdateOperation spaceOperation = space.getUpdateOperation();

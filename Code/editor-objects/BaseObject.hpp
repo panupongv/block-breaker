@@ -1,6 +1,7 @@
 #pragma once
 
 #include "sfml.hpp"
+#include "EventHandler.hpp"
 #include <string>
 
 enum RenderLayer {
@@ -14,6 +15,8 @@ enum RenderLayer {
     TitleLayer
 };
 enum PositioningMode { TopLeft , Center };
+
+class EventHandler;
 
 class BaseObject
 {
@@ -42,7 +45,7 @@ public:
     virtual const sf::FloatRect getRect() const = 0;
     
     //polymorphism behaviors
-    virtual void update(void* ptr) = 0;
+    virtual void update(EventHandler& e) = 0;
     virtual void draw(sf::RenderWindow& window) = 0;
     
 private: 

@@ -30,7 +30,7 @@ public:
     virtual const sf::FloatRect getRect() const;
     
     //polymorphism behaviors
-    virtual void update(void* ptr);
+    virtual void update(EventHandler& e);
     virtual void draw(sf::RenderWindow &window);
     
 private:

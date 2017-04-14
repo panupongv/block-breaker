@@ -15,6 +15,14 @@ OptionPanel::OptionPanel(Scene& scene)
             "panel-bg.png"
         );
         
+        input_field = new InputField
+        (
+            "file name input",
+            RenderLayer::PanelElementLayer,
+            "input-field.png"
+        );
+        input_field->setTextColor(sf::Color::White);
+        
         button_new = new TextObject
         (
             "new button",
@@ -63,10 +71,14 @@ OptionPanel::OptionPanel(Scene& scene)
             RenderLayer::PanelElementLayer,
             "|  Exit  '_'"
         );
+        
+        
     }
     
     //Size Objects
     {
+        input_field->setTextSize(15);
+        
         button_new->setSize(char_size);
         button_load->setSize(char_size);
         button_save->setSize(char_size);
@@ -78,8 +90,11 @@ OptionPanel::OptionPanel(Scene& scene)
     
     //Position Objects
     background->setPosition(600, 0);
+    input_field->setPosition(610, 20);
 
     scene.addObject(background);
+    
+    collectElement(input_field, scene);
     collectButton(button_new,scene);
     collectButton(button_load,scene);
     collectButton(button_save,scene);
@@ -183,6 +198,7 @@ void OptionPanel::changeModeTo(OptionMode mode)
             break;
             
         case Save:
+            input_field->enable();
             button_confirm_save->enable();
             button_replace->enable();
             button_cancel->enable();
