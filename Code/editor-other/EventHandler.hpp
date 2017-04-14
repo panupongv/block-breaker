@@ -16,6 +16,10 @@ public:
     ~EventHandler();
     void poll( sf::Event& event );
     
+    float gotWheelOn(const BaseObject* object ) const;
+    float gotWheelOn(const BaseObject& object ) const;
+    float gotWheelOn(const sf::FloatRect& rect ) const;
+    
     bool gotClickOn(const BaseObject* object , sf::Mouse::Button button = sf::Mouse::Left) const;
     bool gotClickOn(const BaseObject& object , sf::Mouse::Button button = sf::Mouse::Left) const;
     bool gotClickOn(const sf::FloatRect& rect , sf::Mouse::Button button = sf::Mouse::Left) const;
@@ -66,7 +70,11 @@ public:
     MouseEventHandler(sf::RenderWindow& window);
     
     virtual bool acceptEventType(sf::Event::EventType type) const;
+    float gotWheelOn(const sf::FloatRect& rect ) const;
     bool gotClickOn(const sf::FloatRect rect , sf::Mouse::Button button = sf::Mouse::Left ) const;
+    
+private:
+    int gotScrolled() const;
 };
 
 class KeyEventHandler: public MinorEventHandler

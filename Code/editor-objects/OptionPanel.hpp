@@ -5,16 +5,18 @@
 #include "EventHandler.hpp"
 #include "InputField.hpp"
 #include "enums.hpp"
+#include "TextList.hpp"
 
 enum OptionMode { Load , Edit , Save };
 
 class OptionPanel
 {
 public:
-    OptionPanel(Scene& scene);
+    OptionPanel(Scene& scene, sf::RenderWindow& window);
     void update(EventHandler& eHandler);
     OptionMode getCurrentMode() const;
     UpdateOperation getUpdateOperation( ) const;
+    std::string getFileName() const;
     
 private:
     void collectButton(TextObject* button,Scene& scene);
@@ -40,6 +42,7 @@ private:
     OptionMode prevMode = OptionMode::Load;
     
     InputField* input_field;
+    TextList* list;
     
     TextObject* button_new;
     TextObject* button_load;
