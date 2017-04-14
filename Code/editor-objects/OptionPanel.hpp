@@ -33,7 +33,7 @@ private:
     std::string file_name;
     PanelOperation operation = PanelOperation::None;
     
-    std::vector<TextObject*> buttons;
+    std::vector<BaseObject*> buttons;
     std::vector<BaseObject*> elements;
     SpriteObject* background;
     OptionMode mode = OptionMode::Load;

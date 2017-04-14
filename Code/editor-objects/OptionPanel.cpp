@@ -202,7 +202,7 @@ void OptionPanel::update_overall(EventHandler &e)
     
     for(int i = 0 ; i < buttons.size() ; ++i)
     {
-        TextObject& button = *buttons[i];
+        BaseObject& button = *buttons[i];
         
         if(e.cursorOn(button))
         {
