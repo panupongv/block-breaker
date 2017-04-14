@@ -3,11 +3,12 @@
 #include "TextObject.hpp"
 #include "SpriteObject.hpp"
 #include "OptionPanel.hpp"
+#include "DraftBlock.hpp"
 
 class WorkSpace
 {
 public:
-    WorkSpace(Scene& scene);
+    WorkSpace(Scene& scene,sf::RenderWindow& window);
     void update(EventHandler& e);
     UpdateOperation getUpdateOperation( ) const;
     
@@ -21,6 +22,7 @@ private:
     UpdateOperation operation;
     
     SpriteObject* background;
+    DraftBlock* draft_block;
     std::vector<TextObject*> buttons;
     std::vector<BaseObject*> elements;
 };

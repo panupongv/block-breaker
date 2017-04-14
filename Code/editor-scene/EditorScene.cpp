@@ -5,7 +5,7 @@
 
 using namespace std;
 
-EditorScene::EditorScene( sf::RenderWindow& window ) : Scene("editor",window),panel(*this),space(*this) { };
+EditorScene::EditorScene( sf::RenderWindow& window ) : Scene("editor",window),panel(*this),space(*this,window) { };
 
 void EditorScene::update(EventHandler& eHandler)
 {
@@ -26,7 +26,6 @@ void EditorScene::update(EventHandler& eHandler)
     
     space.update(eHandler);
     UpdateOperation spaceOperation = space.getUpdateOperation();
-    
 }
 
 void EditorScene::draw()
@@ -43,7 +42,7 @@ void EditorScene::init()
         "stage-title.bbstage"
     );
     this->stage_title->setPosition(300, 20 , PositioningMode::Center );
-    this->stage_title->setColor(sf::Color::White);
+    this->stage_title->setColor(sf::Color::Black);
     this->stage_title->setSize( 30 );
     
     this->background = new SpriteObject
@@ -54,14 +53,7 @@ void EditorScene::init()
     );
     
     
-    this->draft_block = new DraftBlock
-    (
-        "brick.png",
-        this->getWindow()
-    );
-    
     this->addObject(this->background);
-    this->addObject(this->draft_block);
     this->addObject(this->stage_title);
 }
 

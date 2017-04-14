@@ -112,6 +112,9 @@ void Scene::removeObject(BaseObject* object)
 
 void Scene::update(EventHandler& eHandler)
 {
+    for(int i = 0 ; i < objects.size() ; i++)
+        objects[i]->update(NULL);
+    
     if(isStarting())
     {
         begin();
