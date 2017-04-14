@@ -56,7 +56,7 @@ void TextObject::disable()
     BaseObject::disable();
 }
 
-void TextObject::update(void *ptr)
+void TextObject::update(EventHandler& e)
 {
     return;
 }

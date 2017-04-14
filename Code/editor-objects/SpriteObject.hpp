@@ -31,7 +31,7 @@ public:
     virtual void move( float offset_x, float offset_y );
     
     //polymorphysm
-    virtual void update( void* ptr );
+    virtual void update(EventHandler& e );
     virtual void draw( sf::RenderWindow& window );
     
 private:

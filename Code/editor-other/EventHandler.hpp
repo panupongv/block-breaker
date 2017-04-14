@@ -8,6 +8,7 @@ class MinorEventHandler;
 class MouseEventHandler;
 class KeyEventHandler;
 
+class BaseObject;
 class EventHandler
 {
 public:
