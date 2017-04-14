@@ -36,7 +36,7 @@ public:
 	bool collideHorizontally(Sprite& another_sprite);
 	bool collideVertically(Sprite& another_sprite);
 
-	bool isAlive() const;
+	//bool isAlive() const;
 	bool isMoving() const;
 
 	float getVX() const;
@@ -44,7 +44,10 @@ public:
 
 	void setPosition(float x, float y);
 	void setCenter(float x, float y);
+	void move();
 	void move(float x, float y);
+	void setVX(float vx);
+	void setVY(float vy);
 	void setMovement(float x, float y);
 
 	void setColor(const sf::Color& color);
@@ -58,6 +61,8 @@ private:
 
 	int frame_width;
 	int frame_height;
+	int frame_number;
+	int current_frame;
 
 	float vx;
 	float vy;

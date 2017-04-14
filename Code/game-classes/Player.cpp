@@ -11,7 +11,9 @@ Player::Player(std::string texture_name)
 
 void Player::update(Game& game)
 {
+	latest_pos = center().x;
 	setCenter(game.getMousePosition().x, hit_line + getFrameHeight() / 2);
+	delta_x = center().x - latest_pos;
 }
 
 int Player::getHitLine() const
@@ -38,6 +40,11 @@ int Player::getHitZone(float x) const
 	if (center_x + frame_width * 0.4f < x && x <= center_x + frame_width * 0.5f)
 		return 6;
 	return 0;
+}
+
+float Player::getDeltaX() const
+{
+	return delta_x;
 }
 
 int Player::getWidthByName(const std::string & texture_name) const

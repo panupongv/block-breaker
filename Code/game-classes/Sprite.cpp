@@ -9,7 +9,10 @@ Sprite::Sprite(std::string texture_name, int frame_width, int frame_height, floa
 Sprite::Sprite(std::string texture_name, int frame_width, int frame_height, float initial_x, float initial_y, float vx, float vy)
 	:
 	vx(vx),
-	vy(vy)
+	vy(vy),
+	frame_width(frame_width),
+	frame_height(frame_height),
+	current_frame(0)
 {
 	if (!texture.loadFromFile("block-breaker\\Resources\\" + texture_name))
 	{
@@ -18,14 +21,10 @@ Sprite::Sprite(std::string texture_name, int frame_width, int frame_height, floa
 		exit(0);
 	}
 	sprite.setTexture(texture);
-
-	sprite.setScale(sf::Vector2f(static_cast<float>(frame_width) / texture.getSize().x, static_cast<float>(frame_height) / texture.getSize().y));
+	sprite.setTextureRect(sf::IntRect(current_frame * frame_width, 0, frame_width, frame_height));
 	setPosition(initial_x, initial_y);
-	//sprite.setTextureRect(sf::IntRect(current_frame * frame_width, 0, frame_width, frame_height));
-	
-	this->frame_width = static_cast<int>(frame_width * sprite.getScale().x);
-	this->frame_height = static_cast<int>(frame_height * sprite.getScale().y);
 
+	frame_number = texture.getSize().x / frame_width;
 }
 
 void Sprite::draw(sf::RenderWindow & window) const
@@ -65,18 +64,32 @@ float Sprite::bottom() const
 
 sf::Vector2f Sprite::center() const
 {
-	return sf::Vector2f(sprite.getPosition().x + (frame_width/ 2.0),
-						sprite.getPosition().y + (frame_height / 2.0));
+	return sf::Vector2f(sprite.getPosition().x + (frame_width/ 2.0f),
+						sprite.getPosition().y + (frame_height / 2.0f));
 }
 
 bool Sprite::collide(const sf::FloatRect & rect)
 {
-	return sprite.getGlobalBounds().intersects(rect);
+	try
+	{
+		return sprite.getGlobalBounds().intersects(rect);
+	}
+	catch (...)
+	{
+		return false;
+	}
 }
 
 bool Sprite::collide(Sprite & another_sprite)
 {
-	return sprite.getGlobalBounds().intersects(another_sprite.sprite.getGlobalBounds());
+	try
+	{
+		return sprite.getGlobalBounds().intersects(another_sprite.sprite.getGlobalBounds());
+	}
+	catch (...)
+	{
+		return false;
+	}
 }
 
 bool Sprite::collideHorizontally(Sprite & another_sprite)
@@ -101,11 +114,11 @@ float Sprite::getVY() const
 	return vy;
 }
 
-bool Sprite::isAlive() const
-{
-	return alive;
-}
-
+//bool Sprite::isAlive() const
+//{
+//	return alive;
+//}
+//
 bool Sprite::isMoving() const
 {
 	return moving;
@@ -121,9 +134,24 @@ void Sprite::setCenter(float x, float y)
 	setPosition(x - frame_width / 2.0f, y - frame_height / 2.0f);
 }
 
+void Sprite::move()
+{
+	sprite.move(vx, vy);
+}
+
 void Sprite::move(float x, float y)
 {
 	sprite.move(x, y);
+}
+
+void Sprite::setVX(float x)
+{
+	this->vx = x;
+}
+
+void Sprite::setVY(float y)
+{
+	this->vy = y;
 }
 
 void Sprite::setMovement(float x, float y)

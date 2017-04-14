@@ -12,11 +12,14 @@ public:
 	void update(Game& game);
 	int getHitLine() const;
 	int getHitZone(float x) const;
+	float getDeltaX() const;
 private:
 	int getWidthByName(const std::string& texture_name) const;
 	int getHeightByName(const std::string& texture_name) const;
 	int getHitlineByName(const std::string& texture_name) const;
 private:
-	unsigned int status;
+	//unsigned int status;
 	const int hit_line;
+	float latest_pos;
+	float delta_x;
 };

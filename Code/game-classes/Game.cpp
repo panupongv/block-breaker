@@ -71,7 +71,10 @@ void Game::run()
 		event_input();
 		frame_passed++;
 		if (frame_passed == static_cast<int>(Block::block_size_y / Block::move_speed) * Block::frame_to_move)
+		{
 			generateRow(upper_bound - Block::block_size_y);
+			std::cout << block_list.size() << std::endl;
+		}
 	}
 	std::cout << "Game ended" << std::endl;
 }
@@ -80,14 +83,13 @@ void Game::add(Ball * ball)
 {
 	ball_list.push_back(ball);
 	sprite_list.push_back(ball);
-	std::cout << ball->left() << ", " << ball->top() << std::endl;
+	//std::cout << ball->left() << ", " << ball->top() << std::endl;
 }
 
 void Game::add(Item * item)
 {
 	item_list.push_back(item);
 	sprite_list.push_back(item);
-
 }
 
 void Game::pop(Ball * ball)
@@ -109,7 +111,6 @@ void Game::pop(Ball * ball)
 			delete ball;
 			ball = NULL;
 			ball_list.erase(ball_list.begin() + i);
-			//std::cout << "POP BLOCK" << std::endl;
 			break;
 		}
 	}
@@ -129,7 +130,7 @@ void Game::pop(Block * block)
 		if (sprite_list[i] == block)
 		{
 			sprite_list.erase(sprite_list.begin() + i);
-			break;
+			//break;
 		}
 	}
 
@@ -141,23 +142,54 @@ void Game::pop(Block * block)
 			delete block;
 			block = NULL;
 			block_list.erase(block_list.begin() + i);
-			//std::cout << "POP BLOCK" << std::endl;
-			break;
+			//break;
 		}
 	}
 	if (!endless && block_list.empty())
 		finished = true;
 }
 
+void Game::pop(Item * item)
+{
+	for (int i = 0; i < sprite_list.size(); i++)
+	{
+		if (sprite_list[i] == item)
+		{
+			sprite_list.erase(sprite_list.begin() + i);
+			//break;
+		}
+	}
+
+	//const int block_num = block_list.size();
+	for (int i = 0; i < item_list.size(); i++)
+	{
+		if (item_list[i] == item)
+		{
+			delete item;
+			item = NULL;
+			item_list.erase(item_list.begin() + i);
+			//break;
+		}
+	}
+}
+
+void Game::applyMarioBall()
+{
+	for (int i = 0; i < ball_list.size(); i++)
+		ball_list[i]->marioBall();
+}
+
 void Game::explodeBlocks(float x, float y)
 {
+	sf::FloatRect destroy_radius(x - 5, y - 5, Block::block_size_x + 10, Block::block_size_y + 10);
 	for (int i = 0; i < block_list.size(); i++)
 	{
-		if(x - 5 < block_list[i]->left() + Block::block_size_x &&
-		   x + Block::block_size_x + 10 > block_list[i]->left() &&
-		   y - 5 < block_list[i]->top() + Block::block_size_y &&
-		   y + Block::block_size_y + 10 > block_list[i]->top())
+		if (block_list[i]->collide(destroy_radius))
+		{
+			std::cout << i << " ";
 			pop(block_list[i]);
+			i--;
+		}	
 	}
 }
 
@@ -203,6 +235,10 @@ void Game::draw_sprites()
 	for (int i = 0; i < sprite_num; i++)
 	{
 		sprite_list[i]->draw(*window);
+	}
+	for (int i = 0; i < item_list.size(); i++)
+	{
+		item_list[i]->draw(*window);
 	}
 	window->draw(background);
 	window->display();

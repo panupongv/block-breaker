@@ -31,6 +31,8 @@ public:
 	void add(Item* item);
 	void pop(Ball* ball);
 	void pop(Block* block);
+	void pop(Item* item);
+	void applyMarioBall();
 	void explodeBlocks(float x, float y);
 	Player* getPlayer();
 	std::vector<Block*> getBlockList() const;

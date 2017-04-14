@@ -144,7 +144,7 @@ void BreakableBlock::destroyed(Game & game)
 ItemBlock::ItemBlock(const BlockData & block_data, bool endless)
 	:
 	BreakableBlock(block_data, endless),
-	item_type(ItemType(3))
+	item_type(ItemType(1))
 	//item_type(ItemType(rand() % TYPE_NUM))
 {
 }
@@ -152,7 +152,7 @@ ItemBlock::ItemBlock(const BlockData & block_data, bool endless)
 ItemBlock::ItemBlock(std::string texture_name, float x, float y, bool endless)
 	:
 	BreakableBlock(texture_name, x, y, endless),
-	item_type(ItemType(3))
+	item_type(ItemType(1))
 	//item_type(ItemType(rand() % TYPE_NUM))
 {
 }
@@ -163,7 +163,7 @@ void ItemBlock::hitAction(Game & game)
 	{
 	case ADDBALL: game.add(new Ball(center().x, center().y)); 
 		break;
-	case MARIOBALL: //game.add(new item* star)
+	case MARIOBALL: game.add(new Star(center().x, center().y)); std::cout << game.getItemList().size() << std::endl;
 		break;
 	case MACHINEGUN: //game.add(new item* machinegun 
 		break;

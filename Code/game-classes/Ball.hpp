@@ -19,11 +19,13 @@ public:
 	void checkPlayerCollision(Game& game);
 	void launch();
 	void accelerate();
+	void marioBall();
 private:
 	float vxByAngle();
 	float vyByAngle();
 private:
 	bool started;
+	int mario = 0;
 	int hit_counter;
 	static constexpr int hit_to_accelerate = 3;
 

@@ -41,8 +41,9 @@ void Ball::checkEdgeCollision(Game & game)
 {
 	if ((left() <= game.left_bound && getVX() < 0) || (right() >= game.right_bound && getVX() > 0))
 	{
-		//angle = 180 - angle;
+		angle *= -1;
 		setMovement(-getVX(), getVY());
+		hit_counter++;
 	}
 	if ((top() <= game.upper_bound && getVY() < 0))
 	{
@@ -50,6 +51,7 @@ void Ball::checkEdgeCollision(Game & game)
 		//setMovement(vxByAngle(), vyByAngle());
 		y_direction = 1;
 		setMovement(getVX(), -getVY());
+		hit_counter++;
 	}
 	if (top() > game.lower_bound)
 		game.pop(this);
@@ -58,24 +60,24 @@ void Ball::checkEdgeCollision(Game & game)
 void Ball::checkBlockCollision(Game& game)
 {
 	std::vector<Block*> block_list = game.getBlockList();
-	const int list_size = block_list.size();
-	for (int i = 0; i < list_size; i++)
+	for (int i = 0; i < block_list.size(); i++)
 	{
 		if (collide(*block_list[i]))
 		{
-			//block_list[i]->inactivate();
+			if (mario)
+			{
+				game.pop(block_list[i]);
+				mario--;
+				break;
+			}
 			if (collideVertically(*block_list[i]))
 			{
-				//angle = ((90 + abs(angle)) + 90) * angle / abs(angle);
-				//angle = 180 - angle;
-				//setMovement(vxByAngle(), vyByAngle());
+
 				setMovement(getVX(), -getVY());
 				y_direction *= -1;
 			}
 			else if(collideHorizontally(*block_list[i]))
 			{
-				//angle = 180 - angle;
-				//setMovement(vxByAngle(), vyByAngle());
 				setMovement(-getVX(), getVY());
 				angle *= -1;
 			}
@@ -118,11 +120,14 @@ void Ball::checkPlayerCollision(Game& game)
 		{
 			angle = 60; setMovement(vxByAngle(), vyByAngle());
 		}break;
-		default: y_direction = -1;
+		default: y_direction = 1;
 			break;
 		}
-		if(y_direction == -1)
+		if (y_direction == -1)
+		{
 			hit_counter++;
+			setMovement(getVX() + player->getDeltaX() / 5.0f, getVY());
+		}
 		/*switch (player->getHitZone(center().x))
 		{
 		case 1: setMovement(-abs(getVX() * 2), -(getVY() - 3));
@@ -155,6 +160,11 @@ void Ball::accelerate()
 	if (speed < speed_limit)
 		speed += 0.5f;
 	hit_counter = 0;
+}
+
+void Ball::marioBall()
+{
+	mario = 5;
 }
 
 float Ball::vxByAngle()
