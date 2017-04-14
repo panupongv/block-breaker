@@ -25,7 +25,6 @@ void Item::update(Game & game)
 	if (top() > game.lower_bound)
 		game.pop(this);
 	setVY(getVY() + gravity);
-	std::cout << "why " << center().x << ", " << center().y << ", " << getVX() << ", " << getVY() << std::endl;
 }
 
 Star::Star(float x, float y)
@@ -47,4 +46,5 @@ Rocket::Rocket(float x, float y)
 
 void Rocket::applyPower(Game & game)
 {
+	game.add(new ShotRocket());
 }

@@ -23,6 +23,7 @@ public:
 	virtual void update(Game& game) = 0; //Game& game
 	void draw(sf::RenderWindow& window) const;
 
+	int getCurrentFrame() const;
 	int getFrameWidth() const;
 	int getFrameHeight() const;
 	float left() const;
@@ -31,7 +32,7 @@ public:
 	float bottom() const;
 	sf::Vector2f center() const;
 
-	bool collide(const sf::FloatRect& rect);
+	//bool collide(const sf::FloatRect& rect);
 	bool collide(Sprite& another_sprite);
 	bool collideHorizontally(Sprite& another_sprite);
 	bool collideVertically(Sprite& another_sprite);
@@ -51,6 +52,8 @@ public:
 	void setMovement(float x, float y);
 
 	void setColor(const sf::Color& color);
+	void nextFrame();
+	void setFrame(int grid_x);
 
 	void setMoving(bool status);
 	void setAlive(bool status);

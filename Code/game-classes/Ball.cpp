@@ -1,15 +1,14 @@
 #include "Ball.hpp"
 
-Ball::Ball()
+Ball::Ball(std::string texture_name, int width, int height, bool random)
 	:
-	Sprite("ball.png", 20, 20, 0, 0),
-	angle((rand() % 60) - 30),
+	Sprite(texture_name, width, height, 0, 0),
+	angle(((rand() % 60) - 30) * random),
 	hit_counter(0),
+	frame_counter(0),
 	started(false)
 {
 		//Sprite::Sprite("ball.png", 70, 70, 250, 500);
-	setAlive(true);
-	setMoving(true);
 }
 
 Ball::Ball(float x, float y)
@@ -28,7 +27,16 @@ void Ball::update(Game& game)
 		checkEdgeCollision(game);
 		checkBlockCollision(game);
 		checkPlayerCollision(game);
-		if (hit_counter == hit_to_accelerate)
+		if (mario)
+		{
+			frame_counter++;
+			if (frame_counter == 5)
+			{
+				frame_counter = 0;
+				nextFrame();
+			}
+		}
+		if (hit_counter >= hit_to_accelerate)
 			accelerate();
 	}
 	else
@@ -68,11 +76,12 @@ void Ball::checkBlockCollision(Game& game)
 			{
 				game.pop(block_list[i]);
 				mario--;
-				break;
+				if (!mario) setFrame(0);
+				hit_counter++;
+				return;
 			}
-			if (collideVertically(*block_list[i]))
+			else if (collideVertically(*block_list[i]))
 			{
-
 				setMovement(getVX(), -getVY());
 				y_direction *= -1;
 			}
@@ -83,7 +92,7 @@ void Ball::checkBlockCollision(Game& game)
 			}
 			hit_counter++;
 			block_list[i]->hitAction(game);
-			break;
+			return;
 		}
 	}
 }
@@ -126,7 +135,7 @@ void Ball::checkPlayerCollision(Game& game)
 		if (y_direction == -1)
 		{
 			hit_counter++;
-			setMovement(getVX() + player->getDeltaX() / 5.0f, getVY());
+			setVX(getVX() + player->getDeltaX() / 5.0f);
 		}
 		/*switch (player->getHitZone(center().x))
 		{
@@ -158,7 +167,7 @@ void Ball::launch()
 void Ball::accelerate()
 {
 	if (speed < speed_limit)
-		speed += 0.5f;
+		speed += 0.1f;
 	hit_counter = 0;
 }
 
@@ -177,3 +186,40 @@ float Ball::vyByAngle()
 	return speed * cos(angle * 3.14159f / 180.0f) * y_direction;
 }
 
+ShotRocket::ShotRocket()
+	:
+	Ball("rocket.png", 50, 126, false)
+{
+	started = false;
+	setMovement(0, -2);
+}
+
+void ShotRocket::update(Game & game)
+{
+	if (started)
+	{
+		move();
+		setVY(getVY() * 1.5);
+		std::vector<Block*> block_list = game.getBlockList();
+		if (bottom() < game.upper_bound)
+			game.pop(this);
+		for (int i = 0; i < block_list.size(); i++)
+		{
+			if (collide(*block_list[i]))
+			{
+				game.add(new Explosion(center().x, center().y));
+				game.pop(this);
+				break;
+			}
+		}
+	}
+	else
+	{
+		setCenter(game.getMousePosition().x, game.getPlayer()->top() + 23);
+	}
+}
+
+void ShotRocket::launch()
+{
+	if (!started) started = true;
+}

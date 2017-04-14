@@ -7,7 +7,7 @@ Game::Game(sf::RenderWindow * window)
 	endless(true),
 	frame_passed(0),
 	current_color(0),
-	lives(1)
+	lives(2)
 {
 	srand(time(NULL));
 	if (!setup())
@@ -69,11 +69,16 @@ void Game::run()
 		draw_sprites();
 		update_sprites();
 		event_input();
-		frame_passed++;
-		if (frame_passed == static_cast<int>(Block::block_size_y / Block::move_speed) * Block::frame_to_move)
+		if (endless)
 		{
-			generateRow(upper_bound - Block::block_size_y);
-			std::cout << block_list.size() << std::endl;
+			frame_passed++;
+			if (frame_passed == static_cast<int>(Block::block_size_y / Block::move_speed) * Block::frame_to_move)
+			{
+				generateRow(upper_bound - Block::block_size_y);
+				frame_passed = 0;
+			}
+			if (block_list.front()->bottom() > player->getHitLine())
+				finished = true;
 		}
 	}
 	std::cout << "Game ended" << std::endl;
@@ -83,13 +88,18 @@ void Game::add(Ball * ball)
 {
 	ball_list.push_back(ball);
 	sprite_list.push_back(ball);
-	//std::cout << ball->left() << ", " << ball->top() << std::endl;
+	std::cout << ball->left() << ", " << ball->top() << std::endl;
 }
 
 void Game::add(Item * item)
 {
 	item_list.push_back(item);
 	sprite_list.push_back(item);
+}
+
+void Game::add(Explosion * explosion)
+{
+	sprite_list.push_back(explosion);
 }
 
 void Game::pop(Ball * ball)
@@ -103,7 +113,6 @@ void Game::pop(Ball * ball)
 		}
 	}
 
-	//const int block_num = block_list.size();
 	for (int i = 0; i < ball_list.size(); i++)
 	{
 		if (ball_list[i] == ball)
@@ -119,6 +128,8 @@ void Game::pop(Ball * ball)
 		lives--;
 		if (lives == 0)
 			finished = true;
+		else
+			add(new Ball());
 	}
 }
 
@@ -130,7 +141,7 @@ void Game::pop(Block * block)
 		if (sprite_list[i] == block)
 		{
 			sprite_list.erase(sprite_list.begin() + i);
-			//break;
+			break;
 		}
 	}
 
@@ -142,7 +153,7 @@ void Game::pop(Block * block)
 			delete block;
 			block = NULL;
 			block_list.erase(block_list.begin() + i);
-			//break;
+			break;
 		}
 	}
 	if (!endless && block_list.empty())
@@ -156,7 +167,7 @@ void Game::pop(Item * item)
 		if (sprite_list[i] == item)
 		{
 			sprite_list.erase(sprite_list.begin() + i);
-			//break;
+			break;
 		}
 	}
 
@@ -168,7 +179,21 @@ void Game::pop(Item * item)
 			delete item;
 			item = NULL;
 			item_list.erase(item_list.begin() + i);
-			//break;
+			break;
+		}
+	}
+}
+
+void Game::pop(Explosion * explosion)
+{
+	for (int i = 0; i < sprite_list.size(); i++)
+	{
+		if (sprite_list[i] == explosion)
+		{
+			delete explosion;
+			explosion = NULL;
+			sprite_list.erase(sprite_list.begin() + i);
+			break;
 		}
 	}
 }
@@ -177,20 +202,6 @@ void Game::applyMarioBall()
 {
 	for (int i = 0; i < ball_list.size(); i++)
 		ball_list[i]->marioBall();
-}
-
-void Game::explodeBlocks(float x, float y)
-{
-	sf::FloatRect destroy_radius(x - 5, y - 5, Block::block_size_x + 10, Block::block_size_y + 10);
-	for (int i = 0; i < block_list.size(); i++)
-	{
-		if (block_list[i]->collide(destroy_radius))
-		{
-			std::cout << i << " ";
-			pop(block_list[i]);
-			i--;
-		}	
-	}
 }
 
 std::vector<Block*> Game::getBlockList() const
@@ -263,7 +274,10 @@ void Game::event_input()
 		case sf::Event::Closed:
 			window->close();
 		case sf::Event::MouseButtonPressed:
-			ball_list[0]->launch();
+		{
+			for (int i = 0; i < ball_list.size(); i++)
+			ball_list[i]->launch();
+		}
 			break;
 		case sf::Event::KeyPressed:
 			finished = true;
@@ -291,7 +305,6 @@ void Game::generateRow(int y)
 		block_list.push_back(new_block);
 		sprite_list.push_back(new_block);
 	}
-	frame_passed = 0;
 }
 
 Player* Game::getPlayer()

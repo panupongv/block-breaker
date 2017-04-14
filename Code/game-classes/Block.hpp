@@ -3,6 +3,7 @@
 #include "Game.hpp"
 #include "Sprite.hpp"
 #include "Item.hpp"
+#include "Explosion.hpp"
 #include "BlockData.hpp"
 
 class Sprite;

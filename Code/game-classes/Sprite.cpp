@@ -32,6 +32,11 @@ void Sprite::draw(sf::RenderWindow & window) const
 	window.draw(sprite);
 }
 
+int Sprite::getCurrentFrame() const
+{
+	return current_frame;
+}
+
 int Sprite::getFrameWidth() const
 {
 	return frame_width;
@@ -68,20 +73,9 @@ sf::Vector2f Sprite::center() const
 						sprite.getPosition().y + (frame_height / 2.0f));
 }
 
-bool Sprite::collide(const sf::FloatRect & rect)
-{
-	try
-	{
-		return sprite.getGlobalBounds().intersects(rect);
-	}
-	catch (...)
-	{
-		return false;
-	}
-}
-
 bool Sprite::collide(Sprite & another_sprite)
 {
+	if (this == NULL) return false;
 	try
 	{
 		return sprite.getGlobalBounds().intersects(another_sprite.sprite.getGlobalBounds());
@@ -163,6 +157,18 @@ void Sprite::setMovement(float x, float y)
 void Sprite::setColor(const sf::Color & color)
 {
 	sprite.setColor(color);
+}
+
+void Sprite::nextFrame()
+{
+	current_frame = (current_frame + 1) % frame_number;
+	sprite.setTextureRect(sf::IntRect(current_frame * frame_width, 0, frame_width, frame_height));
+}
+
+void Sprite::setFrame(int grid_x)
+{
+	current_frame = grid_x % frame_number;
+	sprite.setTextureRect(sf::IntRect(current_frame * frame_width, 0, frame_width, frame_height));
 }
 
 void Sprite::setMoving(bool status)
