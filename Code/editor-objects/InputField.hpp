@@ -14,13 +14,9 @@ public:
     void setTextSize( int font_size );
     void setTextColor( sf::Color color);
     
-    
-//    virtual void onSelected();
-//    virtual void onDeselected();
-    
     //polymorphism
     virtual void update( EventHandler& e );
-    virtual void draw( sf::RenderWindow& window );
+    virtual void draw( sf::RenderTarget& target );
     virtual void enable();
     virtual void disable();
     

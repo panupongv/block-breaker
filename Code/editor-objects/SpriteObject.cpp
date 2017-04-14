@@ -128,10 +128,10 @@ void SpriteObject::update( EventHandler& e)
     return;
 }
 
-void SpriteObject::draw(sf::RenderWindow &window)
+void SpriteObject::draw(sf::RenderTarget &target)
 {
     if(this->isActive())
-        window.draw(this->sprite);
+        target.draw(this->sprite);
 }
 
 void SpriteObject::setPosition(float x, float y , PositioningMode mode )

@@ -31,7 +31,7 @@ public:
     
     //polymorphism behaviors
     virtual void update(EventHandler& e);
-    virtual void draw(sf::RenderWindow &window);
+    virtual void draw(sf::RenderTarget &target);
     
 private:
     sf::Font font;

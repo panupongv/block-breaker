@@ -46,7 +46,7 @@ public:
     
     //polymorphism behaviors
     virtual void update(EventHandler& e) = 0;
-    virtual void draw(sf::RenderWindow& window) = 0;
+    virtual void draw(sf::RenderTarget& target) = 0;
     
 private: 
     std::string name = "unnamed base object";
