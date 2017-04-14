@@ -29,6 +29,8 @@
 #include "ResourcePath.hpp"
 //#import <Foundation/Foundation.h>
 
+using namespace std;
+
 ////////////////////////////////////////////////////////////
 std::string resourcePath(void)
 {
@@ -55,4 +57,22 @@ std::string resourcePath(void)
 //    [pool drain];
 //
 //    return rpath;
+}
+
+std::string smartPath( std::string path )
+{
+#ifdef __APPLE__
+    int pos;
+    while((pos = path.find("\\")) != string::npos)
+        path[pos] = '/';
+    
+    return path;
+#else
+    int pos;
+    while((pos = path.find("/")) != string::npos)
+        path[pos] = '\\';
+    
+    return path;
+#endif
+
 }
