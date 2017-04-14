@@ -4,10 +4,9 @@
 #include "Scene.hpp"
 #include "EventHandler.hpp"
 #include "InputField.hpp"
+#include "enums.hpp"
 
 enum OptionMode { Load , Edit , Save };
-
-enum UpdateOperation { None, NewStage , LoadStage , SaveFile , ReplaceFile , Exit };
 
 class OptionPanel
 {
