@@ -5,6 +5,7 @@
 #include "Block.hpp"
 #include "Ball.hpp"
 #include "Item.hpp"
+#include "Explosion.hpp"
 #include "StageData.hpp"
 #include "BlockGenerator.hpp"
 
@@ -19,6 +20,7 @@ class Player;
 class Block;
 class Ball;
 class Item;
+class Explosion;
 
 class Game
 {
@@ -27,15 +29,24 @@ public:
 	Game(sf::RenderWindow *window, std::string file_name);
 	~Game();
 	void run();
+
 	void add(Ball* ball);
 	void add(Item* item);
+	void add(Explosion* explosion);
 	void pop(Ball* ball);
 	void pop(Block* block);
+	void pop(Item* item);
+	void pop(Explosion* explosion);
+
+	void applyMarioBall();
+
 	Player* getPlayer();
-	std::vector<Sprite*> getSpriteList();
-	std::vector<Block*> getBlockList();
-	sf::Vector2f getWindowSize() const;
+	std::vector<Block*> getBlockList() const;
+	std::vector<Ball*> getBallList() const;
+	std::vector<Item*> getItemList() const;
+
 	sf::Vector2f getMousePosition() const;
+
 public:
 	static const int left_bound = 100;
 	static const int right_bound = 700;
