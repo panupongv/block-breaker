@@ -12,10 +12,22 @@ bool Selectable::isSelected() const
 
 void Selectable::select()
 {
-    this->onSelected();
+    if(selected == false)
+        this->onSelected();
 }
 
 void Selectable::deselect()
 {
-    this->onDeselected();
+    if(selected == true)
+        this->onDeselected();
+}
+
+void Selectable::onSelected()
+{
+    selected = true;
+}
+
+void Selectable::onDeselected()
+{
+    selected = false;
 }

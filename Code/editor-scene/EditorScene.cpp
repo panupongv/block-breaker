@@ -5,12 +5,13 @@
 
 using namespace std;
 
-EditorScene::EditorScene( sf::RenderWindow& window ) : Scene("editor",window),panel(*this) { };
+EditorScene::EditorScene( sf::RenderWindow& window ) : Scene("editor",window),panel(*this,window),space(*this,window) { };
 
 void EditorScene::update(EventHandler& eHandler)
 {
     Scene::update(eHandler);
     
+//    cout << eHandler.gotKey(sf::Keyboard::E) << endl;
     //implement update here
 //    if(eHandler.gotClickOn(stage_title))
 //    {
@@ -20,8 +21,26 @@ void EditorScene::update(EventHandler& eHandler)
     
 //    if(eHandler.cursorOn(background))
 //        cout << "cursor on bg : " << rand()%1000 << endl;
+//    static string s;
+//    if(eHandler.getString()[0] == 8)
+//        s.erase(s.size()-1);
+//    else
+//        s += eHandler.getString();
+//    if(eHandler.getString().empty() == false)
+//        cout << s << endl;
     
     panel.update(eHandler);
+    UpdateOperation panelOperation = panel.getUpdateOperation();
+    
+    if(panelOperation == Exit)
+    {
+        flagEnded();
+        setNextScene(NULL);
+        return;
+    }
+    
+    space.update(eHandler);
+    UpdateOperation spaceOperation = space.getUpdateOperation();
 }
 
 void EditorScene::draw()
@@ -38,7 +57,7 @@ void EditorScene::init()
         "stage-title.bbstage"
     );
     this->stage_title->setPosition(300, 20 , PositioningMode::Center );
-    this->stage_title->setColor(sf::Color::White);
+    this->stage_title->setColor(sf::Color::Black);
     this->stage_title->setSize( 30 );
     
     this->background = new SpriteObject
@@ -49,14 +68,7 @@ void EditorScene::init()
     );
     
     
-    this->draft_block = new DraftBlock
-    (
-        "brick.png",
-        this->getWindow()
-    );
-    
     this->addObject(this->background);
-    this->addObject(this->draft_block);
     this->addObject(this->stage_title);
 }
 

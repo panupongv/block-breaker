@@ -26,15 +26,34 @@ void DraftBlock::setColor(sf::Color color)
     SpriteObject::setColor(color);
 }
 
-void DraftBlock::update(void *ptr)
+void DraftBlock::update( EventHandler& e )
 {
-    SpriteObject::update(ptr);
+    SpriteObject::update(e);
     
     followCursor();
+    snapToGrid();
+}
+
+void DraftBlock::draw(sf::RenderTarget &target)
+{
+    if(getAvailability() == true)
+        SpriteObject::draw(target);
 }
 
 void DraftBlock::followCursor()
 {
     sf::Vector2f mouse_position = WindowHelper::getMousePosition( *window );
-    this->setPosition(mouse_position.x,mouse_position.y,PositioningMode::Center);
+    this->setPosition(mouse_position.x,mouse_position.y);
 }
+
+void DraftBlock::snapToGrid()
+{
+    sf::Vector2f position = getPosition();
+    int width = getSprite().getGlobalBounds().width;
+    int height = getSprite().getGlobalBounds().height;
+    position.x =  (int)position.x - (int)position.x%width;
+    position.y =  (int)position.y - (int)position.y%height;
+    
+    setPosition(position.x, position.y);
+}
+

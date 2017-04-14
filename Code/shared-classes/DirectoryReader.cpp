@@ -75,3 +75,24 @@ std::vector<string> BBStageFileFinder::getFileNames() const
     
     return file_names;
 }
+
+vector<string> BBStageFileFinder::searchFileNames( string search_string ) const
+{
+    if(search_string == "")
+        return getFileNames();
+    
+    vector<string> all = getFileNames();
+    vector<string> matched;
+    
+    for(int i = 0 ; i < all.size() ; i++)
+    {
+        string name = all[i];
+        
+        if(name.find(search_string) == string::npos)
+            continue;
+        
+        matched.push_back(name);
+    }
+    
+    return matched;
+}

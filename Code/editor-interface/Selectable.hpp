@@ -11,8 +11,8 @@ public:
     void deselect();
 
 protected:
-    virtual void onSelected() = 0;
-    virtual void onDeselected() = 0;
+    virtual void onSelected();
+    virtual void onDeselected();
     
 private:
     bool selected = false;

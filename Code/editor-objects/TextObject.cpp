@@ -56,18 +56,18 @@ void TextObject::disable()
     BaseObject::disable();
 }
 
-void TextObject::update(void *ptr)
+void TextObject::update(EventHandler& e)
 {
     return;
 }
 
-void TextObject::draw(sf::RenderWindow &window)
+void TextObject::draw(sf::RenderTarget &target)
 {
     if(this->isActive())
     {
 //        cout << "draw " << getName() << endl;
 //        cout << (int)textRender.getFillColor().a << endl;
-        window.draw(this->textRender);
+        target.draw(this->textRender);
     }
 }
 

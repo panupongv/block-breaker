@@ -17,7 +17,8 @@ public:
     virtual void setColor( sf::Color color );
     
     //polymorphysm
-    virtual void update( void* ptr );
+    virtual void update( EventHandler& e );
+    virtual void draw( sf::RenderTarget& target );
     
 private: 
     const float transparency = 0.5;
@@ -25,4 +26,5 @@ private:
     sf::RenderWindow* window;
     
     void followCursor();
+    void snapToGrid();
 };

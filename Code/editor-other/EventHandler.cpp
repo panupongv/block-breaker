@@ -1,5 +1,6 @@
 #include "EventHandler.hpp"
 #include "WindowHelper.hpp"
+#include <iostream>
 
 using namespace std;
 
@@ -45,6 +46,21 @@ bool EventHandler::cursorOn(const sf::FloatRect &rect) const
 {
     sf::Vector2f mouse_pos = WindowHelper::getMousePosition(window);
     return rect.contains(mouse_pos);
+}
+
+float EventHandler::gotWheelOn(const BaseObject *object) const
+{
+    return gotWheelOn(*object);
+}
+
+float EventHandler::gotWheelOn(const BaseObject &object) const
+{
+    return gotWheelOn(object.getRect());
+}
+
+float EventHandler::gotWheelOn(const sf::FloatRect &rect) const
+{
+    return mouseEventHandler->gotWheelOn(rect);
 }
 
 bool EventHandler::gotClickOn(const BaseObject* object , sf::Mouse::Button button) const
@@ -177,6 +193,20 @@ bool MouseEventHandler::acceptEventType(sf::Event::EventType type) const
     }
 }
 
+float MouseEventHandler::gotWheelOn(const sf::FloatRect &rect) const
+{
+    sf::Vector2f mouse_pos = WindowHelper::getMousePosition(window);
+    
+    if(rect.contains( mouse_pos ) )
+    {
+        if(any(sf::Event::MouseWheelScrolled))
+            return gotScrolled();
+    }
+        
+    return 0;
+}
+
+
 bool MouseEventHandler::gotClickOn(const sf::FloatRect rect ,sf::Mouse::Button button) const
 {
     if(any(sf::Event::EventType::MouseButtonPressed))
@@ -188,6 +218,22 @@ bool MouseEventHandler::gotClickOn(const sf::FloatRect rect ,sf::Mouse::Button b
         }
     
     return false;
+}
+
+//this feature( wheel scrolling ) does not work on Mac OSX
+int MouseEventHandler::gotScrolled() const
+{
+    int scrolled = 0;
+    for(int i = 0 ; i < events.size() ; i++)
+    {
+        sf::Event event = events[i];
+        if(event.type == sf::Event::MouseWheelScrolled)
+        {
+            scrolled += event.mouseWheel.delta;
+        }
+    }
+    
+    return scrolled;
 }
 
 //KEY EVENT HANDLER
