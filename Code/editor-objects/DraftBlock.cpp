@@ -34,10 +34,10 @@ void DraftBlock::update( EventHandler& e )
     snapToGrid();
 }
 
-void DraftBlock::draw(sf::RenderWindow &window)
+void DraftBlock::draw(sf::RenderTarget &target)
 {
     if(getAvailability() == true)
-        SpriteObject::draw(window);
+        SpriteObject::draw(target);
 }
 
 void DraftBlock::followCursor()

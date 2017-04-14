@@ -18,7 +18,7 @@ public:
     
     //polymorphysm
     virtual void update( EventHandler& e );
-    virtual void draw( sf::RenderWindow& window );
+    virtual void draw( sf::RenderTarget& target );
     
 private: 
     const float transparency = 0.5;

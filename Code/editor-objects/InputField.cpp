@@ -35,10 +35,10 @@ void InputField::update(EventHandler& e)
     update_representation(e);
 }
 
-void InputField::draw(sf::RenderWindow &window)
+void InputField::draw(sf::RenderTarget &target)
 {
-    SpriteObject::draw(window);
-    textObject.draw(window);
+    SpriteObject::draw(target);
+    textObject.draw(target);
 }
 
 void InputField::enable()
@@ -82,8 +82,6 @@ void InputField::update_text(EventHandler &e)
         else
             current_text += input;
     }
-    
-    cout << current_text << endl;
 }
 
 void InputField::update_representation(EventHandler& e)
