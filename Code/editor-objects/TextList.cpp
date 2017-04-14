@@ -98,30 +98,8 @@ void TextList::update(EventHandler &e)
     if(isActive() == false)
         return;
         
-    static int speed_scroll = 0;
-    static int count = 0;
-    if(e.cursorOn(this))
-        if(e.gotKey(sf::Keyboard::Up))
-        {
-            speed_scroll += 1;
-            count = 0;
-        }
-        else if( e.gotKey(sf::Keyboard::Down))
-        {
-            speed_scroll -= 1;
-            count = 0;
-        }
-        else
-        {
-            count++;
-            if(count >= 10)
-            {
-                speed_scroll = 0;
-            }
-        }
-    
-    scroll(speed_scroll);
-        
+    update_scroll(e);
+    update_detect_click(e);
 }
 
 void TextList::draw(sf::RenderTarget &target)
@@ -166,5 +144,53 @@ void TextList::draw(sf::RenderTarget &target)
     target.draw(temp);
 }
 
+void TextList::update_scroll(EventHandler& e)
+{
+    static int speed_scroll = 0;
+    static int count = 0;
+    
+    if(e.cursorOn(this))
+        if(e.gotKey(sf::Keyboard::Up))
+        {
+            speed_scroll += 1;
+            count = 0;
+        }
+        else if( e.gotKey(sf::Keyboard::Down))
+        {
+            speed_scroll -= 1;
+            count = 0;
+        }
+        else
+        {
+            count++;
+            if(count >= 10)
+            {
+                speed_scroll = 0;
+            }
+        }
+    
+    scroll(speed_scroll);
+}
 
-
+void TextList::update_detect_click(EventHandler &e)
+{
+    if(e.gotClickOn(this) == false)
+        return;
+    
+    selected_item = "";
+    
+    for(int i = 0 ; i < getNumList() ; ++i)
+    {
+        sf::FloatRect item_rect;
+        item_rect.top = getPosition().y + getItemPositionY(i);
+        item_rect.left = getPosition().x + space_x;
+        item_rect.width = 500;
+        item_rect.height = text_size;
+        
+        if(item_rect.contains(WindowHelper::getMousePosition(window)))
+        {
+            selected_item = string_list[i];
+            return;
+        }
+    }
+}

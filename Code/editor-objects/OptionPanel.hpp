@@ -43,6 +43,7 @@ private:
     
     InputField* input_field;
     TextList* list;
+    TextObject* status;
     
     TextObject* button_new;
     TextObject* button_load;

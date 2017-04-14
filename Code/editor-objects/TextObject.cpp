@@ -16,6 +16,11 @@ void TextObject::setText(string text) {
     this->textRender.setString(text);
 }
 
+sf::Text& TextObject::getTextRender()
+{
+    return textRender;
+}
+
 string TextObject::getText() const
 {
     return this->textRender.getString();

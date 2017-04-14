@@ -27,7 +27,7 @@ private:
     sf::RenderWindow& window;
     std::vector<std::string> string_list;
     float shift_y = 0;
-    int text_size = 25 ;
+    int text_size = 20 ;
     int space_y = 10;
     int space_x = 10;
     
@@ -35,4 +35,6 @@ private:
     
     float getAvailableScroll ( ) const;
     float getItemPositionY( int id ) const;
+    void update_scroll(EventHandler& e);
+    void update_detect_click(EventHandler& e);
 };

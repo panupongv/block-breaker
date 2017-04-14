@@ -28,4 +28,6 @@ private:
     SpriteObject* background;
     TextObject* stage_title;
     DraftBlock* draft_block;
+    
+    void load_stage( std::string file_name );
 };

@@ -16,6 +16,7 @@ public:
     virtual void disable();
     
     //getters
+    sf::Text& getTextRender();
     std::string getText() const;
     int getSize() const;
     
