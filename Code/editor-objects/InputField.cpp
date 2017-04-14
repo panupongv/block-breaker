@@ -85,16 +85,28 @@ void InputField::update_text(EventHandler &e)
             current_text.erase(current_text.size()-1,1);
         }
         else
-            current_text += input;
+        {
+            if(current_text.size() + input.size() <= limit_char)
+                current_text += input;
+        }
     }
 }
 
 void InputField::update_representation(EventHandler& e)
 {
+    static int count = 0;
+    
     if(isSelected())
     {
         setColor(color_selected);
+        
+        count++;
+        if(count <= blink_delay)
         textObject.setText(current_text + typing_symbol);
+        else if ( count <= blink_delay*2 )
+            textObject.setText(current_text);
+        else
+            count = 0;
     }
     else
     {

@@ -1,4 +1,5 @@
 #include "Menu.hpp"
+#include "ResourcePath.hpp"
 
 Menu::Menu(sf::RenderWindow * window)
 	:
@@ -7,13 +8,13 @@ Menu::Menu(sf::RenderWindow * window)
 	height(window->getSize().y),
 	finished(false)
 {
-	if (!title_texture.loadFromFile("block-breaker\\Resources\\title.png"))
+	if (!title_texture.loadFromFile(smartPath("block-breaker\\Resources\\title.png")))
 	{
 		std::cout << "Title image not avaliable" << std::endl;
 	}
 	title = sf::Sprite(title_texture);
 	title.setPosition(width / 2 - title_texture.getSize().x / 2, 50);
-	if (!font.loadFromFile("block-breaker\\Resources\\munro.ttf"))
+	if (!font.loadFromFile(smartPath("block-breaker\\Resources\\munro.ttf")))
 	{
 		std::cout << "Font not avaliable" << std::endl;
 	}

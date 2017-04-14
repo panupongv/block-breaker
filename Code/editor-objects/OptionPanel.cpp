@@ -1,6 +1,7 @@
 #include "OptionPanel.hpp"
 #include "WindowHelper.hpp"
 #include "DirectoryReader.hpp"
+#include "FileNameUtility.hpp"
 
 #include <iostream>
 
@@ -32,6 +33,14 @@ OptionPanel::OptionPanel(Scene& scene , sf::RenderWindow& window)
              "file-list.png",
             window
         );
+        
+        status = new TextObject
+        (
+            "status text",
+             RenderLayer::PanelElementLayer,
+             "[STATUS]\n\nplease enter file name"
+        );
+        status->setColor(sf::Color::White);
         
         button_new = new TextObject
         (
@@ -87,8 +96,9 @@ OptionPanel::OptionPanel(Scene& scene , sf::RenderWindow& window)
     
     //Size Objects
     {
-        input_field->setTextSize(15);
+        input_field->setTextSize(16);
         
+        status->setSize(char_size/1.5);
         button_new->setSize(char_size);
         button_load->setSize(char_size);
         button_save->setSize(char_size);
@@ -102,11 +112,13 @@ OptionPanel::OptionPanel(Scene& scene , sf::RenderWindow& window)
     background->setPosition(600, 0);
     input_field->setPosition(610, 20);
     list->setPosition(610, 70);
+    status->setPosition(610, 80);
 
     scene.addObject(background);
     
     collectElement(input_field, scene);
     collectElement(list , scene);
+    collectElement(status, scene);
     collectButton(button_new,scene);
     collectButton(button_load,scene);
     collectButton(button_save,scene);
@@ -220,6 +232,7 @@ void OptionPanel::changeModeTo(OptionMode mode)
         case Save:
             input_field->enable();
             input_field->clearText();
+            status->enable();
             button_confirm_save->enable();
             button_replace->enable();
             button_cancel->enable();
@@ -256,6 +269,19 @@ void OptionPanel::update_in_load_mode(EventHandler &e)
     BBStageFileFinder finder("stages");
     vector<string> files = finder.searchFileNames(search_string);
     list->setStringList(files);
+    
+    if(e.gotClickOn(list))
+    {
+        string selected_item = list->getSelectedItem();
+        
+        if(selected_item != "")
+        {
+            operation = LoadStage;
+            changeModeTo(Edit);
+            file_name = selected_item;
+            return;
+        }
+    }
     
     if(e.gotClickOn(button_new))
     {
@@ -302,6 +328,30 @@ void OptionPanel::update_in_edit_mode(EventHandler &e)
 
 void OptionPanel::update_in_save_mode(EventHandler &e)
 {
+    string entered_file_name = input_field->getText() + ".bbstage";
+    
+    if(input_field->getText().empty())
+    {
+        status->setText("[STATUS]\n\nplease enter file name");
+        status->setColor(sf::Color::White);
+    }
+    else
+    {
+        FileNameUtility util;
+        bool already_exist = util.file_exist("stages/" + entered_file_name);
+        
+        if(already_exist)
+        {
+            status->setText("[STATUS]\n\nwarning, file name existed\nbut you can replace file");
+            status->setColor(sf::Color::Red);
+        }
+        else
+        {
+            status->setText("[STATUS]\n\nfile name available\nclick save button to\nprocess saving file");
+            status->setColor(sf::Color::Green);
+        }
+    }
+    
     if(e.gotClickOn(button_confirm_save))
     {
         changeModeTo(Edit);

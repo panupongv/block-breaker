@@ -10,27 +10,11 @@ EditorScene::EditorScene( sf::RenderWindow& window ) : Scene("editor",window),pa
 void EditorScene::update(EventHandler& eHandler)
 {
     Scene::update(eHandler);
-    
-//    cout << eHandler.gotKey(sf::Keyboard::E) << endl;
-    //implement update here
-//    if(eHandler.gotClickOn(stage_title))
-//    {
-//        cout << "drag on text : " << rand()%100 << endl;
-//        stage_title->disable();
-//    }
-    
-//    if(eHandler.cursorOn(background))
-//        cout << "cursor on bg : " << rand()%1000 << endl;
-//    static string s;
-//    if(eHandler.getString()[0] == 8)
-//        s.erase(s.size()-1);
-//    else
-//        s += eHandler.getString();
-//    if(eHandler.getString().empty() == false)
-//        cout << s << endl;
-    
     panel.update(eHandler);
+    space.update(eHandler);
+    
     UpdateOperation panelOperation = panel.getUpdateOperation();
+    UpdateOperation spaceOperation = space.getUpdateOperation();
     
     if(panelOperation == Exit)
     {
@@ -38,9 +22,11 @@ void EditorScene::update(EventHandler& eHandler)
         setNextScene(NULL);
         return;
     }
-    
-    space.update(eHandler);
-    UpdateOperation spaceOperation = space.getUpdateOperation();
+    else if( panelOperation == LoadStage)
+    {
+        load_stage(panel.getFileName());
+        return;
+    }
 }
 
 void EditorScene::draw()
@@ -82,5 +68,11 @@ void EditorScene::begin()
 void EditorScene::end()
 {
     //todo;
+}
+
+void EditorScene::load_stage(std::string file_name)
+{
+    cout << "need load stage implementation" << endl;
+    cout << "file : " << file_name << endl;
 }
 

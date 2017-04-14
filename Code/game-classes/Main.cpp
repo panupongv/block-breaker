@@ -1,4 +1,4 @@
-#pragma once
+//#pragma once
 
 #ifdef __APPLE__
     #include <SFML/Graphics.hpp>

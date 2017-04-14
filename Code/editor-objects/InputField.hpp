@@ -24,10 +24,12 @@ public:
 private:
     TextObject textObject;
     std::string current_text;
-    std::string typing_symbol = "I";
-    int blink_delay = 10;
+    int blink_delay = 20;
+    const std::string typing_symbol = "I";
     const sf::Color color_selected = sf::Color(255,255,255,130);
     const sf::Color color_deselected = sf::Color(255,255,255,100);
+    const int limit_char = 20;
+    
     
     void update_check_selected(EventHandler& e);
     void update_text ( EventHandler& e );
