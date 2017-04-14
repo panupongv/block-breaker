@@ -38,3 +38,5 @@
 ///
 ////////////////////////////////////////////////////////////
 std::string resourcePath(void);
+
+std::string smartPath(std::string path);

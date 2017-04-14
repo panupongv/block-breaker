@@ -51,6 +51,10 @@ void Block::hitAction(Game & game)
 	;
 }
 
+void Block::destroyed(Game & game)
+{
+}
+
 std::string Block::getTextureNameFromType(BlockType type)
 {
     switch (type) {
@@ -133,20 +137,43 @@ void BreakableBlock::hitAction(Game & game)
 	game.pop(this);
 }
 
+void BreakableBlock::destroyed(Game & game)
+{
+}
+
 ItemBlock::ItemBlock(const BlockData & block_data, bool endless)
 	:
-	BreakableBlock(block_data)
+	BreakableBlock(block_data, endless),
+	//item_type(ItemType(1))
+	item_type(ItemType(rand() % TYPE_NUM))
 {
 }
 
 ItemBlock::ItemBlock(std::string texture_name, float x, float y, bool endless)
 	:
-	BreakableBlock(texture_name, x, y, endless)
+	BreakableBlock(texture_name, x, y, endless),
+	//item_type(ItemType(2))
+	item_type(ItemType(rand() % TYPE_NUM))
 {
 }
 
 void ItemBlock::hitAction(Game & game)
 {
-	game.add(new Ball(center().x, center().y));
+	switch (item_type)
+	{
+	case ADDBALL: game.add(new Ball(center().x, center().y)); 
+		break;
+	case MARIOBALL: game.add(new Star(center().x, center().y)); 
+		break;
+	case MACHINEGUN: game.add(new Rocket(center().x, center().y));
+		break;
+	case EXPLOSIVE: game.add(new Explosion(center().x, center().y));
+	}
+	
 	game.pop(this);
 }
+
+//void ItemBlock::destroyed(Game & game)
+//{
+//	game.explodeBlocks(left(), top());
+//}
