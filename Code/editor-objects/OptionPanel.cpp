@@ -8,64 +8,72 @@ OptionPanel::OptionPanel(Scene& scene)
 {
     //Create Objects
     {
-    background = new SpriteObject
-    (
-        "panel bg",
-        RenderLayer::PanelBackgroundLayer,
-        "panel-bg.png"
-    );
-    
-    button_new = new TextObject
-    (
-        "new button",
-        RenderLayer::PanelElementLayer,
-        "|  New Stage"
-    );
-    
-    button_load = new TextObject
-    (
-        "load button",
+        background = new SpriteObject
+        (
+            "panel bg",
+            RenderLayer::PanelBackgroundLayer,
+            "panel-bg.png"
+        );
+        
+        button_new = new TextObject
+        (
+            "new button",
+            RenderLayer::PanelElementLayer,
+            "|  New Stage"
+        );
+        
+        button_load = new TextObject
+        (
+            "load button",
+             RenderLayer::PanelElementLayer,
+             "|  Load Stage"
+         );
+        
+        button_save = new TextObject
+        (
+            "save button",
+            RenderLayer::PanelElementLayer,
+            "|  Save Stage"
+         );
+        
+        button_confirm_save = new TextObject
+        (
+        "confirm save button",
          RenderLayer::PanelElementLayer,
-         "|  Load Stage"
-     );
-    
-    button_save = new TextObject
-    (
-        "save button",
-        RenderLayer::PanelElementLayer,
-        "|  Save Stage"
-     );
-    
-    button_confirm_save = new TextObject
-    (
-    "confirm save button",
-     RenderLayer::PanelElementLayer,
-     "|  Save File"
-    );
-    
-    button_replace = new TextObject
-    (
-    "replace button",
-     RenderLayer::PanelElementLayer,
-     "|  Replace File"
-    );
-    
-    button_cancel = new TextObject
-    (
-        "cancel button",
-     RenderLayer::PanelElementLayer,
-     "|  Cancle"
-     );
+         "|  Save File"
+        );
+        
+        button_replace = new TextObject
+        (
+        "replace button",
+         RenderLayer::PanelElementLayer,
+         "|  Replace File"
+        );
+        
+        button_cancel = new TextObject
+        (
+            "cancel button",
+         RenderLayer::PanelElementLayer,
+         "|  Cancle"
+         );
+            
+        button_exit = new TextObject
+        (
+            "exit button",
+            RenderLayer::PanelElementLayer,
+            "|  Exit  '_'"
+        );
     }
     
     //Size Objects
     {
-    button_new->setSize(char_size);
-    button_load->setSize(char_size);
-    button_save->setSize(char_size);
-    button_confirm_save->setSize(char_size);
-    button_replace->setSize(char_size);
-    button_cancel->setSize(char_size);
+        button_new->setSize(char_size);
+        button_load->setSize(char_size);
+        button_save->setSize(char_size);
+        button_confirm_save->setSize(char_size);
+        button_replace->setSize(char_size);
+        button_cancel->setSize(char_size);
+        button_exit->setSize(char_size);
     }
     
     //Position Objects
@@ -78,6 +86,7 @@ OptionPanel::OptionPanel(Scene& scene)
     collectButton(button_confirm_save,scene);
     collectButton(button_replace,scene);
     collectButton(button_cancel,scene);
+    collectButton(button_exit, scene);
     
     changeModeTo(OptionMode::Load);
 }
@@ -153,12 +162,14 @@ void OptionPanel::changeModeTo(OptionMode mode)
     {
         case Load:
             button_new->enable();
-            button_new->setPosition(x, y[0]);
+            button_new->setPosition(x, y[1]);
+            button_exit->enable();
+            button_exit->setPosition(x, y[0]);
             if(this->prevMode == Edit)
             {
+                button_exit->disable();
                 button_cancel->enable();
                 button_cancel->setPosition(x, y[0]);
-                button_new->setPosition(x, y[1]);
             }
             break;
             
@@ -216,6 +227,13 @@ void OptionPanel::update_in_load_mode(EventHandler &e)
         changeModeTo(Edit);
         return;
     }
+    
+    if(e.gotClickOn(button_exit))
+    {
+        operation = Exit;
+        return;
+    }
+    
     //if click on list then load stage
 }
 

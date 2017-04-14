@@ -6,7 +6,7 @@
 
 enum OptionMode { Load , Edit , Save };
 
-enum PanelOperation { None, NewStage , LoadStage , SaveFile , ReplaceFile };
+enum PanelOperation { None, NewStage , LoadStage , SaveFile , ReplaceFile , Exit };
 
 class OptionPanel
 {
@@ -45,6 +45,7 @@ private:
     TextObject* button_confirm_save;
     TextObject* button_replace;
     TextObject* button_cancel;
+    TextObject* button_exit;
     
     //InputField
     //Directory list
