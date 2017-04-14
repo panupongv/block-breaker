@@ -22,6 +22,9 @@ void EditorScene::update(EventHandler& eHandler)
 //        cout << "cursor on bg : " << rand()%1000 << endl;
     
     panel.update(eHandler);
+    PanelOperation panelOperation = panel.getUpdateOperation();
+    
+    
 }
 
 void EditorScene::draw()
