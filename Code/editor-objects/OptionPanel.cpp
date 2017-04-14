@@ -119,9 +119,9 @@ void OptionPanel::update(EventHandler& e)
     }
 }
 
-PanelOperation OptionPanel::getUpdateOperation() const
+UpdateOperation OptionPanel::getUpdateOperation() const
 {
-    PanelOperation temp = this->operation;
+    UpdateOperation temp = this->operation;
     return temp;
 }
 
