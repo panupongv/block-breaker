@@ -1,10 +1,12 @@
 #include "OptionPanel.hpp"
 #include "WindowHelper.hpp"
+#include "DirectoryReader.hpp"
+
 #include <iostream>
 
 using namespace std;
 
-OptionPanel::OptionPanel(Scene& scene)
+OptionPanel::OptionPanel(Scene& scene , sf::RenderWindow& window)
 {
     //Create Objects
     {
@@ -22,6 +24,14 @@ OptionPanel::OptionPanel(Scene& scene)
             "input-field.png"
         );
         input_field->setTextColor(sf::Color::White);
+        
+        list = new TextList
+        (
+            "file list",
+             RenderLayer::PanelElementLayer,
+             "file-list.png",
+            window
+        );
         
         button_new = new TextObject
         (
@@ -91,10 +101,12 @@ OptionPanel::OptionPanel(Scene& scene)
     //Position Objects
     background->setPosition(600, 0);
     input_field->setPosition(610, 20);
+    list->setPosition(610, 70);
 
     scene.addObject(background);
     
     collectElement(input_field, scene);
+    collectElement(list , scene);
     collectButton(button_new,scene);
     collectButton(button_load,scene);
     collectButton(button_save,scene);
@@ -140,6 +152,11 @@ UpdateOperation OptionPanel::getUpdateOperation() const
     return temp;
 }
 
+string OptionPanel::getFileName() const
+{
+    return file_name;
+}
+
 void OptionPanel::collectButton(TextObject *button , Scene& scene)
 {
     buttons.push_back(button);
@@ -176,6 +193,9 @@ void OptionPanel::changeModeTo(OptionMode mode)
     switch (mode)
     {
         case Load:
+            input_field->enable();
+            input_field->clearText();
+            list->enable();
             button_new->enable();
             button_new->setPosition(x, y[1]);
             button_exit->enable();
@@ -199,6 +219,7 @@ void OptionPanel::changeModeTo(OptionMode mode)
             
         case Save:
             input_field->enable();
+            input_field->clearText();
             button_confirm_save->enable();
             button_replace->enable();
             button_cancel->enable();
@@ -231,6 +252,11 @@ void OptionPanel::update_overall(EventHandler &e)
 
 void OptionPanel::update_in_load_mode(EventHandler &e)
 {
+    string search_string = input_field->getText();
+    BBStageFileFinder finder("stages");
+    vector<string> files = finder.searchFileNames(search_string);
+    list->setStringList(files);
+    
     if(e.gotClickOn(button_new))
     {
         changeModeTo(Edit);
@@ -272,7 +298,6 @@ void OptionPanel::update_in_edit_mode(EventHandler &e)
         changeModeTo(Load);
         return;
     }
-    
 }
 
 void OptionPanel::update_in_save_mode(EventHandler &e)

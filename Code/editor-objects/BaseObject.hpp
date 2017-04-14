@@ -2,19 +2,9 @@
 
 #include "sfml.hpp"
 #include "EventHandler.hpp"
-#include <string>
+#include "enums.hpp"
 
-enum RenderLayer {
-    BackgroundLayer ,
-    EditingSpaceBackgroundLayer,
-    DraftBlockLayer,
-    BlockLayer,
-    PinLayer,
-    PanelBackgroundLayer,
-    PanelElementLayer,
-    TitleLayer
-};
-enum PositioningMode { TopLeft , Center };
+#include <string>
 
 class EventHandler;
 

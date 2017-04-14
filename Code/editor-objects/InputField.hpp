@@ -13,6 +13,7 @@ public:
     std::string getText() const;
     void setTextSize( int font_size );
     void setTextColor( sf::Color color);
+    void clearText();
     
     //polymorphism
     virtual void update( EventHandler& e );

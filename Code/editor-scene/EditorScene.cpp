@@ -5,12 +5,13 @@
 
 using namespace std;
 
-EditorScene::EditorScene( sf::RenderWindow& window ) : Scene("editor",window),panel(*this),space(*this,window) { };
+EditorScene::EditorScene( sf::RenderWindow& window ) : Scene("editor",window),panel(*this,window),space(*this,window) { };
 
 void EditorScene::update(EventHandler& eHandler)
 {
     Scene::update(eHandler);
     
+//    cout << eHandler.gotKey(sf::Keyboard::E) << endl;
     //implement update here
 //    if(eHandler.gotClickOn(stage_title))
 //    {

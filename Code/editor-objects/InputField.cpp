@@ -12,7 +12,7 @@ InputField::InputField( string name , RenderLayer layer, string texture_name )
 
 string InputField::getText() const
 {
-    return this->getText();
+    return this->current_text;
 }
 
 void InputField::setTextSize(int font_size)
@@ -23,6 +23,11 @@ void InputField::setTextSize(int font_size)
 void InputField::setTextColor( sf::Color color )
 {
     textObject.setColor(color);
+}
+
+void InputField::clearText()
+{
+    current_text = "";
 }
 
 void InputField::update(EventHandler& e)
