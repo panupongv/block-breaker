@@ -8,6 +8,7 @@
 #include "DraftBlock.hpp"
 #include "EventHandler.hpp"
 #include "OptionPanel.hpp"
+#include "WorkSpace.hpp"
 
 class EditorScene : public Scene
 {
@@ -23,6 +24,7 @@ protected:
     
 private:
     OptionPanel panel;
+    WorkSpace space;
     SpriteObject* background;
     TextObject* stage_title;
     DraftBlock* draft_block;
