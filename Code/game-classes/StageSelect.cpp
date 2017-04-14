@@ -1,4 +1,5 @@
 #include "StageSelect.hpp"
+#include "ResourcePath.hpp"
 
 StageSelect::StageSelect(sf::RenderWindow * window, std::string file_path)
 	:
@@ -10,7 +11,7 @@ StageSelect::StageSelect(sf::RenderWindow * window, std::string file_path)
 	finished(false)
 {
 	std::vector<std::string> file_list(reader.getFileNames());
-	if (!font.loadFromFile("block-breaker\\Resources\\munro.ttf"))
+	if (!font.loadFromFile(smartPath("block-breaker\\Resources\\munro.ttf")))
 	{
 		std::cout << "Font not avaliable" << std::endl;
 	}

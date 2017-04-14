@@ -1,4 +1,5 @@
 #include "Sprite.hpp"
+#include "ResourcePath.hpp"
 
 Sprite::Sprite(std::string texture_name, int frame_width, int frame_height, float initial_x, float initial_y)
 	:
@@ -11,7 +12,7 @@ Sprite::Sprite(std::string texture_name, int frame_width, int frame_height, floa
 	vx(vx),
 	vy(vy)
 {
-	if (!texture.loadFromFile("block-breaker\\Resources\\" + texture_name))
+	if (!texture.loadFromFile(smartPath("block-breaker\\Resources\\" + texture_name)))
 	{
 		std::cout << std::endl << texture_name << " unavailable." << std::endl;
 		system("pause");

@@ -1,4 +1,5 @@
 #include "Game.hpp"
+#include "ResourcePath.hpp"
 
 Game::Game(sf::RenderWindow * window)
 	:
@@ -175,7 +176,7 @@ bool Game::setup()
 	ball_list.push_back(new Ball());
 	sprite_list.push_back(ball_list.back());
 	
-	if (!background_texture.loadFromFile("block-breaker\\Resources\\brick-wall.png"))
+	if (!background_texture.loadFromFile(smartPath("block-breaker\\Resources\\brick-wall.png")))
 	{
 		return false;
 	}
