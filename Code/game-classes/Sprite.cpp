@@ -8,7 +8,6 @@ Sprite::Sprite(std::string texture_name, int frame_width, int frame_height, floa
 
 Sprite::Sprite(std::string texture_name, int frame_width, int frame_height, float initial_x, float initial_y, float vx, float vy)
 	:
-	current_frame(0),
 	vx(vx),
 	vy(vy)
 {
@@ -26,7 +25,6 @@ Sprite::Sprite(std::string texture_name, int frame_width, int frame_height, floa
 	
 	this->frame_width = static_cast<int>(frame_width * sprite.getScale().x);
 	this->frame_height = static_cast<int>(frame_height * sprite.getScale().y);
-	frame_number = static_cast<int>(texture.getSize().x / frame_width);
 
 }
 
@@ -132,24 +130,6 @@ void Sprite::setMovement(float x, float y)
 void Sprite::setColor(const sf::Color & color)
 {
 	sprite.setColor(color);
-}
-
-void Sprite::setFrame(int frame_id)
-{
-	if (frame_id >= 0 && frame_id < frame_number)
-	{
-		current_frame = frame_id;
-	}
-}
-
-void Sprite::nextFrame()
-{
-	current_frame = (current_frame + 1) % frame_number;
-}
-
-void Sprite::resetFrame()
-{
-	current_frame = 0;
 }
 
 void Sprite::setMoving(bool status)

@@ -14,7 +14,7 @@ public:
 	Ball(float x, float y);
 	void update(Game& game);
 	void checkBlockCollision(Game& game);
-	void checkPlayerCollision(Sprite* player);
+	void checkPlayerCollision(Game& game);
 	void launch();
 private:
 	bool started;

@@ -130,7 +130,7 @@ BreakableBlock::BreakableBlock(std::string texture_name, float x, float y, bool 
 
 void BreakableBlock::hitAction(Game & game)
 {
-	game.popBlock(this);
+	game.pop(this);
 }
 
 ItemBlock::ItemBlock(const BlockData & block_data, bool endless)
@@ -148,5 +148,5 @@ ItemBlock::ItemBlock(std::string texture_name, float x, float y, bool endless)
 void ItemBlock::hitAction(Game & game)
 {
 	game.add(new Ball(center().x, center().y));
-	game.popBlock(this);
+	game.pop(this);
 }
