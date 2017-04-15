@@ -8,7 +8,6 @@ ColorButton::ColorButton( string name , RenderLayer layer , int id , int max )
 {
     float slot = 1.0/(max-1);
     float value = slot*id;
-    cout << value << endl;
     
     float red,green,blue;
     
@@ -39,7 +38,6 @@ ColorButton::ColorButton( string name , RenderLayer layer , int id , int max )
     else
         blue = 0;
     
-//    cout << red << "-" << green << "-" << blue << endl;
     red *= 255;
     green *= 255;
     blue *= 255;
