@@ -31,6 +31,8 @@ void ColorButton::setPosition(float x, float y)
     normal_y = y;
 }
 
+
+
 void ColorButton::update(EventHandler &e)
 {
     SpriteObject::update(e);

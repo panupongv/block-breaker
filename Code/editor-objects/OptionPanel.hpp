@@ -7,6 +7,7 @@
 #include "enums.hpp"
 #include "TextList.hpp"
 #include "ColorPalatte.hpp"
+#include "BlockTemplateButton.hpp"
 
 enum OptionMode { Load , Edit , Save };
 
@@ -47,6 +48,7 @@ private:
     TextObject* status;
     ColorPalatte* palatte;
     
+    std::vector<BlockTemplateButton*> block_buttons;
     TextObject* button_new;
     TextObject* button_load;
     TextObject* button_save;

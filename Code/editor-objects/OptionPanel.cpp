@@ -94,11 +94,29 @@ OptionPanel::OptionPanel(Scene& scene , sf::RenderWindow& window)
         palatte = new ColorPalatte
         (
             620,
-            135,
+            155,
             300,
             100,
             scene
         );
+        
+        block_buttons.push_back(new BlockTemplateButton(
+            "normal block button",
+            RenderLayer::PanelElementLayer,
+            BlockType::normal
+        ));
+        
+        block_buttons.push_back(new BlockTemplateButton(
+            "breakable block button",
+            RenderLayer::PanelElementLayer,
+            BlockType::breakable
+        ));
+        
+        block_buttons.push_back(new BlockTemplateButton(
+            "item block button",
+            RenderLayer::PanelElementLayer,
+            BlockType::item
+        ));
     }
     
     //Size Objects
@@ -120,9 +138,13 @@ OptionPanel::OptionPanel(Scene& scene , sf::RenderWindow& window)
     input_field->setPosition(610, 20);
     list->setPosition(610, 70);
     status->setPosition(610, 80);
+    for(int i = 0 ; i < block_buttons.size() ; ++i)
+        block_buttons[i]->setPosition(650, 15 + (10+36)*i );
 
     scene.addObject(background);
     
+    for(int i = 0 ; i < block_buttons.size() ; ++i)
+        collectElement(block_buttons[i], scene);
     collectElement(input_field, scene);
     collectElement(list , scene);
     collectElement(status, scene);
@@ -228,6 +250,8 @@ void OptionPanel::changeModeTo(OptionMode mode)
             break;
             
         case Edit:
+            for(int i = 0 ; i < block_buttons.size() ; ++i)
+                block_buttons[i]->enable();
             palatte->enable();
             button_new->enable();
             button_load->enable();
@@ -315,6 +339,19 @@ void OptionPanel::update_in_load_mode(EventHandler &e)
 
 void OptionPanel::update_in_edit_mode(EventHandler &e)
 {
+    for(int i = 0 ; i < block_buttons.size() ; ++i)
+    {
+        if(e.gotClickOn(block_buttons[i]))
+        {
+            for(int j = 0 ; j < block_buttons.size() ; ++j)
+                block_buttons[j]->deselect();
+            
+            block_buttons[i]->select();
+            
+            cout << "change block mode" << endl;
+        }
+    }
+    
     palatte->update(e);
     
     if(palatte->gotClick(e))
@@ -322,6 +359,12 @@ void OptionPanel::update_in_edit_mode(EventHandler &e)
         cout << "change color to:\n";
         sf::Color color = palatte->getSelectedColor();
         cout << color.r << "-" << color.g << "-" << color.b << endl;
+        
+        for(int i = 0 ; i < block_buttons.size() ; ++i)
+        {
+            block_buttons[i]->setColor(color);
+        }
+
         return;
     }
     
