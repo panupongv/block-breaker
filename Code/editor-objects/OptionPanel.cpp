@@ -91,7 +91,19 @@ OptionPanel::OptionPanel(Scene& scene , sf::RenderWindow& window)
             "|  Exit  '_'"
         );
         
-        
+        for(int i = 0 ; i < 80 ; i++)
+        {
+            color_buttons.push_back(new ColorButton
+            (
+                "color button",
+                RenderLayer::PanelElementLayer,
+                i,
+                80
+            ));
+            
+            color_buttons[i]->setPosition(620, 135);
+            collectElement(color_buttons[i], scene);
+        }
     }
     
     //Size Objects
@@ -221,6 +233,9 @@ void OptionPanel::changeModeTo(OptionMode mode)
             break;
             
         case Edit:
+            for(int i = 0 ; i < color_buttons.size() ; i++)
+                color_buttons[i]->enable();
+            
             button_new->enable();
             button_load->enable();
             button_save->enable();

@@ -6,6 +6,7 @@
 #include "InputField.hpp"
 #include "enums.hpp"
 #include "TextList.hpp"
+#include "ColorButton.hpp"
 
 enum OptionMode { Load , Edit , Save };
 
@@ -45,6 +46,7 @@ private:
     TextList* list;
     TextObject* status;
     
+    std::vector<ColorButton*> color_buttons;
     TextObject* button_new;
     TextObject* button_load;
     TextObject* button_save;
