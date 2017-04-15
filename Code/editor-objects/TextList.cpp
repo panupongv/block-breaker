@@ -146,29 +146,24 @@ void TextList::draw(sf::RenderTarget &target)
 
 void TextList::update_scroll(EventHandler& e)
 {
-    static int speed_scroll = 0;
-    static int count = 0;
+    if(e.cursorOn(this) == false)
+        return;
     
-    if(e.cursorOn(this))
-        if(e.gotKey(sf::Keyboard::Up))
-        {
-            speed_scroll += 1;
-            count = 0;
-        }
-        else if( e.gotKey(sf::Keyboard::Down))
-        {
-            speed_scroll -= 1;
-            count = 0;
-        }
-        else
-        {
-            count++;
-            if(count >= 10)
-            {
-                speed_scroll = 0;
-            }
-        }
+    float top = getRect().top;
+    float height = getRect().height;
+    float bottom = top + height;
     
+    float mouse_y = WindowHelper::getMousePosition(window).y;
+    float ratio = (mouse_y - top)/height;
+    
+    float speed_scroll = 0;
+    float max_speed = 15;
+    
+    if( ratio > 0.7 )
+        speed_scroll = (ratio-0.7)/0.3*max_speed;
+    else if( ratio < 0.3 )
+        speed_scroll = -(0.3-ratio)/0.3*max_speed;
+        
     scroll(speed_scroll);
 }
 
