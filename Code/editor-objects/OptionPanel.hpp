@@ -1,4 +1,5 @@
 #pragma once
+
 #include "SpriteObject.hpp"
 #include "TextObject.hpp"
 #include "Scene.hpp"
@@ -6,6 +7,7 @@
 #include "InputField.hpp"
 #include "enums.hpp"
 #include "TextList.hpp"
+#include <iostream>
 
 enum OptionMode { Load , Edit , Save };
 
@@ -33,7 +35,7 @@ private:
     const int left_edge = 615;
     
     std::string file_name;
-    UpdateOperation operation = None;
+	UpdateOperation operation;// = None;
     
     std::vector<BaseObject*> buttons;
     std::vector<BaseObject*> elements;

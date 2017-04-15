@@ -73,7 +73,7 @@ float TextList::getListHeight() const
 
 float TextList::getAvailableScroll() const
 {
-    float availableScroll;
+    float availableScroll = 0;
     availableScroll += getListHeight();
     availableScroll -= getRect().height;
     

@@ -191,7 +191,7 @@ ShotRocket::ShotRocket()
 	Ball("rocket.png", 50, 126, false)
 {
 	started = false;
-	setMovement(0, -2);
+	setMovement(0, -1);
 }
 
 void ShotRocket::update(Game & game)
@@ -199,7 +199,8 @@ void ShotRocket::update(Game & game)
 	if (started)
 	{
 		move();
-		setVY(getVY() * 1.5);
+		if(getVY() * 1.2 < 18)
+			setVY(getVY() * 1.2);
 		std::vector<Block*> block_list = game.getBlockList();
 		if (bottom() < game.upper_bound)
 			game.pop(this);

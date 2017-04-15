@@ -20,8 +20,8 @@ enum UpdateOperation {
     None,
     NewStage ,
     LoadStage ,
-    SaveFile ,
-    ReplaceFile ,
+    SaveFileOperation ,
+    ReplaceFileOperation ,
     Exit
 };
 

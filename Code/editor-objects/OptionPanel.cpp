@@ -2,11 +2,11 @@
 #include "WindowHelper.hpp"
 #include "DirectoryReader.hpp"
 
-#include <iostream>
-
 using namespace std;
 
 OptionPanel::OptionPanel(Scene& scene , sf::RenderWindow& window)
+	:
+	operation(None)
 {
     //Create Objects
     {
@@ -305,14 +305,14 @@ void OptionPanel::update_in_save_mode(EventHandler &e)
     if(e.gotClickOn(button_confirm_save))
     {
         changeModeTo(Edit);
-        operation = SaveFile;
+        operation = SaveFileOperation;
         return;
     }
     
     if (e.gotClickOn(button_replace))
     {
         changeModeTo(Edit);
-        operation = ReplaceFile;
+		operation = ReplaceFileOperation;
         return;
     }
     

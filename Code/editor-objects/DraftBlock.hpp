@@ -1,5 +1,6 @@
 #pragma once
 
+#include "sfml.hpp"
 #include "SpriteObject.hpp"
 #include "BlockData.hpp"
 
