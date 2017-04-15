@@ -2,7 +2,6 @@
 //#include "shared-classes\CSVSplitter.hpp"
 #include "CSVSplitter.hpp"
 
-using namespace sf;
 using namespace std;
 
 BlockData::BlockData() {} 
@@ -13,68 +12,78 @@ BlockData::BlockData ( string raw )
     
     BlockType type = (BlockType)atoi(splitted[0].c_str());
     
-    Color color = Color(
+    sf::Color color = sf::Color(
         atoi(splitted[1].c_str()),
         atoi(splitted[2].c_str()),
         atoi(splitted[3].c_str())
     );
     
-    Vector2i startGrid = Vector2i(
+    sf::Vector2i startGrid = sf::Vector2i(
         atoi(splitted[4].c_str()),
         atoi(splitted[5].c_str())
     );
     
-    vector<Vector2i> movement;
+    vector<sf::Vector2i> movement;
     for(int i = 6 ; i+1 < splitted.size() ; i += 2)
     {
         movement.push_back(
-            Vector2i(
+           sf::Vector2i(
                 atoi(splitted[i].c_str()),
                 atoi(splitted[i+1].c_str())
             )
         );
     }
     
-    *this = BlockData::BlockData( type , color , startGrid , movement );
+    movement.push_back(startGrid);
+    movement.push_back(startGrid);
+    
+    *this = BlockData::BlockData( type , color , startGrid , movement[1] );
 }
 
-BlockData::BlockData ( BlockType type , Color color , Vector2i startGrid , vector<Vector2i> movement )
+BlockData::BlockData ( BlockType type , sf::Color color , sf::Vector2i startGrid , sf::Vector2i movement )
 :TemplateData(type , color)
 {
     this->startGrid = startGrid;
-    this->movement = movement;
+    setMovement(movement);
 }
 
-Vector2i BlockData::getStartGrid() const
+sf::Vector2i BlockData::getStartGrid() const
 {
     return this->startGrid;
 }
 
-const vector<Vector2i>& BlockData::getMovement() const
+const vector<sf::Vector2i>& BlockData::getMovement() const
 {
     return this->movement;
 }
 
 void BlockData::setStartGrid( int x, int y)
 {
-    this->setStartGrid( Vector2i(x,y) );
+    this->setStartGrid( sf::Vector2i(x,y) );
 }
 
-void BlockData::setStartGrid( Vector2i _start )
+void BlockData::setStartGrid( sf::Vector2i _start )
 {
     this->startGrid = _start;
 }
 
-void BlockData::setMovement( vector<Vector2i> movement )
+void BlockData::setMovement( sf::Vector2i movement )
 {
-    this->movement = movement;
+    cancelMovement();
+    this->movement.push_back(getStartGrid());
+    this->movement.push_back(movement);
+}
+
+void BlockData::cancelMovement()
+{
+    this->movement.clear();
 }
 
 ostream& operator<< ( ostream& strm , const BlockData& blockData )
 {
-    Color blockColor = blockData.getColor();
-    Vector2i blockStartGrid = blockData.getStartGrid();
-    vector<Vector2i> blockMovement = blockData.getMovement();
+    sf::Color blockColor = blockData.getColor();
+    sf::Vector2i blockStartGrid = blockData.getStartGrid();
+    vector<sf::Vector2i> blockMovement = blockData.getMovement();
     
     strm    << blockData.getType() << ","
             << (int)blockColor.r << ","
