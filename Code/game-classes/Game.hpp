@@ -25,8 +25,8 @@ class Explosion;
 class Game
 {
 public:
-	Game(sf::RenderWindow *window);
-	Game(sf::RenderWindow *window, std::string file_name);
+	Game(sf::RenderWindow *window, std::string character_name);
+	Game(sf::RenderWindow *window, std::string character_name, std::string file_name);
 	~Game();
 	void run();
 
@@ -55,7 +55,7 @@ public:
 	static const int game_width = 600;
 	static const int game_height = 600;
 private:
-	bool setup();
+	bool setup(std::string character_name);
 	void draw_sprites();
 	void update_sprites();
 	void event_input();

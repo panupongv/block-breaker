@@ -52,7 +52,7 @@ int Player::getWidthByName(const std::string & texture_name) const
 {
 	if (texture_name == "paddle.png")
 		return 120;
-	if (texture_name == "catpad.png")
+	if (texture_name == "catpad2.png")
 		return 200;
 	return 120;
 }
@@ -61,7 +61,7 @@ int Player::getHeightByName(const std::string & texture_name) const
 {
 	if (texture_name == "paddle.png")
 		return 15;
-	if (texture_name == "catpad.png")
+	if (texture_name == "catpad2.png")
 		return 37;
 	return 30;
 }
@@ -70,7 +70,7 @@ int Player::getHitlineByName(const std::string & texture_name) const
 {
 	if (texture_name == "paddle.png")
 		return 590;
-	if (texture_name == "catpad.png")
+	if (texture_name == "catpad2.png")
 		return 575;
 	return 0;
 }

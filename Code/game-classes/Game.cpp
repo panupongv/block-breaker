@@ -1,7 +1,7 @@
 #include "Game.hpp"
 #include "ResourcePath.hpp"
 
-Game::Game(sf::RenderWindow * window)
+Game::Game(sf::RenderWindow * window, std::string character_name)
 	:
 	window(window),
 	finished(false),
@@ -11,7 +11,7 @@ Game::Game(sf::RenderWindow * window)
 	lives(2)
 {
 	srand(time(NULL));
-	if (!setup())
+	if (!setup(character_name))
 	{
 		std::cout << "Game setup failed" << std::endl;
 	}
@@ -23,7 +23,7 @@ Game::Game(sf::RenderWindow * window)
 	
 }
 
-Game::Game(sf::RenderWindow * window, std::string file_name)
+Game::Game(sf::RenderWindow * window, std::string character_name, std::string file_name)
 	:
 	window(window),
 	finished(false),
@@ -37,7 +37,7 @@ Game::Game(sf::RenderWindow * window, std::string file_name)
 		std::cout << "No map found" << std::endl;
 	}
 
-	if (!setup())
+	if (!setup(character_name))
 	{
 		std::cout << "Game setup failed" << std::endl;
 	}
@@ -225,9 +225,9 @@ sf::Vector2f Game::getMousePosition() const
 	return sf::Vector2f(sf::Mouse::getPosition(*window).x, sf::Mouse::getPosition(*window).y);
 }
 
-bool Game::setup()
+bool Game::setup(std::string character_name)
 {
-	player = new Player("catpad.png");
+	player = new Player(character_name);
 	sprite_list.push_back(player);
 	ball_list.push_back(new Ball());
 	sprite_list.push_back(ball_list.back());
