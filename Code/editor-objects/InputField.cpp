@@ -115,6 +115,6 @@ void InputField::update_representation(EventHandler& e)
     }
     
     sf::FloatRect field_rect = getRect();
-    sf::Vector2f midPos = getCenterOf(field_rect);
+    sf::Vector2f midPos = helper::getCenterOf(field_rect);
     textObject.setPosition(field_rect.left+7, field_rect.top+10,PositioningMode::TopLeft);
 }
