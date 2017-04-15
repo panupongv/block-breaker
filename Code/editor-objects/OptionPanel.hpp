@@ -3,18 +3,24 @@
 #include "TextObject.hpp"
 #include "Scene.hpp"
 #include "EventHandler.hpp"
+#include "InputField.hpp"
+#include "enums.hpp"
+#include "TextList.hpp"
+#include "ColorPalatte.hpp"
+#include "BlockTemplateButton.hpp"
 
 enum OptionMode { Load , Edit , Save };
-
-enum UpdateOperation { None, NewStage , LoadStage , SaveFile , ReplaceFile , Exit };
 
 class OptionPanel
 {
 public:
-    OptionPanel(Scene& scene);
+    OptionPanel(Scene& scene, sf::RenderWindow& window);
     void update(EventHandler& eHandler);
     OptionMode getCurrentMode() const;
     UpdateOperation getUpdateOperation( ) const;
+    std::string getFileName() const;
+    sf::Color getSelectedColor() const;
+    BlockType getSelectedType() const;
     
 private:
     void collectButton(TextObject* button,Scene& scene);
@@ -30,15 +36,23 @@ private:
     const int char_size = 25;
     const int left_edge = 615;
     
-    std::string file_name;
+    std::string file_name = "";
+    sf::Color selected_color = sf::Color::White;
+    BlockType selected_type = normal;
     UpdateOperation operation = None;
     
-    std::vector<TextObject*> buttons;
+    std::vector<BaseObject*> buttons;
     std::vector<BaseObject*> elements;
     SpriteObject* background;
     OptionMode mode = OptionMode::Load;
     OptionMode prevMode = OptionMode::Load;
     
+    InputField* input_field;
+    TextList* list;
+    TextObject* status;
+    ColorPalatte* palatte;
+    
+    std::vector<BlockTemplateButton*> block_buttons;
     TextObject* button_new;
     TextObject* button_load;
     TextObject* button_save;

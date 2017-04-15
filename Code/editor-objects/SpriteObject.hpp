@@ -25,14 +25,14 @@ public:
     //abstract
     virtual void setPosition( float x, float y, PositioningMode mode = PositioningMode::TopLeft );
     virtual sf::Vector2f getPosition( PositioningMode mode = PositioningMode::TopLeft ) const;
-    virtual void setColor( const sf::Color& color );
+    virtual void setColor( sf::Color color );
     virtual const sf::Color getColor( ) const;
     virtual const sf::FloatRect getRect() const;
     virtual void move( float offset_x, float offset_y );
     
     //polymorphysm
-    virtual void update( void* ptr );
-    virtual void draw( sf::RenderWindow& window );
+    virtual void update(EventHandler& e );
+    virtual void draw( sf::RenderTarget& target );
     
 private:
     sf::Sprite sprite;

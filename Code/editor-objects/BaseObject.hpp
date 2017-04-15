@@ -1,19 +1,12 @@
 #pragma once
 
 #include "sfml.hpp"
+#include "EventHandler.hpp"
+#include "enums.hpp"
+
 #include <string>
 
-enum RenderLayer {
-    BackgroundLayer ,
-    EditingSpaceBackgroundLayer,
-    DraftBlockLayer,
-    BlockLayer,
-    PinLayer,
-    PanelBackgroundLayer,
-    PanelElementLayer,
-    TitleLayer
-};
-enum PositioningMode { TopLeft , Center };
+class EventHandler;
 
 class BaseObject
 {
@@ -33,7 +26,7 @@ public:
     
     //abstract setters,mutators
     virtual void setPosition(float x, float y, PositioningMode mode = PositioningMode::TopLeft) = 0;
-    virtual void setColor(const sf::Color& color) = 0;
+    virtual void setColor(sf::Color color) = 0;
     virtual void move(float x, float y) = 0;
     
     //abstract getters
@@ -42,8 +35,8 @@ public:
     virtual const sf::FloatRect getRect() const = 0;
     
     //polymorphism behaviors
-    virtual void update(void* ptr) = 0;
-    virtual void draw(sf::RenderWindow& window) = 0;
+    virtual void update(EventHandler& e) = 0;
+    virtual void draw(sf::RenderTarget& target) = 0;
     
 private: 
     std::string name = "unnamed base object";

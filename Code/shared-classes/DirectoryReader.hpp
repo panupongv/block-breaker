@@ -17,4 +17,5 @@ class BBStageFileFinder : public DirectoryReader
 public:
     BBStageFileFinder(const std::string& folder_name);
     std::vector<std::string> getFileNames() const;
+    std::vector<std::string> searchFileNames( std::string search_string) const;
 };

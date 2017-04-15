@@ -6,7 +6,7 @@ using namespace std;
 DraftBlock::DraftBlock( string textureName , sf::RenderWindow& window , sf::Color color )
 :SpriteObject("draft block" , RenderLayer::DraftBlockLayer , textureName )
 {
-    this->setColor( color );
+    setColor( color );
     this->window = &window;
 }
 
@@ -26,18 +26,18 @@ void DraftBlock::setColor(sf::Color color)
     SpriteObject::setColor(color);
 }
 
-void DraftBlock::update(void *ptr)
+void DraftBlock::update( EventHandler& e )
 {
-    SpriteObject::update(ptr);
+    SpriteObject::update(e);
     
     followCursor();
     snapToGrid();
 }
 
-void DraftBlock::draw(sf::RenderWindow &window)
+void DraftBlock::draw(sf::RenderTarget &target)
 {
     if(getAvailability() == true)
-        SpriteObject::draw(window);
+        SpriteObject::draw(target);
 }
 
 void DraftBlock::followCursor()

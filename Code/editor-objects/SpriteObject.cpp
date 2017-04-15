@@ -69,6 +69,7 @@ void SpriteObject::setTexture(string textureName)
 {
     this->texture = sf::Texture();
     this->texture.loadFromFile(resourcePath() + textureName);
+    this->texture.setRepeated(true);
     this->sprite.setTexture(texture);
     
     this->num_col = 1;
@@ -123,15 +124,15 @@ int SpriteObject::getCurrentColumn() const
     return this->current_frame % this->num_col;
 }
 
-void SpriteObject::update(void *ptr)
+void SpriteObject::update( EventHandler& e)
 {
     return;
 }
 
-void SpriteObject::draw(sf::RenderWindow &window)
+void SpriteObject::draw(sf::RenderTarget &target)
 {
     if(this->isActive())
-        window.draw(this->sprite);
+        target.draw(this->sprite);
 }
 
 void SpriteObject::setPosition(float x, float y , PositioningMode mode )
@@ -172,7 +173,7 @@ void SpriteObject::move(float offset_x, float offset_y)
     this->getSprite().move(offset_x,offset_y);
 }
 
-void SpriteObject::setColor(const sf::Color &color)
+void SpriteObject::setColor(sf::Color color)
 {
     this->color = color;
     

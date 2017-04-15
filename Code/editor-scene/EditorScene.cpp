@@ -5,27 +5,34 @@
 
 using namespace std;
 
-EditorScene::EditorScene( sf::RenderWindow& window ) : Scene("editor",window),panel(*this),space(*this,window) { };
+EditorScene::EditorScene( sf::RenderWindow& window ) : Scene("editor",window),panel(*this,window),space(*this,window) { };
 
 void EditorScene::update(EventHandler& eHandler)
 {
     Scene::update(eHandler);
-    
-    //implement update here
-//    if(eHandler.gotClickOn(stage_title))
-//    {
-//        cout << "drag on text : " << rand()%100 << endl;
-//        stage_title->disable();
-//    }
-    
-//    if(eHandler.cursorOn(background))
-//        cout << "cursor on bg : " << rand()%1000 << endl;
-    
     panel.update(eHandler);
-    UpdateOperation panelOperation = panel.getUpdateOperation();
-    
     space.update(eHandler);
+    
+    UpdateOperation panelOperation = panel.getUpdateOperation();
     UpdateOperation spaceOperation = space.getUpdateOperation();
+    
+    if(panelOperation == Exit)
+    {
+        flagEnded();
+        setNextScene(NULL);
+        return;
+    }
+    else if( panelOperation == LoadStage)
+    {
+        load_stage(panel.getFileName());
+        return;
+    }
+    else if(panelOperation == ChangeType || panelOperation == ChangeColor )
+    {
+        BlockType selected_type = panel.getSelectedType();
+        sf::Color selected_color = panel.getSelectedColor();
+        space.change_draft_block(selected_type, selected_color);
+    }
 }
 
 void EditorScene::draw()
@@ -67,5 +74,11 @@ void EditorScene::begin()
 void EditorScene::end()
 {
     //todo;
+}
+
+void EditorScene::load_stage(std::string file_name)
+{
+    cout << "need load stage implementation" << endl;
+    cout << "file : " << file_name << endl;
 }
 

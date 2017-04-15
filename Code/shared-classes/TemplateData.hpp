@@ -6,7 +6,7 @@
 #include <SFML\Graphics.hpp>
 #endif
 
-enum BlockType { normal , breakable , item };
+#include "enums.hpp"
 
 class TemplateData
 {

@@ -1,10 +1,13 @@
 #include "OptionPanel.hpp"
 #include "WindowHelper.hpp"
+#include "DirectoryReader.hpp"
+#include "FileNameUtility.hpp"
+
 #include <iostream>
 
 using namespace std;
 
-OptionPanel::OptionPanel(Scene& scene)
+OptionPanel::OptionPanel(Scene& scene , sf::RenderWindow& window)
 {
     //Create Objects
     {
@@ -14,6 +17,30 @@ OptionPanel::OptionPanel(Scene& scene)
             RenderLayer::PanelBackgroundLayer,
             "panel-bg.png"
         );
+        
+        input_field = new InputField
+        (
+            "file name input",
+            RenderLayer::PanelElementLayer,
+            "input-field.png"
+        );
+        input_field->setTextColor(sf::Color::White);
+        
+        list = new TextList
+        (
+            "file list",
+             RenderLayer::PanelElementLayer,
+             "file-list.png",
+            window
+        );
+        
+        status = new TextObject
+        (
+            "status text",
+             RenderLayer::PanelElementLayer,
+             "[STATUS]\n\nplease enter file name"
+        );
+        status->setColor(sf::Color::White);
         
         button_new = new TextObject
         (
@@ -63,10 +90,40 @@ OptionPanel::OptionPanel(Scene& scene)
             RenderLayer::PanelElementLayer,
             "|  Exit  '_'"
         );
+        
+        palatte = new ColorPalatte
+        (
+            620,
+            155,
+            300,
+            100,
+            scene
+        );
+        
+        block_buttons.push_back(new BlockTemplateButton(
+            "normal block button",
+            RenderLayer::PanelElementLayer,
+            BlockType::normal
+        ));
+        
+        block_buttons.push_back(new BlockTemplateButton(
+            "breakable block button",
+            RenderLayer::PanelElementLayer,
+            BlockType::breakable
+        ));
+        
+        block_buttons.push_back(new BlockTemplateButton(
+            "item block button",
+            RenderLayer::PanelElementLayer,
+            BlockType::item
+        ));
     }
     
     //Size Objects
     {
+        input_field->setTextSize(16);
+        
+        status->setSize(char_size/1.5);
         button_new->setSize(char_size);
         button_load->setSize(char_size);
         button_save->setSize(char_size);
@@ -78,8 +135,19 @@ OptionPanel::OptionPanel(Scene& scene)
     
     //Position Objects
     background->setPosition(600, 0);
+    input_field->setPosition(610, 20);
+    list->setPosition(610, 70);
+    status->setPosition(610, 80);
+    for(int i = 0 ; i < block_buttons.size() ; ++i)
+        block_buttons[i]->setPosition(650, 15 + (10+36)*i );
 
     scene.addObject(background);
+    
+    for(int i = 0 ; i < block_buttons.size() ; ++i)
+        collectElement(block_buttons[i], scene);
+    collectElement(input_field, scene);
+    collectElement(list , scene);
+    collectElement(status, scene);
     collectButton(button_new,scene);
     collectButton(button_load,scene);
     collectButton(button_save,scene);
@@ -125,6 +193,21 @@ UpdateOperation OptionPanel::getUpdateOperation() const
     return temp;
 }
 
+string OptionPanel::getFileName() const
+{
+    return file_name;
+}
+
+sf::Color OptionPanel::getSelectedColor() const
+{
+    return selected_color;
+}
+
+BlockType OptionPanel::getSelectedType() const
+{
+    return selected_type;
+}
+
 void OptionPanel::collectButton(TextObject *button , Scene& scene)
 {
     buttons.push_back(button);
@@ -140,10 +223,10 @@ void OptionPanel::collectElement(BaseObject *element, Scene& scene)
 
 void OptionPanel::disableAll()
 {
+    palatte->disable();
+    
     for(int i = 0 ; i < elements.size() ; i++)
-    {
         elements[i]->disable();
-    }
 }
 
 void OptionPanel::changeModeTo(OptionMode mode)
@@ -161,6 +244,9 @@ void OptionPanel::changeModeTo(OptionMode mode)
     switch (mode)
     {
         case Load:
+            input_field->enable();
+            input_field->clearText();
+            list->enable();
             button_new->enable();
             button_new->setPosition(x, y[1]);
             button_exit->enable();
@@ -174,6 +260,10 @@ void OptionPanel::changeModeTo(OptionMode mode)
             break;
             
         case Edit:
+            for(int i = 0 ; i < block_buttons.size() ; ++i)
+                block_buttons[i]->enable();
+            
+            palatte->enable();
             button_new->enable();
             button_load->enable();
             button_save->enable();
@@ -183,6 +273,9 @@ void OptionPanel::changeModeTo(OptionMode mode)
             break;
             
         case Save:
+            input_field->enable();
+            input_field->clearText();
+            status->enable();
             button_confirm_save->enable();
             button_replace->enable();
             button_cancel->enable();
@@ -202,7 +295,7 @@ void OptionPanel::update_overall(EventHandler &e)
     
     for(int i = 0 ; i < buttons.size() ; ++i)
     {
-        TextObject& button = *buttons[i];
+        BaseObject& button = *buttons[i];
         
         if(e.cursorOn(button))
         {
@@ -215,6 +308,26 @@ void OptionPanel::update_overall(EventHandler &e)
 
 void OptionPanel::update_in_load_mode(EventHandler &e)
 {
+    string search_string = input_field->getText();
+    BBStageFileFinder finder("stages");
+    vector<string> files = finder.searchFileNames(search_string);
+    list->setStringList(files);
+    
+    if(e.gotClickOn(list))
+    {
+        //if click on list then load stage
+        
+        string selected_item = list->getSelectedItem();
+        
+        if(selected_item != "")
+        {
+            operation = LoadStage;
+            changeModeTo(Edit);
+            file_name = selected_item;
+            return;
+        }
+    }
+    
     if(e.gotClickOn(button_new))
     {
         changeModeTo(Edit);
@@ -233,12 +346,43 @@ void OptionPanel::update_in_load_mode(EventHandler &e)
         operation = Exit;
         return;
     }
-    
-    //if click on list then load stage
 }
 
 void OptionPanel::update_in_edit_mode(EventHandler &e)
 {
+    for(int i = 0 ; i < block_buttons.size() ; ++i)
+    {
+        if(e.gotClickOn(block_buttons[i]))
+        {
+            for(int j = 0 ; j < block_buttons.size() ; ++j)
+                block_buttons[j]->deselect();
+            
+            block_buttons[i]->select();
+            
+            selected_type = block_buttons[i]->getType();
+            operation = ChangeType;
+            
+            cout << "change block mode" << endl;
+        }
+        
+    }
+    
+    palatte->update(e);
+    
+    if(palatte->gotClick(e))
+    {
+        cout << "change color :\n";
+        selected_color = palatte->getSelectedColor();
+        
+        for(int i = 0 ; i < block_buttons.size() ; ++i)
+        {
+            block_buttons[i]->setColor(selected_color);
+        }
+
+        operation = ChangeColor;
+        return;
+    }
+    
     if(e.gotClickOn(button_new))
     {
         operation = NewStage;
@@ -256,11 +400,34 @@ void OptionPanel::update_in_edit_mode(EventHandler &e)
         changeModeTo(Load);
         return;
     }
-    
 }
 
 void OptionPanel::update_in_save_mode(EventHandler &e)
 {
+    string entered_file_name = input_field->getText() + ".bbstage";
+    
+    if(input_field->getText().empty())
+    {
+        status->setText("[STATUS]\n\nplease enter file name");
+        status->setColor(sf::Color::White);
+    }
+    else
+    {
+        FileNameUtility util;
+        bool already_exist = util.file_exist("stages/" + entered_file_name);
+        
+        if(already_exist)
+        {
+            status->setText("[STATUS]\n\nwarning, file name existed\nbut you can replace file");
+            status->setColor(sf::Color::Red);
+        }
+        else
+        {
+            status->setText("[STATUS]\n\nfile name available\nclick save button to\nprocess saving file");
+            status->setColor(sf::Color::Green);
+        }
+    }
+    
     if(e.gotClickOn(button_confirm_save))
     {
         changeModeTo(Edit);

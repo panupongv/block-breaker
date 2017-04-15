@@ -17,11 +17,11 @@ public:
     virtual void setColor( sf::Color color );
     
     //polymorphysm
-    virtual void update( void* ptr );
-    virtual void draw( sf::RenderWindow& window );
+    virtual void update( EventHandler& e );
+    virtual void draw( sf::RenderTarget& target );
     
 private: 
-    const float transparency = 0.5;
+    const float transparency = 0.7;
     bool available = true;
     sf::RenderWindow* window;
     

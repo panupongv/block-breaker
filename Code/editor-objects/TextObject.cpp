@@ -16,6 +16,11 @@ void TextObject::setText(string text) {
     this->textRender.setString(text);
 }
 
+sf::Text& TextObject::getTextRender()
+{
+    return textRender;
+}
+
 string TextObject::getText() const
 {
     return this->textRender.getString();
@@ -56,18 +61,18 @@ void TextObject::disable()
     BaseObject::disable();
 }
 
-void TextObject::update(void *ptr)
+void TextObject::update(EventHandler& e)
 {
     return;
 }
 
-void TextObject::draw(sf::RenderWindow &window)
+void TextObject::draw(sf::RenderTarget &target)
 {
     if(this->isActive())
     {
 //        cout << "draw " << getName() << endl;
 //        cout << (int)textRender.getFillColor().a << endl;
-        window.draw(this->textRender);
+        target.draw(this->textRender);
     }
 }
 
@@ -110,7 +115,7 @@ void TextObject::move(float x , float y )
     this->textRender.move(x, y);
 }
 
-void TextObject::setColor(const sf::Color &color)
+void TextObject::setColor(sf::Color color)
 {
     this->color = color;
     

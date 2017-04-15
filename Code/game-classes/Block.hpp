@@ -2,11 +2,17 @@
 
 #include "Game.hpp"
 #include "Sprite.hpp"
+#include "Item.hpp"
+#include "Explosion.hpp"
 #include "BlockData.hpp"
 
 class Sprite;
 class Game;
 class Ball;
+class Item;
+
+const int TYPE_NUM = 4;
+enum ItemType { ADDBALL, MARIOBALL, MACHINEGUN, EXPLOSIVE };
 
 class Block : public Sprite
 {
@@ -14,9 +20,10 @@ public:
 	Block(const BlockData& block_data, bool endless = false);
     Block(std::string texture_name, float x, float y, bool endless = false);
 	Block(BlockType type, float x, float y, bool endless = false);
-    
+   
 	void update(Game& game);
 	virtual void hitAction(Game& game);
+	virtual void destroyed(Game& game);
 	static std::string getTextureNameFromType(BlockType type);
 
 public:
@@ -26,7 +33,6 @@ public:
 	static constexpr int move_speed = 1;
 
 protected:
-	
 	int frame_passed = 0;
 	void initializeData(std::vector<sf::Vector2i> points);
 
@@ -43,6 +49,7 @@ public:
 	BreakableBlock(std::string texture_name, float x, float y, bool endless = false);
 
 	virtual void hitAction(Game& game);
+	void destroyed(Game& game);
 };
 
 class ItemBlock : public BreakableBlock
@@ -50,6 +57,8 @@ class ItemBlock : public BreakableBlock
 public:
 	ItemBlock(const BlockData& block_data, bool endless = false);
 	ItemBlock(std::string texture_name, float x, float y, bool endless = false);
+	ItemType item_type;
 
 	void hitAction(Game& game);
+	//void destroyed(Game& game);
 };
