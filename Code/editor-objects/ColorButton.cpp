@@ -1,4 +1,5 @@
 #include "ColorButton.hpp"
+#include "ColorMapper.hpp"
 #include <iostream>
 
 using namespace std;
@@ -6,44 +7,10 @@ using namespace std;
 ColorButton::ColorButton( string name , RenderLayer layer , int id , int max )
 : SpriteObject(name , layer , "color-button.png" , 200 , 4 )
 {
-    float slot = 1.0/(max-1);
-    float value = slot*id;
-    
-    float red,green,blue;
-    
-    if(value >= 0 && value <= 0.25*0.5 )
-        red = 0.5 + 4*value;
-    else if(value >= 0.25*0.5 && value <= 0.25*1.5 )
-        red = 1;
-    else if(value >= 0.25*1.5 && value <= 0.25*2.5 )
-        red = 1 - 4*(value-0.25*1.5);
-    else
-        red = 0;
-    
-    if(value >= 0.25*0.5 && value <= 0.25*1.5 )
-        green = 4*(value-0.25*0.5);
-    else if(value >= 0.25*1.5 && value <= 0.25*2.5 )
-        green = 1;
-    else if(value >= 0.25*2.5 && value <= 0.25*3.5 )
-        green = 1 - 4*(value-0.25*2.5);
-    else
-        green = 0;
-    
-    if(value >= 0.5 && value <= 0.25*2.5 )
-        blue = 4*(value-0.5);
-    else if(value >= 0.25*2.5 && value <= 0.25*3.5 )
-        blue = 1;
-    else if(value >= 0.25*3.5 && value <= 1 )
-        blue = 1 - 4*(value-0.25*3.5);
-    else
-        blue = 0;
-    
-    red *= 255;
-    green *= 255;
-    blue *= 255;
-    
-    setColor(sf::Color(red,green,blue));
     this->id = id;
+    
+    sf::Color color = ColorMapper().getColorFromId(id, max);
+    setColor(color);
 }
 
 void ColorButton::setPosition(float x, float y)
