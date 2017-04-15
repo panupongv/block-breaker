@@ -1,6 +1,10 @@
 #include "WorkSpace.hpp"
+#include "ResourcePath.hpp"
+
+using namespace std;
 
 WorkSpace::WorkSpace(Scene& scene,sf::RenderWindow& window)
+: scene(scene),window(window)
 {
     background = new SpriteObject
     (
@@ -31,7 +35,27 @@ UpdateOperation WorkSpace::getUpdateOperation() const
     return operation;
 }
 
+DraftBlock& WorkSpace::getDraftBlock()
+{
+    return *draft_block;
+}
+
 void WorkSpace::update_overall(EventHandler &e)
 {
     
 }
+
+void WorkSpace::change_draft_block( const BlockType& type, const sf::Color& color )
+{
+    DraftBlock* new_draft_block = new DraftBlock(texture_name_of_type(type) ,window);
+    new_draft_block->setColor(color);
+    swap_new_draft_block(new_draft_block);
+}
+
+void WorkSpace::swap_new_draft_block(DraftBlock *new_draft_block)
+{
+    scene.removeObject(draft_block);
+    this->draft_block = new_draft_block;
+    scene.addObject(this->draft_block);
+}
+

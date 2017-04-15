@@ -23,7 +23,8 @@ enum UpdateOperation {
     SaveFile ,
     ReplaceFile ,
     Exit,
-    SelectColor
+    ChangeColor,
+    ChangeType
 };
 
 enum BlockType {

@@ -198,6 +198,16 @@ string OptionPanel::getFileName() const
     return file_name;
 }
 
+sf::Color OptionPanel::getSelectedColor() const
+{
+    return selected_color;
+}
+
+BlockType OptionPanel::getSelectedType() const
+{
+    return selected_type;
+}
+
 void OptionPanel::collectButton(TextObject *button , Scene& scene)
 {
     buttons.push_back(button);
@@ -252,6 +262,7 @@ void OptionPanel::changeModeTo(OptionMode mode)
         case Edit:
             for(int i = 0 ; i < block_buttons.size() ; ++i)
                 block_buttons[i]->enable();
+            
             palatte->enable();
             button_new->enable();
             button_load->enable();
@@ -348,23 +359,27 @@ void OptionPanel::update_in_edit_mode(EventHandler &e)
             
             block_buttons[i]->select();
             
+            selected_type = block_buttons[i]->getType();
+            operation = ChangeType;
+            
             cout << "change block mode" << endl;
         }
+        
     }
     
     palatte->update(e);
     
     if(palatte->gotClick(e))
     {
-        cout << "change color to:\n";
-        sf::Color color = palatte->getSelectedColor();
-        cout << color.r << "-" << color.g << "-" << color.b << endl;
+        cout << "change color :\n";
+        selected_color = palatte->getSelectedColor();
         
         for(int i = 0 ; i < block_buttons.size() ; ++i)
         {
-            block_buttons[i]->setColor(color);
+            block_buttons[i]->setColor(selected_color);
         }
 
+        operation = ChangeColor;
         return;
     }
     

@@ -19,6 +19,8 @@ public:
     OptionMode getCurrentMode() const;
     UpdateOperation getUpdateOperation( ) const;
     std::string getFileName() const;
+    sf::Color getSelectedColor() const;
+    BlockType getSelectedType() const;
     
 private:
     void collectButton(TextObject* button,Scene& scene);
@@ -34,7 +36,9 @@ private:
     const int char_size = 25;
     const int left_edge = 615;
     
-    std::string file_name;
+    std::string file_name = "";
+    sf::Color selected_color = sf::Color::White;
+    BlockType selected_type = normal;
     UpdateOperation operation = None;
     
     std::vector<BaseObject*> buttons;

@@ -25,12 +25,11 @@ sf::Color ColorMapper::heat_color_of(float ratio ) const
     //reference
     //http://stackoverflow.com/questions/2374959/algorithm-to-convert-any-positive-integer-to-an-rgb-value
     
+    ratio = 0.25*0.5 + ratio*0.75;
     float red,green,blue;
     
     //calculate red
-    if(ratio >= 0 && ratio <= 0.25*0.5 )
-        red = 0.5 + 4*ratio;
-    else if(ratio >= 0.25*0.5 && ratio <= 0.25*1.5 )
+    if(ratio >= 0.25*0.5 && ratio <= 0.25*1.5 )
         red = 1;
     else if(ratio >= 0.25*1.5 && ratio <= 0.25*2.5 )
         red = 1 - 4*(ratio-0.25*1.5);
@@ -52,8 +51,6 @@ sf::Color ColorMapper::heat_color_of(float ratio ) const
         blue = 4*(ratio-0.5);
     else if(ratio >= 0.25*2.5 && ratio <= 0.25*3.5 )
         blue = 1;
-    else if(ratio >= 0.25*3.5 && ratio <= 1 )
-        blue = 1 - 4*(ratio-0.25*3.5);
     else
         blue = 0;
     

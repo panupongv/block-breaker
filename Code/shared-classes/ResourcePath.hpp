@@ -29,6 +29,7 @@
 // Headers
 ////////////////////////////////////////////////////////////
 #include <string>
+#include "TemplateData.hpp"
 
 ////////////////////////////////////////////////////////////
 /// \brief Return the path to the resource folder.
@@ -40,3 +41,5 @@
 std::string resourcePath(void);
 
 std::string smartPath(std::string path);
+
+std::string texture_name_of_type( BlockType type );

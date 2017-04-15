@@ -173,7 +173,7 @@ void SpriteObject::move(float offset_x, float offset_y)
     this->getSprite().move(offset_x,offset_y);
 }
 
-void SpriteObject::setColor(const sf::Color &color)
+void SpriteObject::setColor(sf::Color color)
 {
     this->color = color;
     
