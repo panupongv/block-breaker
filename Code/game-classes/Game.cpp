@@ -226,7 +226,7 @@ sf::Vector2f Game::getMousePosition() const
 
 bool Game::setup()
 {
-	player = new Player("catpad.png");
+	player = new Player("paddle.png");
 	sprite_list.push_back(player);
 	ball_list.push_back(new Ball());
 	sprite_list.push_back(ball_list.back());
