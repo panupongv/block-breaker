@@ -52,6 +52,13 @@ sf::Vector2i BlockData::getStartGrid() const
     return this->startGrid;
 }
 
+const sf::Vector2i BlockData::getMovement_single() const
+{
+    if(movement.size() < 2)
+        return getStartGrid();
+    else
+        return movement[1];
+}
 const vector<sf::Vector2i>& BlockData::getMovement() const
 {
     return this->movement;

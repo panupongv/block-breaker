@@ -1,5 +1,7 @@
 #include "WorkSpace.hpp"
 #include "ResourcePath.hpp"
+#include "WindowHelper.hpp"
+#include "helperfunc.hpp"
 
 using namespace std;
 
@@ -17,7 +19,8 @@ WorkSpace::WorkSpace(Scene& scene,sf::RenderWindow& window)
     
     this->draft_block = new DraftBlock
     (
-     "brick.png",
+     BlockType::breakable,
+     sf::Color::White,
      window
      );
     
@@ -28,6 +31,7 @@ WorkSpace::WorkSpace(Scene& scene,sf::RenderWindow& window)
 void WorkSpace::update(EventHandler &e)
 {
     update_overall(e);
+    update_click(e);
 }
 
 UpdateOperation WorkSpace::getUpdateOperation() const
@@ -45,10 +49,65 @@ void WorkSpace::update_overall(EventHandler &e)
     
 }
 
+void WorkSpace::update_click(EventHandler &e)
+{
+    bool no_click = not e.gotClickOn(background);
+    
+    if(no_click)
+        return;
+    
+    sf::Vector2f mouse_pos = WindowHelper::getMousePosition(window);
+    sf::Vector2i click_grid = helper::grid_of_pos(mouse_pos);
+    
+    bool out_x = click_grid.x < 0 || click_grid.x > helper::grid_num_x;
+    bool out_y = click_grid.y < 0 || click_grid.y > helper::grid_num_y;
+    bool out_bound = out_x || out_y;
+    
+    if( out_bound )
+        return;
+    
+    if( is_empty_at(click_grid) )
+    {
+        if( has_selecting_blocks() )
+        {
+            deselect_all_blocks();
+        }
+        else
+        {
+            EditingBlock* new_block = new EditingBlock(*draft_block , click_grid , click_grid );
+            blocks.push_back( new_block );
+            scene.addObject( new_block );
+        }
+    }
+    else //click a block
+    {
+        bool ctrl_hold = e.gotKeyHold(sf::Keyboard::LControl);
+        bool cmd_hold = e.gotKeyHold(sf::Keyboard::RSystem);
+        
+        if( ctrl_hold || cmd_hold )//hold control
+        {
+            EditingBlock* block = block_at(click_grid);
+            
+            if(block_selected_at(click_grid))
+                deselect_block_at(click_grid);
+            else
+                select_block_at(click_grid);
+        }
+        else
+        {
+            if(block_selected_at(click_grid))// fix herererhjasdfkjaslkdjfkaljdlskfjlkasdjfadfasdlkfjdkjkjkjkjkjkj
+                remove_block_at(click_grid);
+            else
+                select_block_at(click_grid);
+        }
+    }
+    
+    
+}
+
 void WorkSpace::change_draft_block( const BlockType& type, const sf::Color& color )
 {
-    DraftBlock* new_draft_block = new DraftBlock(texture_name_of_type(type) ,window);
-    new_draft_block->setColor(color);
+    DraftBlock* new_draft_block = new DraftBlock(type , color ,window);
     swap_new_draft_block(new_draft_block);
 }
 
@@ -59,3 +118,100 @@ void WorkSpace::swap_new_draft_block(DraftBlock *new_draft_block)
     scene.addObject(this->draft_block);
 }
 
+bool WorkSpace::is_empty_at(sf::Vector2i grid)
+{
+    for(int i = 0 ; i < blocks.size() ; ++i )
+    {
+        sf::Vector2i block_grid = blocks[i]->getStartGrid();
+        
+        if(block_grid == grid)
+            return false;
+    }
+    
+    return true;
+}
+
+bool WorkSpace::has_selecting_blocks() const
+{
+    return get_selecting_block().size() > 0;
+}
+
+bool WorkSpace::deselect_all_blocks()
+{
+    vector<EditingBlock*> selecting_blocks = get_selecting_block();
+    for(int i = 0 ; i < selecting_blocks.size() ; i++)
+    {
+        selecting_blocks[i]->deselect();
+    }
+}
+
+EditingBlock* WorkSpace::block_at(sf::Vector2i grid)
+{
+    for(int i = 0 ; i < blocks.size() ; ++i)
+    {
+        sf::Vector2i block_grid = blocks[i]->getStartGrid();
+        if(block_grid == grid)
+        {
+            return blocks[i];
+        }
+    }
+}
+
+void WorkSpace::select_block_at(sf::Vector2i grid)
+{
+    assert_empty_at(grid);
+    block_at(grid)->select();
+}
+
+void WorkSpace::deselect_block_at(sf::Vector2i grid)
+{
+    assert_empty_at(grid);
+    block_at(grid)->deselect();
+}
+
+bool WorkSpace::block_selected_at(sf::Vector2i grid)
+{
+    assert_empty_at(grid);
+    return block_at(grid)->isSelected();
+}
+
+void WorkSpace::assert_empty_at(sf::Vector2i grid)
+{
+    if( is_empty_at(grid) )
+        throw invalid_argument("no any block at grid given");
+}
+
+vector<EditingBlock*> WorkSpace::get_selecting_block() const
+{
+    std::vector<EditingBlock*> selecting_blocks;
+    
+    for(int i = 0 ; i < blocks.size() ; ++i)
+    {
+        if(blocks[i]->isSelected())
+            selecting_blocks.push_back(blocks[i]);
+    }
+    
+    return selecting_blocks;
+}
+
+void WorkSpace::remove_block_at(sf::Vector2i grid)
+{
+    EditingBlock* block = block_at(grid);
+    
+    for(int i = 0 ; i < blocks.size() ;++i )
+    {
+        if(blocks[i] == block)
+        {
+            blocks.erase(blocks.begin() + i);
+            break;
+        }
+    }
+    
+    scene.removeObject(block);
+}
+
+bool WorkSpace::more_than_one_selecting() const
+{
+    vector<EditingBlock*> selecting_blocks = get_selecting_block();
+    return selecting_blocks.size() > 1;
+}

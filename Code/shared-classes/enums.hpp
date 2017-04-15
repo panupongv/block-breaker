@@ -3,6 +3,7 @@
 enum RenderLayer {
     BackgroundLayer ,
     EditingSpaceBackgroundLayer,
+    EditingSpaceElementLayer,
     DraftBlockLayer,
     BlockLayer,
     PinLayer,

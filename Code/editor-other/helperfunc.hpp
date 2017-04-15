@@ -10,7 +10,7 @@ namespace helper
 
     sf::Vector2f getCenterOf(sf::FloatRect rect);
 
-    int gird_x_of_pos( float x );
+    int grid_x_of_pos( float x );
     int grid_y_of_pos( float y );
     float pos_x_of_grid( int x );
     float pos_y_of_grid( int y );

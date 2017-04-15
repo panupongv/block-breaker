@@ -3,11 +3,12 @@
 #include "SpriteObject.hpp"
 #include "BlockData.hpp"
 
-class DraftBlock: public SpriteObject
+class DraftBlock:
+public SpriteObject,
+public TemplateData
 {
 public:
-    DraftBlock();
-    DraftBlock( std::string textureName , sf::RenderWindow &window , sf::Color color = sf::Color::White );
+    DraftBlock( BlockType type , sf::Color color , sf::RenderWindow& window );
     
     //getter setter
     void setAvailability(bool available);
