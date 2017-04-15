@@ -22,7 +22,9 @@ enum UpdateOperation {
     LoadStage ,
     SaveFile ,
     ReplaceFile ,
-    Exit
+    Exit,
+    ChangeColor,
+    ChangeType
 };
 
 enum BlockType {

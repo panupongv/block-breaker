@@ -6,6 +6,8 @@
 #include "InputField.hpp"
 #include "enums.hpp"
 #include "TextList.hpp"
+#include "ColorPalatte.hpp"
+#include "BlockTemplateButton.hpp"
 
 enum OptionMode { Load , Edit , Save };
 
@@ -17,6 +19,8 @@ public:
     OptionMode getCurrentMode() const;
     UpdateOperation getUpdateOperation( ) const;
     std::string getFileName() const;
+    sf::Color getSelectedColor() const;
+    BlockType getSelectedType() const;
     
 private:
     void collectButton(TextObject* button,Scene& scene);
@@ -32,7 +36,9 @@ private:
     const int char_size = 25;
     const int left_edge = 615;
     
-    std::string file_name;
+    std::string file_name = "";
+    sf::Color selected_color = sf::Color::White;
+    BlockType selected_type = normal;
     UpdateOperation operation = None;
     
     std::vector<BaseObject*> buttons;
@@ -44,7 +50,9 @@ private:
     InputField* input_field;
     TextList* list;
     TextObject* status;
+    ColorPalatte* palatte;
     
+    std::vector<BlockTemplateButton*> block_buttons;
     TextObject* button_new;
     TextObject* button_load;
     TextObject* button_save;

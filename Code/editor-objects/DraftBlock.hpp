@@ -21,7 +21,7 @@ public:
     virtual void draw( sf::RenderTarget& target );
     
 private: 
-    const float transparency = 0.5;
+    const float transparency = 0.7;
     bool available = true;
     sf::RenderWindow* window;
     

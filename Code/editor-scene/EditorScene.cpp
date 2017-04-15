@@ -27,6 +27,12 @@ void EditorScene::update(EventHandler& eHandler)
         load_stage(panel.getFileName());
         return;
     }
+    else if(panelOperation == ChangeType || panelOperation == ChangeColor )
+    {
+        BlockType selected_type = panel.getSelectedType();
+        sf::Color selected_color = panel.getSelectedColor();
+        space.change_draft_block(selected_type, selected_color);
+    }
 }
 
 void EditorScene::draw()

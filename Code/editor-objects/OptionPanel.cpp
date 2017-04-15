@@ -91,7 +91,32 @@ OptionPanel::OptionPanel(Scene& scene , sf::RenderWindow& window)
             "|  Exit  '_'"
         );
         
+        palatte = new ColorPalatte
+        (
+            620,
+            155,
+            300,
+            100,
+            scene
+        );
         
+        block_buttons.push_back(new BlockTemplateButton(
+            "normal block button",
+            RenderLayer::PanelElementLayer,
+            BlockType::normal
+        ));
+        
+        block_buttons.push_back(new BlockTemplateButton(
+            "breakable block button",
+            RenderLayer::PanelElementLayer,
+            BlockType::breakable
+        ));
+        
+        block_buttons.push_back(new BlockTemplateButton(
+            "item block button",
+            RenderLayer::PanelElementLayer,
+            BlockType::item
+        ));
     }
     
     //Size Objects
@@ -113,9 +138,13 @@ OptionPanel::OptionPanel(Scene& scene , sf::RenderWindow& window)
     input_field->setPosition(610, 20);
     list->setPosition(610, 70);
     status->setPosition(610, 80);
+    for(int i = 0 ; i < block_buttons.size() ; ++i)
+        block_buttons[i]->setPosition(650, 15 + (10+36)*i );
 
     scene.addObject(background);
     
+    for(int i = 0 ; i < block_buttons.size() ; ++i)
+        collectElement(block_buttons[i], scene);
     collectElement(input_field, scene);
     collectElement(list , scene);
     collectElement(status, scene);
@@ -169,6 +198,16 @@ string OptionPanel::getFileName() const
     return file_name;
 }
 
+sf::Color OptionPanel::getSelectedColor() const
+{
+    return selected_color;
+}
+
+BlockType OptionPanel::getSelectedType() const
+{
+    return selected_type;
+}
+
 void OptionPanel::collectButton(TextObject *button , Scene& scene)
 {
     buttons.push_back(button);
@@ -184,10 +223,10 @@ void OptionPanel::collectElement(BaseObject *element, Scene& scene)
 
 void OptionPanel::disableAll()
 {
+    palatte->disable();
+    
     for(int i = 0 ; i < elements.size() ; i++)
-    {
         elements[i]->disable();
-    }
 }
 
 void OptionPanel::changeModeTo(OptionMode mode)
@@ -221,6 +260,10 @@ void OptionPanel::changeModeTo(OptionMode mode)
             break;
             
         case Edit:
+            for(int i = 0 ; i < block_buttons.size() ; ++i)
+                block_buttons[i]->enable();
+            
+            palatte->enable();
             button_new->enable();
             button_load->enable();
             button_save->enable();
@@ -272,6 +315,8 @@ void OptionPanel::update_in_load_mode(EventHandler &e)
     
     if(e.gotClickOn(list))
     {
+        //if click on list then load stage
+        
         string selected_item = list->getSelectedItem();
         
         if(selected_item != "")
@@ -301,12 +346,43 @@ void OptionPanel::update_in_load_mode(EventHandler &e)
         operation = Exit;
         return;
     }
-    
-    //if click on list then load stage
 }
 
 void OptionPanel::update_in_edit_mode(EventHandler &e)
 {
+    for(int i = 0 ; i < block_buttons.size() ; ++i)
+    {
+        if(e.gotClickOn(block_buttons[i]))
+        {
+            for(int j = 0 ; j < block_buttons.size() ; ++j)
+                block_buttons[j]->deselect();
+            
+            block_buttons[i]->select();
+            
+            selected_type = block_buttons[i]->getType();
+            operation = ChangeType;
+            
+            cout << "change block mode" << endl;
+        }
+        
+    }
+    
+    palatte->update(e);
+    
+    if(palatte->gotClick(e))
+    {
+        cout << "change color :\n";
+        selected_color = palatte->getSelectedColor();
+        
+        for(int i = 0 ; i < block_buttons.size() ; ++i)
+        {
+            block_buttons[i]->setColor(selected_color);
+        }
+
+        operation = ChangeColor;
+        return;
+    }
+    
     if(e.gotClickOn(button_new))
     {
         operation = NewStage;

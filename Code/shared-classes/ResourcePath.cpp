@@ -27,6 +27,7 @@
 // Headers
 ////////////////////////////////////////////////////////////
 #include "ResourcePath.hpp"
+#include <iostream>
 //#import <Foundation/Foundation.h>
 
 using namespace std;
@@ -59,7 +60,7 @@ std::string resourcePath(void)
 //    return rpath;
 }
 
-std::string smartPath( std::string path )
+string smartPath( string path )
 {
 #ifdef __APPLE__
     int pos;
@@ -75,4 +76,30 @@ std::string smartPath( std::string path )
     return path;
 #endif
 
+}
+
+
+string texture_name_of_type( BlockType type )
+{
+    string result;
+    
+    switch (type)
+    {
+        case normal:
+            result += "normal-block.png";
+            break;
+            
+        case breakable :
+            result += "breakable-block.png";
+            break;
+            
+        case item:
+            result += "item-block.png";
+            break;
+            
+        default:
+            throw invalid_argument("no support texture of BlockType ");
+    }
+    
+    return smartPath(result);
 }
