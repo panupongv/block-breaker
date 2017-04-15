@@ -46,7 +46,9 @@ CharacterSelect::CharacterSelect(sf::RenderWindow * window)
 	selected(0)
 {
 	characters.push_back(new CharacterShowcase("paddle.png", "CLASSIC"));
+	characters.push_back(new CharacterShowcase("bread.png", "BREAD"));
 	characters.push_back(new CharacterShowcase("catpad2.png", "CAT"));
+	characters.push_back(new CharacterShowcase("crocodile.png", "CROCODILE"));
 	character_num = characters.size();
 }
 

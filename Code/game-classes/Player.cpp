@@ -2,7 +2,7 @@
 
 Player::Player(std::string texture_name)
 	:
-	Sprite(texture_name, getWidthByName(texture_name), getHeightByName(texture_name), 250, getHitlineByName(texture_name)),
+	Sprite(texture_name, getWidthByName(texture_name), getHeightByName(texture_name), 250, 500),
 	hit_line(getHitlineByName(texture_name))
 { 
 	setAlive(true);
@@ -52,7 +52,7 @@ int Player::getWidthByName(const std::string & texture_name) const
 {
 	if (texture_name == "paddle.png")
 		return 120;
-	if (texture_name == "catpad2.png")
+	if (texture_name == "bread.png" || texture_name == "catpad2.png" || texture_name == "crocodile.png")
 		return 200;
 	return 120;
 }
@@ -61,16 +61,24 @@ int Player::getHeightByName(const std::string & texture_name) const
 {
 	if (texture_name == "paddle.png")
 		return 15;
+	if (texture_name == "bread.png")
+		return 30;
 	if (texture_name == "catpad2.png")
 		return 37;
-	return 30;
+	if (texture_name == "crocodile.png")
+		return 62;
+	return 0;
 }
 
 int Player::getHitlineByName(const std::string & texture_name) const
 {
 	if (texture_name == "paddle.png")
 		return 590;
+	if (texture_name == "bread.png")
+		return 580;
 	if (texture_name == "catpad2.png")
 		return 575;
-	return 0;
+	if (texture_name == "crocodile.png")
+		return 575;
+	return 590;
 }
