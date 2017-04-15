@@ -8,7 +8,8 @@ Game::Game(sf::RenderWindow * window, std::string character_name)
 	endless(true),
 	frame_passed(0),
 	current_color(0),
-	lives(2)
+	lives(2),
+	score(0)
 {
 	srand(time(NULL));
 	if (!setup(character_name))
@@ -154,6 +155,7 @@ void Game::pop(Block * block)
 			delete block;
 			block = NULL;
 			block_list.erase(block_list.begin() + i);
+			score += 10;
 			break;
 		}
 	}
@@ -237,6 +239,20 @@ bool Game::setup(std::string character_name)
 		return false;
 	}
 	background.setTexture(background_texture);
+
+	if (!font.loadFromFile("block-breaker\\Resources\\munro.ttf"))
+	{
+		return false;
+	}
+	lives_text.setCharacterSize(30);
+	score_text.setCharacterSize(30);
+	lives_text.setFont(font);
+	score_text.setFont(font);
+	lives_text.setFillColor(sf::Color::White);
+	score_text.setFillColor(sf::Color::White);
+	lives_text.setPosition(left_bound + 10, lower_bound - 80);
+	score_text.setPosition(left_bound + 10, lower_bound - 40);
+
 	return true;
 }
 
@@ -252,6 +268,8 @@ void Game::draw_sprites()
 	{
 		item_list[i]->draw(*window);
 	}
+	window->draw(lives_text);
+	window->draw(score_text);
 	window->draw(background);
 	window->display();
 }
@@ -261,9 +279,10 @@ void Game::update_sprites()
 	//const int sprite_num = sprite_list.size();
 	for (int i = 0; i < sprite_list.size(); i++)
 	{
-		//if (sprite_list[i]->isAlive())
 		 sprite_list[i]->update(*this);
 	}
+	lives_text.setString("lives: " + std::to_string(lives));
+	score_text.setString("score: " + std::to_string(score));
 }
 
 void Game::event_input()

@@ -65,6 +65,9 @@ private:
 	sf::Event event;
 	sf::Texture background_texture;
 	sf::Sprite background;
+	sf::Font font;
+	sf::Text lives_text;
+	sf::Text score_text;
 
 	Player* player;
 	std::vector<Ball*> ball_list;
@@ -73,6 +76,7 @@ private:
 	std::vector<Sprite*> sprite_list;
 
 	int lives;
+	int score;
 	int block_num;
 	bool endless;
 	bool finished;
