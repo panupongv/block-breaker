@@ -69,6 +69,7 @@ void SpriteObject::setTexture(string textureName)
 {
     this->texture = sf::Texture();
     this->texture.loadFromFile(resourcePath() + textureName);
+    this->texture.setRepeated(true);
     this->sprite.setTexture(texture);
     
     this->num_col = 1;

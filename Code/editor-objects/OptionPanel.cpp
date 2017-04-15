@@ -91,19 +91,14 @@ OptionPanel::OptionPanel(Scene& scene , sf::RenderWindow& window)
             "|  Exit  '_'"
         );
         
-        for(int i = 0 ; i < 80 ; i++)
-        {
-            color_buttons.push_back(new ColorButton
-            (
-                "color button",
-                RenderLayer::PanelElementLayer,
-                i,
-                80
-            ));
-            
-            color_buttons[i]->setPosition(620, 135);
-            collectElement(color_buttons[i], scene);
-        }
+        palatte = new ColorPalatte
+        (
+            620,
+            135,
+            300,
+            100,
+            scene
+        );
     }
     
     //Size Objects
@@ -196,10 +191,10 @@ void OptionPanel::collectElement(BaseObject *element, Scene& scene)
 
 void OptionPanel::disableAll()
 {
+    palatte->disable();
+    
     for(int i = 0 ; i < elements.size() ; i++)
-    {
         elements[i]->disable();
-    }
 }
 
 void OptionPanel::changeModeTo(OptionMode mode)
@@ -233,9 +228,7 @@ void OptionPanel::changeModeTo(OptionMode mode)
             break;
             
         case Edit:
-            for(int i = 0 ; i < color_buttons.size() ; i++)
-                color_buttons[i]->enable();
-            
+            palatte->enable();
             button_new->enable();
             button_load->enable();
             button_save->enable();
@@ -287,6 +280,8 @@ void OptionPanel::update_in_load_mode(EventHandler &e)
     
     if(e.gotClickOn(list))
     {
+        //if click on list then load stage
+        
         string selected_item = list->getSelectedItem();
         
         if(selected_item != "")
@@ -316,12 +311,20 @@ void OptionPanel::update_in_load_mode(EventHandler &e)
         operation = Exit;
         return;
     }
-    
-    //if click on list then load stage
 }
 
 void OptionPanel::update_in_edit_mode(EventHandler &e)
 {
+    palatte->update(e);
+    
+    if(palatte->gotClick(e))
+    {
+        cout << "change color to:\n";
+        sf::Color color = palatte->getSelectedColor();
+        cout << color.r << "-" << color.g << "-" << color.b << endl;
+        return;
+    }
+    
     if(e.gotClickOn(button_new))
     {
         operation = NewStage;

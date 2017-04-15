@@ -5,11 +5,19 @@
 using namespace std;
 
 ColorButton::ColorButton( string name , RenderLayer layer , int id , int max )
-: SpriteObject(name , layer , "color-button.png" , 200 , 4 )
+: SpriteObject(name , layer , "color-button.png" , 200 , 1 )
 {
     this->id = id;
+    int max_heat = max*2/3;
+    int max_grey = max-max_heat;
     
-    sf::Color color = ColorMapper().getColorFromId(id, max);
+    sf::Color color;
+    
+    if( id < max_heat )
+        color = ColorMapper().getColorFromId(id, max_heat);
+    else
+        color = ColorMapper().getColorFromId(id-max_heat, max_grey,Grey);
+    
     setColor(color);
 }
 
