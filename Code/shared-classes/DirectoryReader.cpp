@@ -1,16 +1,4 @@
-#ifdef __APPLE__
-#include <sys/types.h>
-#include <dirent.h>
-#else
-#include <windows.h>
-#endif
-
-#include "FileNameUtility.hpp"
 #include "DirectoryReader.hpp"
-#include <iostream>
-#include <iomanip>
-
-using namespace std;
 
 DirectoryReader::DirectoryReader(const std::string & folder_name)
 	:
@@ -18,9 +6,9 @@ DirectoryReader::DirectoryReader(const std::string & folder_name)
 {
 }
 
-vector<string> DirectoryReader::getFileNames() const
+std::vector<std::string> DirectoryReader::getFileNames() const
 {
-    vector<string> names;
+	std::vector<std::string> names;
 #ifdef __APPLE__
     //reference
     //http://www.linuxquestions.org/questions/programming-9/c-list-files-in-directory-379323/
@@ -38,7 +26,7 @@ vector<string> DirectoryReader::getFileNames() const
     closedir(dp);
 
 #else
-	string search_path = folder_name + "/*.*";
+	std::string search_path = folder_name + "/*.*";
 	WIN32_FIND_DATA fd;
 	HANDLE hFind = ::FindFirstFile(search_path.c_str(), &fd);
 	if (hFind != INVALID_HANDLE_VALUE) {
@@ -55,12 +43,14 @@ vector<string> DirectoryReader::getFileNames() const
 	return names;
 }
 
-BBStageFileFinder::BBStageFileFinder(const string& folder_name)
-:DirectoryReader(folder_name){}
+BBStageFileFinder::BBStageFileFinder(const std::string& folder_name)
+	:
+	DirectoryReader(folder_name)
+{}
 
-std::vector<string> BBStageFileFinder::getFileNames() const
+std::vector<std::string> BBStageFileFinder::getFileNames() const
 {
-    vector<string> file_names = DirectoryReader::getFileNames();
+	std::vector<std::string> file_names = DirectoryReader::getFileNames();
     
     FileNameUtility util;
     
@@ -76,19 +66,19 @@ std::vector<string> BBStageFileFinder::getFileNames() const
     return file_names;
 }
 
-vector<string> BBStageFileFinder::searchFileNames( string search_string ) const
+std::vector<std::string> BBStageFileFinder::searchFileNames(std::string search_string ) const
 {
     if(search_string == "")
         return getFileNames();
     
-    vector<string> all = getFileNames();
-    vector<string> matched;
+	std::vector<std::string> all = getFileNames();
+	std::vector<std::string> matched;
     
     for(int i = 0 ; i < all.size() ; i++)
     {
-        string name = all[i];
+		std::string name = all[i];
         
-        if(name.find(search_string) == string::npos)
+        if(name.find(search_string) == std::string::npos)
             continue;
         
         matched.push_back(name);

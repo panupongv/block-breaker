@@ -1,8 +1,16 @@
 #include "FileNameUtility.hpp"
+<<<<<<< HEAD
+#include "FileNameUtility.hpp"
+=======
 #include <fstream>
 #include "ResourcePath.hpp"
+>>>>>>> master-editor
 
 using namespace std;
+
+FileNameUtility::FileNameUtility()
+{
+}
 
 int FileNameUtility::dot_position_of ( const string& file_name ) const
 {

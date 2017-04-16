@@ -6,7 +6,7 @@
 class FileNameUtility
 {
 public :
-    FileNameUtility(){};
+    FileNameUtility();
     std::string extension_of(const std::string& file_name ) const;
     bool file_exist( const std::string& file_path ) const;
     

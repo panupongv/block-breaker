@@ -1,5 +1,15 @@
 #pragma once
 
+#ifdef __APPLE__
+#include <sys/types.h>
+#include <dirent.h>
+#else
+#include <windows.h>
+#endif
+
+#include "FileNameUtility.hpp"
+#include <iostream>
+#include <iomanip>
 #include <string>
 #include <vector>
 

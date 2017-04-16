@@ -16,7 +16,8 @@ public:
     EditorScene( sf::RenderWindow& window );
     virtual void update(EventHandler& eHandler);
     virtual void draw();
-    
+	//virtual ~EditorScene() = 0;
+
 protected:
     virtual void begin();
     virtual void end();

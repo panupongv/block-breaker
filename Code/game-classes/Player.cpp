@@ -2,7 +2,7 @@
 
 Player::Player(std::string texture_name)
 	:
-	Sprite(texture_name, getWidthByName(texture_name), getHeightByName(texture_name), 0, getHitlineByName(texture_name)),
+	Sprite(texture_name, getWidthByName(texture_name), getHeightByName(texture_name), 250, getHitlineByName(texture_name)),
 	hit_line(getHitlineByName(texture_name))
 { 
 	setAlive(true);
@@ -12,7 +12,8 @@ Player::Player(std::string texture_name)
 void Player::update(Game& game)
 {
 	latest_pos = center().x;
-	setCenter(game.getMousePosition().x, hit_line + getFrameHeight() / 2);
+	if(game.getMousePosition().x - getFrameWidth()/2.0f >= game.left_bound && game.getMousePosition().x + getFrameWidth() / 2.0f <= game.right_bound)
+		setCenter(game.getMousePosition().x, hit_line + getFrameHeight() / 2);
 	delta_x = center().x - latest_pos;
 }
 
