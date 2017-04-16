@@ -7,12 +7,8 @@
 #include "InputField.hpp"
 #include "enums.hpp"
 #include "TextList.hpp"
-<<<<<<< HEAD
-#include <iostream>
-=======
 #include "ColorPalatte.hpp"
 #include "BlockTemplateButton.hpp"
->>>>>>> master-editor
 
 enum OptionMode { Load , Edit , Save };
 
@@ -43,15 +39,10 @@ private:
     const int char_size = 25;
     const int left_edge = 615;
     
-<<<<<<< HEAD
-    std::string file_name;
-	UpdateOperation operation;// = None;
-=======
     std::string file_name = "";
     sf::Color selected_color = sf::Color::White;
     BlockType selected_type = normal;
     UpdateOperation operation = None;
->>>>>>> master-editor
     
     std::vector<BaseObject*> buttons;
     std::vector<BaseObject*> elements;

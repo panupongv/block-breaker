@@ -1,10 +1,6 @@
 #include "FileNameUtility.hpp"
-<<<<<<< HEAD
-#include "FileNameUtility.hpp"
-=======
 #include <fstream>
 #include "ResourcePath.hpp"
->>>>>>> master-editor
 
 using namespace std;
 

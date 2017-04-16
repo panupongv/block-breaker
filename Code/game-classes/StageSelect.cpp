@@ -102,6 +102,6 @@ void StageSelect::update()
 
 void StageSelect::moveText(int delta)
 {
-	for (int i = 0; i < FILE_NUM; i++)
+    for (int i = 0; i < FILE_NUM; i++)
 		texts[i].move(0, delta * 10);
 }
