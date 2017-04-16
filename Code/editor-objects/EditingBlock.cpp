@@ -4,9 +4,11 @@
 
 using namespace std;
 
-EditingBlock::EditingBlock( TemplateData template_data , sf::Vector2i grid_pos , sf::Vector2i movement)
+EditingBlock::EditingBlock( TemplateData template_data , sf::Vector2i grid_pos , sf::Vector2i movement , Scene& scene)
 : SpriteObject( "editing block" ,  RenderLayer::EditingSpaceElementLayer , texture_name_of_type(template_data.getType()) )
 ,BlockData( template_data.getType() , template_data.getColor() , grid_pos , movement )
+,aura(this)
+,scene(scene)
 {
     int grid_x = grid_pos.x;
     int grid_y = grid_pos.y;
@@ -15,10 +17,18 @@ EditingBlock::EditingBlock( TemplateData template_data , sf::Vector2i grid_pos ,
     
     setColor(template_data.getColor());
     setPosition(pos_x, pos_y);
+    
+    scene.addObject(&aura);
+    aura.disable();
 }
 
-EditingBlock::EditingBlock ( BlockData block_data )
-: EditingBlock( block_data , block_data.getStartGrid() , block_data.getMovement_single() ) { }
+EditingBlock::EditingBlock ( BlockData block_data , Scene& scene)
+: EditingBlock( block_data , block_data.getStartGrid() , block_data.getMovement_single() , scene ) { }
+
+EditingBlock::~EditingBlock()
+{
+    scene.removeObject(&aura , false);
+}
 
 const sf::Color EditingBlock::getColor() const
 {
@@ -29,4 +39,16 @@ void EditingBlock::setColor(sf::Color color)
 {
     TemplateData::setColor(color);
     SpriteObject::setColor(color);
+}
+
+void EditingBlock::onSelected()
+{
+    Selectable::onSelected();
+    aura.enable();
+}
+
+void EditingBlock::onDeselected()
+{
+    Selectable::onDeselected();
+    aura.disable();
 }

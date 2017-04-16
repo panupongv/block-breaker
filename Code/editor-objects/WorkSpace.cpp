@@ -30,6 +30,8 @@ WorkSpace::WorkSpace(Scene& scene,sf::RenderWindow& window)
 
 void WorkSpace::update(EventHandler &e)
 {
+    if(is_editable() == false)
+        return;
     update_overall(e);
     update_click(e);
 }
@@ -69,15 +71,9 @@ void WorkSpace::update_click(EventHandler &e)
     if( is_empty_at(click_grid) )
     {
         if( has_selecting_blocks() )
-        {
             deselect_all_blocks();
-        }
         else
-        {
-            EditingBlock* new_block = new EditingBlock(*draft_block , click_grid , click_grid );
-            blocks.push_back( new_block );
-            scene.addObject( new_block );
-        }
+            create_block(draft_block, click_grid);
     }
     else //click a block
     {
@@ -110,6 +106,47 @@ void WorkSpace::change_draft_block( const BlockType& type, const sf::Color& colo
     DraftBlock* new_draft_block = new DraftBlock(type , color ,window);
     swap_new_draft_block(new_draft_block);
 }
+
+void WorkSpace::clear_all()
+{
+    for(int i = 0 ; i < blocks.size() ; ++i)
+        scene.removeObject(blocks[i]);
+    
+    blocks.clear();
+}
+
+void WorkSpace::load_from_data(StageData& data)
+{
+    clear_all();
+    data.load();
+    vector<BlockData> block_datas = data.getBlocksData();
+    for(int i = 0 ; i < block_datas.size() ; ++i)
+    {
+        load_block(block_datas[i]);
+    }
+}
+
+void WorkSpace::save_stage_as(string file_name , bool replace ) const
+{
+    StageData stage_file(file_name);
+    
+    for(int i = 0 ; i < blocks.size() ; ++i)
+        stage_file.addBlock(*blocks[i]);
+    
+    cout <<
+    stage_file.save(replace) << endl;
+}
+
+void WorkSpace::set_editable(bool editable)
+{
+    this->editable = editable;
+}
+
+bool WorkSpace::is_editable() const
+{
+    return this->editable;
+}
+
 
 void WorkSpace::swap_new_draft_block(DraftBlock *new_draft_block)
 {
@@ -215,3 +252,24 @@ bool WorkSpace::more_than_one_selecting() const
     vector<EditingBlock*> selecting_blocks = get_selecting_block();
     return selecting_blocks.size() > 1;
 }
+
+void WorkSpace::create_block(DraftBlock *draft_block, sf::Vector2i grid)
+{
+    EditingBlock* new_block = new EditingBlock(*draft_block , grid , grid , scene );
+    blocks.push_back( new_block );
+    scene.addObject( new_block );
+}
+
+void WorkSpace::load_block(BlockData data)
+{
+    BlockType type = data.getType();
+    sf::Color color = data.getColor();
+    sf::Vector2i start = data.getStartGrid();
+    sf::Vector2i move = data.getMovement_single();
+    
+    DraftBlock temp_draft( type , color , window );
+    EditingBlock* new_block = new EditingBlock(temp_draft , start , move , scene );
+    blocks.push_back( new_block );
+    scene.addObject( new_block );
+}
+

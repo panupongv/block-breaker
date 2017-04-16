@@ -25,13 +25,31 @@ void EditorScene::update(EventHandler& eHandler)
     else if( panelOperation == LoadStage)
     {
         load_stage(panel.getFileName());
-        return;
+        stage_title->setText(panel.getFileName());
+        space.set_editable(true);
     }
     else if(panelOperation == ChangeType || panelOperation == ChangeColor )
     {
         BlockType selected_type = panel.getSelectedType();
         sf::Color selected_color = panel.getSelectedColor();
+        
         space.change_draft_block(selected_type, selected_color);
+    }
+    else if(panelOperation == NewStage)
+    {
+        space.clear_all();
+        stage_title->setText("untitled.bbstage");
+        space.set_editable(true);
+    }
+    else if(panelOperation == SaveFile )
+    {
+        save_stage(panel.getFileName());
+        stage_title->setText(panel.getFileName());
+    }
+    else if ( panelOperation == ReplaceFileOperation )
+    {
+        save_stage(panel.getFileName() , true);
+        stage_title->setText(panel.getFileName());
     }
 }
 
@@ -46,7 +64,7 @@ void EditorScene::init()
     (
         "stage text",
         RenderLayer::TitleLayer,
-        "stage-title.bbstage"
+        "title.bbstage"
     );
     this->stage_title->setPosition(300, 20 , PositioningMode::Center );
     this->stage_title->setColor(sf::Color::Black);
@@ -59,9 +77,12 @@ void EditorScene::init()
         "editor-background.png"
     );
     
-    
     this->addObject(this->background);
     this->addObject(this->stage_title);
+    
+    StageData stage_data("title.bbstage");
+    space.load_from_data(stage_data);
+    space.set_editable(false);
 }
 
 void EditorScene::begin()
@@ -78,7 +99,13 @@ void EditorScene::end()
 
 void EditorScene::load_stage(std::string file_name)
 {
-    cout << "need load stage implementation" << endl;
-    cout << "file : " << file_name << endl;
+    cout << "load from " << file_name << endl;
+    StageData data(file_name);
+    space.load_from_data(data);
+}
+
+void EditorScene::save_stage(std::string file_name , bool replace )
+{
+    space.save_stage_as(file_name , replace);
 }
 

@@ -5,6 +5,7 @@
 #include "OptionPanel.hpp"
 #include "DraftBlock.hpp"
 #include "EditingBlock.hpp"
+#include "StageData.hpp"
 
 class WorkSpace
 {
@@ -14,6 +15,11 @@ public:
     UpdateOperation getUpdateOperation( ) const;
     DraftBlock& getDraftBlock();
     void change_draft_block( const BlockType& type, const sf::Color& color );
+    void clear_all();
+    void load_from_data(StageData& stage_data);
+    void save_stage_as(std::string file_name,bool replace = false) const;
+    void set_editable(bool editable);
+    bool is_editable() const;
     
 private:
     void update_overall(EventHandler& e);
@@ -30,11 +36,14 @@ private:
     std::vector<EditingBlock*> get_selecting_block() const;
     void remove_block_at( sf::Vector2i grid );
     bool more_than_one_selecting() const;
+    void create_block( DraftBlock* draft_block , sf::Vector2i grid );
+    void load_block( BlockData data );
     
 private:
     const int block_size_x = 50;
     const int block_size_y = 18;
     
+    bool editable = false;
     UpdateOperation operation;
     
     SpriteObject* background;

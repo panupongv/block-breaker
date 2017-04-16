@@ -236,11 +236,6 @@ void OptionPanel::changeModeTo(OptionMode mode)
     this->prevMode = this->mode;
     this->mode = mode;
     
-    float x = left_edge;
-    float y[5];
-    for(int i = 0 ; i < 5 ; i++)
-        y[i] = WindowHelper::res_y - char_size*2 - char_size*1.6*i;
-    
     switch (mode)
     {
         case Load:
@@ -248,14 +243,16 @@ void OptionPanel::changeModeTo(OptionMode mode)
             input_field->clearText();
             list->enable();
             button_new->enable();
-            button_new->setPosition(x, y[1]);
             button_exit->enable();
-            button_exit->setPosition(x, y[0]);
+            
+            set_button_position(button_new, 1);
+            set_button_position(button_exit, 0);
             if(this->prevMode == Edit)
             {
                 button_exit->disable();
                 button_cancel->enable();
-                button_cancel->setPosition(x, y[0]);
+                
+                set_button_position(button_cancel, 0);
             }
             break;
             
@@ -267,26 +264,36 @@ void OptionPanel::changeModeTo(OptionMode mode)
             button_new->enable();
             button_load->enable();
             button_save->enable();
-            button_new->setPosition(x, y[2]);
-            button_load->setPosition(x, y[1]);
-            button_save->setPosition(x, y[0]);
+            
+            set_button_position(button_new, 2);
+            set_button_position(button_load, 1);
+            set_button_position(button_save, 0);
             break;
             
         case Save:
             input_field->enable();
             input_field->clearText();
             status->enable();
-            button_confirm_save->enable();
-            button_replace->enable();
             button_cancel->enable();
-            button_confirm_save->setPosition(x, y[2]);
-            button_replace->setPosition(x, y[1]);
-            button_cancel->setPosition(x, y[0]);
+            button_confirm_save->disable();
+            button_replace->disable();
+            
+            set_button_position(button_confirm_save, 1);
+            set_button_position(button_replace, 1);
+            set_button_position(button_cancel, 0);
             break;
             
         default:
             break;
     }
+}
+
+void OptionPanel::set_button_position(BaseObject* button, int id_y)
+{
+    float x = left_edge;
+    float y = WindowHelper::res_y - char_size*2 - char_size*1.6*id_y;
+    
+    button->setPosition(x, y);
 }
 
 void OptionPanel::update_overall(EventHandler &e)
@@ -410,6 +417,9 @@ void OptionPanel::update_in_save_mode(EventHandler &e)
     {
         status->setText("[STATUS]\n\nplease enter file name");
         status->setColor(sf::Color::White);
+        
+        button_confirm_save->disable();
+        button_replace->disable();
     }
     else
     {
@@ -420,11 +430,17 @@ void OptionPanel::update_in_save_mode(EventHandler &e)
         {
             status->setText("[STATUS]\n\nwarning, file name existed\nbut you can replace file");
             status->setColor(sf::Color::Red);
+            
+            button_confirm_save->disable();
+            button_replace->enable();
         }
         else
         {
             status->setText("[STATUS]\n\nfile name available\nclick save button to\nprocess saving file");
             status->setColor(sf::Color::Green);
+            
+            button_confirm_save->enable();
+            button_replace->disable();
         }
     }
     
@@ -432,13 +448,15 @@ void OptionPanel::update_in_save_mode(EventHandler &e)
     {
         changeModeTo(Edit);
         operation = SaveFile;
+        update_file_name(entered_file_name);
         return;
     }
     
     if (e.gotClickOn(button_replace))
     {
         changeModeTo(Edit);
-        operation = ReplaceFile;
+        operation = ReplaceFileOperation;
+        update_file_name(entered_file_name);
         return;
     }
     
@@ -447,5 +465,10 @@ void OptionPanel::update_in_save_mode(EventHandler &e)
         changeModeTo(Edit);
         return;
     }
+}
+
+void OptionPanel::update_file_name(string new_file_name)
+{
+    this->file_name = new_file_name;
 }
 
