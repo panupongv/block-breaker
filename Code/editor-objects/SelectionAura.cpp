@@ -1,21 +1,18 @@
-#include "EditingBlock.hpp"
+#include "SelectionAura.hpp"
 
 using namespace std;
 
-SelectionAura::SelectionAura(EditingBlock* parent)
+SelectionAura::SelectionAura()
 :SpriteObject("selection aura" , RenderLayer::EditingSpaceAuraLayer, "selection-aura.png")
-,parent(parent)
 {}
 
 void SelectionAura::update(EventHandler &e)
 {
-    update_position();
     update_blink();
 }
 
-void SelectionAura::update_position()
+void SelectionAura::update_position( sf::Vector2f& parent_pos )
 {
-    sf::Vector2f parent_pos = parent->getPosition();
     setPosition(parent_pos.x, parent_pos.y);
 }
 

@@ -13,6 +13,9 @@ public:
     //getter setter
     void setAvailability(bool available);
     bool getAvailability() const;
+    void hide();
+    void show();
+    bool isHidden();
 
     //overwrite
     virtual void setColor( sf::Color color );

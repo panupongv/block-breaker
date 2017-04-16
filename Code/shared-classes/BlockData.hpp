@@ -16,8 +16,8 @@ public:
     sf::Vector2i getStartGrid() const;
     const std::vector<sf::Vector2i>& getMovement() const;
     const sf::Vector2i getMovement_single() const;
-    void setStartGrid( int x , int y );
-    void setStartGrid( sf::Vector2i startGrid );
+    virtual void setStartGrid( int x , int y );
+    virtual void setStartGrid( sf::Vector2i startGrid );
     void setMovement( sf::Vector2i movement );
     void cancelMovement ( );
 

@@ -16,4 +16,5 @@ namespace helper
     float pos_y_of_grid( int y );
     sf::Vector2i grid_of_pos( sf::Vector2f pos );
     sf::Vector2f pos_of_grid( sf::Vector2i grid );
+    sf::Vector2i direction_of_key ( sf::Keyboard::Key key );
 }

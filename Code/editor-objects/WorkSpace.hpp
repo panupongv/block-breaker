@@ -23,7 +23,9 @@ public:
     
 private:
     void update_overall(EventHandler& e);
+    void update_cursor(EventHandler& e);
     void update_click( EventHandler& e );
+    void update_key( EventHandler& e );
     void swap_new_draft_block(DraftBlock* new_draft_block);
     bool is_empty_at( sf::Vector2i grid );
     bool has_selecting_blocks() const;
@@ -38,6 +40,11 @@ private:
     bool more_than_one_selecting() const;
     void create_block( DraftBlock* draft_block , sf::Vector2i grid );
     void load_block( BlockData data );
+    bool selecting_block_can_move ( sf::Vector2i direction);
+    bool selecting_pin_can_move ( sf::Vector2i direction );
+    void move_selecting_block ( sf::Vector2i direction );
+    void move_selecting_pin ( sf::Vector2i direction );
+    bool out_of_bound ( sf::Vector2i grid );
     
 private:
     const int block_size_x = 50;

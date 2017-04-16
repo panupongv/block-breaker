@@ -32,8 +32,11 @@ void WorkSpace::update(EventHandler &e)
 {
     if(is_editable() == false)
         return;
+    
     update_overall(e);
+    update_cursor(e);
     update_click(e);
+    update_key(e);
 }
 
 UpdateOperation WorkSpace::getUpdateOperation() const
@@ -48,7 +51,19 @@ DraftBlock& WorkSpace::getDraftBlock()
 
 void WorkSpace::update_overall(EventHandler &e)
 {
+}
+
+void WorkSpace::update_cursor(EventHandler &e)
+{
+    sf::Vector2f mouse_pos = WindowHelper::getMousePosition(window);
+    sf::Vector2i click_grid = helper::grid_of_pos(mouse_pos);
     
+    bool out_bound = out_of_bound(click_grid);
+    
+    if(is_empty_at(click_grid) == false || out_bound)
+        draft_block->setAvailability(false);
+    else
+        draft_block->setAvailability(true);
 }
 
 void WorkSpace::update_click(EventHandler &e)
@@ -61,11 +76,7 @@ void WorkSpace::update_click(EventHandler &e)
     sf::Vector2f mouse_pos = WindowHelper::getMousePosition(window);
     sf::Vector2i click_grid = helper::grid_of_pos(mouse_pos);
     
-    bool out_x = click_grid.x < 0 || click_grid.x > helper::grid_num_x;
-    bool out_y = click_grid.y < 0 || click_grid.y > helper::grid_num_y;
-    bool out_bound = out_x || out_y;
-    
-    if( out_bound )
+    if( out_of_bound(click_grid) )
         return;
     
     if( is_empty_at(click_grid) )
@@ -91,14 +102,62 @@ void WorkSpace::update_click(EventHandler &e)
         }
         else
         {
-            if(block_selected_at(click_grid))// fix herererhjasdfkjaslkdjfkaljdlskfjlkasdjfadfasdlkfjdkjkjkjkjkjkj
-                remove_block_at(click_grid);
+            if(block_selected_at(click_grid))
+            {
+                if(more_than_one_selecting())
+                {
+                    deselect_all_blocks();
+                    select_block_at(click_grid);
+                }
+                else
+                    remove_block_at(click_grid);
+            }
             else
+            {
+                deselect_all_blocks();
                 select_block_at(click_grid);
+            }
         }
     }
+}
+
+void WorkSpace::update_key(EventHandler &e)
+{
+    if( has_selecting_blocks() == false )
+        return;
     
+    vector<EditingBlock*> selecting_blocks = get_selecting_block();
     
+    bool delete_key = e.gotKey(sf::Keyboard::Delete) || e.gotKey(sf::Keyboard::BackSpace);
+    bool shift_hold = e.gotKeyHold(sf::Keyboard::LShift);
+    
+    sf::Vector2i direction;
+    if(e.gotKey(sf::Keyboard::Left))
+        direction = helper::direction_of_key(sf::Keyboard::Left);
+    if(e.gotKey(sf::Keyboard::Right))
+        direction = helper::direction_of_key(sf::Keyboard::Right);
+    if(e.gotKey(sf::Keyboard::Up))
+        direction = helper::direction_of_key(sf::Keyboard::Up);
+    if(e.gotKey(sf::Keyboard::Down))
+        direction = helper::direction_of_key(sf::Keyboard::Down);
+    
+    if(delete_key)
+    {
+        for(int i = 0 ; i < selecting_blocks.size() ; ++i)
+        {
+            EditingBlock* block = selecting_blocks[i];
+            sf::Vector2i block_grid = block->getStartGrid();
+            
+            remove_block_at(block_grid);
+        }
+        
+        return;
+    }
+    
+    if(shift_hold)
+        move_selecting_pin(direction);
+    else
+        move_selecting_block(direction);
 }
 
 void WorkSpace::change_draft_block( const BlockType& type, const sf::Color& color )
@@ -139,6 +198,9 @@ void WorkSpace::save_stage_as(string file_name , bool replace ) const
 
 void WorkSpace::set_editable(bool editable)
 {
+    if(editable == false)
+        draft_block->setAvailability(false);
+    
     this->editable = editable;
 }
 
@@ -273,3 +335,80 @@ void WorkSpace::load_block(BlockData data)
     scene.addObject( new_block );
 }
 
+bool WorkSpace::selecting_block_can_move ( sf::Vector2i direction )
+{
+    vector<EditingBlock*> selecting_blocks = get_selecting_block();
+    for(int i = 0 ; i < selecting_blocks.size() ; ++i)
+    {
+        EditingBlock* block = selecting_blocks[i];
+        sf::Vector2i grid = block->getStartGrid();
+        grid += direction;
+        if(out_of_bound(grid))
+            return false;
+    }
+    
+    return true;
+}
+
+bool WorkSpace::selecting_pin_can_move ( sf::Vector2i direction )
+{
+    vector<EditingBlock*> selecting_blocks = get_selecting_block();
+    for(int i = 0 ; i < selecting_blocks.size() ; ++i)
+    {
+        EditingBlock* block = selecting_blocks[i];
+        sf::Vector2i grid_move = block->getMovement_single();
+        grid_move += direction;
+        if(out_of_bound(grid_move))
+            return false;
+    }
+    
+    return true;
+}
+
+bool WorkSpace::out_of_bound( sf::Vector2i grid )
+{
+    bool out_x = grid.x < 0 || grid.x > helper::grid_num_x;
+    bool out_y = grid.y < 0 || grid.y > helper::grid_num_y;
+    bool out_bound = out_x || out_y;
+    
+    return out_bound;
+}
+
+void WorkSpace::move_selecting_block(sf::Vector2i direction)
+{
+    if(selecting_block_can_move(direction) == false)
+        return;
+    
+    if(selecting_pin_can_move(direction) == false)
+        return;
+    
+    vector<EditingBlock*> selecting_blocks = get_selecting_block();
+    for( int i = 0 ; i < selecting_blocks.size() ; ++i )
+    {
+        EditingBlock* block = selecting_blocks[i];
+        sf::Vector2i grid_start = block->getStartGrid();
+        sf::Vector2i grid_move = block->getMovement_single();
+        grid_start += direction;
+        grid_move += direction;
+        block->setStartGrid(grid_start.x, grid_start.y);
+        block->setMovement(grid_move);
+        
+        sf::Vector2f position = helper::pos_of_grid(grid_start);
+        block->setPosition(position.x,position.y);
+    }
+}
+
+void WorkSpace::move_selecting_pin(sf::Vector2i direction)
+{
+    if(selecting_pin_can_move(direction) == false)
+        return;
+    
+    vector<EditingBlock*> selecting_blocks = get_selecting_block();
+    for( int i = 0 ; i < selecting_blocks.size() ; ++i )
+    {
+        EditingBlock* block = selecting_blocks[i];
+        sf::Vector2i grid_move = block->getMovement_single();
+        grid_move += direction;
+        block->setMovement(grid_move);
+    }
+}

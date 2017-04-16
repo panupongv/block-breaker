@@ -7,7 +7,6 @@ using namespace std;
 EditingBlock::EditingBlock( TemplateData template_data , sf::Vector2i grid_pos , sf::Vector2i movement , Scene& scene)
 : SpriteObject( "editing block" ,  RenderLayer::EditingSpaceElementLayer , texture_name_of_type(template_data.getType()) )
 ,BlockData( template_data.getType() , template_data.getColor() , grid_pos , movement )
-,aura(this)
 ,scene(scene)
 {
     int grid_x = grid_pos.x;
@@ -19,7 +18,10 @@ EditingBlock::EditingBlock( TemplateData template_data , sf::Vector2i grid_pos ,
     setPosition(pos_x, pos_y);
     
     scene.addObject(&aura);
+    scene.addObject(&pin);
+    
     aura.disable();
+    pin.disable();
 }
 
 EditingBlock::EditingBlock ( BlockData block_data , Scene& scene)
@@ -28,6 +30,7 @@ EditingBlock::EditingBlock ( BlockData block_data , Scene& scene)
 EditingBlock::~EditingBlock()
 {
     scene.removeObject(&aura , false);
+    scene.removeObject(&pin , false);
 }
 
 const sf::Color EditingBlock::getColor() const
@@ -41,14 +44,25 @@ void EditingBlock::setColor(sf::Color color)
     SpriteObject::setColor(color);
 }
 
+void EditingBlock::update(EventHandler &e)
+{
+    sf::Vector2f block_position = getPosition();
+    aura.update_position(block_position);
+    
+    sf::Vector2i movement_grid = getMovement_single();
+    pin.update_grid(movement_grid);
+}
+
 void EditingBlock::onSelected()
 {
     Selectable::onSelected();
     aura.enable();
+    pin.enable();
 }
 
 void EditingBlock::onDeselected()
 {
     Selectable::onDeselected();
     aura.disable();
+    pin.disable();
 }

@@ -3,26 +3,8 @@
 #include "BlockData.hpp"
 #include "Selectable.hpp"
 #include "Scene.hpp"
-
-class EditingBlock;
-
-class SelectionAura : public SpriteObject
-{
-public:
-    SelectionAura(EditingBlock* parent);
-    
-    virtual void update(EventHandler& e);
-    
-private:
-    void update_position();
-    void update_blink();
-    
-private:
-    const int blink_period = 5;
-    
-    EditingBlock* parent;
-    int blink_timer = 0;
-};
+#include "SelectionAura.hpp"
+#include "Pin.hpp"
 
 class EditingBlock : public SpriteObject, public BlockData, public Selectable
 {
@@ -33,6 +15,10 @@ public:
     
     virtual const sf::Color getColor( ) const;
     virtual void setColor( sf::Color color );
+//    virtual void setStartGrid( sf::Vector2i grid );
+//    virtual void setStartGrid( int x , int y );
+    
+    virtual void update(EventHandler& e);
     
 protected:
     virtual void onSelected();
@@ -41,4 +27,5 @@ protected:
 private:
     Scene& scene;
     SelectionAura aura;
+    Pin pin;
 };
