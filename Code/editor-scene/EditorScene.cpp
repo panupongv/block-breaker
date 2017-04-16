@@ -41,7 +41,7 @@ void EditorScene::update(EventHandler& eHandler)
         stage_title->setText("untitled.bbstage");
         space.set_editable(true);
     }
-    else if(panelOperation == SaveFile )
+    else if(panelOperation == SaveFileOperation )
     {
         save_stage(panel.getFileName());
         stage_title->setText(panel.getFileName());

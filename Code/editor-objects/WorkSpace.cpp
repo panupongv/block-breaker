@@ -270,7 +270,9 @@ void WorkSpace::deselect_block_at(sf::Vector2i grid)
 
 bool WorkSpace::block_selected_at(sf::Vector2i grid)
 {
-    assert_empty_at(grid);
+    if(is_empty_at(grid))
+        return false;
+    
     return block_at(grid)->isSelected();
 }
 
@@ -343,8 +345,13 @@ bool WorkSpace::selecting_block_can_move ( sf::Vector2i direction )
         EditingBlock* block = selecting_blocks[i];
         sf::Vector2i grid = block->getStartGrid();
         grid += direction;
+        
         if(out_of_bound(grid))
             return false;
+        
+        if(is_empty_at(grid) == false)
+            if(block_selected_at(grid) == false)
+                return false;
     }
     
     return true;
@@ -367,8 +374,8 @@ bool WorkSpace::selecting_pin_can_move ( sf::Vector2i direction )
 
 bool WorkSpace::out_of_bound( sf::Vector2i grid )
 {
-    bool out_x = grid.x < 0 || grid.x > helper::grid_num_x;
-    bool out_y = grid.y < 0 || grid.y > helper::grid_num_y;
+    bool out_x = grid.x < 0 || grid.x >= helper::grid_num_x;
+    bool out_y = grid.y < 0 || grid.y >= helper::grid_num_y;
     bool out_bound = out_x || out_y;
     
     return out_bound;
@@ -403,12 +410,21 @@ void WorkSpace::move_selecting_pin(sf::Vector2i direction)
     if(selecting_pin_can_move(direction) == false)
         return;
     
+    int dx = direction.x;
+    int dy = direction.y;
+    
     vector<EditingBlock*> selecting_blocks = get_selecting_block();
     for( int i = 0 ; i < selecting_blocks.size() ; ++i )
     {
         EditingBlock* block = selecting_blocks[i];
+        sf::Vector2i grid_start = block->getStartGrid();
         sf::Vector2i grid_move = block->getMovement_single();
-        grid_move += direction;
+        
+        if(grid_move.x == grid_start.x && dx == 0)
+            grid_move += direction;
+        else if( grid_start.y == grid_move.y && dy == 0)
+            grid_move += direction;
+            
         block->setMovement(grid_move);
     }
 }

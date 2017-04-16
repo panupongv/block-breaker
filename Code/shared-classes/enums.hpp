@@ -23,17 +23,11 @@ enum UpdateOperation {
     None,
     NewStage ,
     LoadStage ,
-<<<<<<< HEAD
     SaveFileOperation ,
-    ReplaceFileOperation ,
-    Exit
-=======
-    SaveFile ,
     ReplaceFileOperation ,
     Exit,
     ChangeColor,
     ChangeType
->>>>>>> master-editor
 };
 
 enum BlockType {

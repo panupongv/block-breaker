@@ -447,24 +447,16 @@ void OptionPanel::update_in_save_mode(EventHandler &e)
     if(e.gotClickOn(button_confirm_save))
     {
         changeModeTo(Edit);
-<<<<<<< HEAD
         operation = SaveFileOperation;
-=======
-        operation = SaveFile;
         update_file_name(entered_file_name);
->>>>>>> master-editor
         return;
     }
     
     if (e.gotClickOn(button_replace))
     {
         changeModeTo(Edit);
-<<<<<<< HEAD
-		operation = ReplaceFileOperation;
-=======
         operation = ReplaceFileOperation;
         update_file_name(entered_file_name);
->>>>>>> master-editor
         return;
     }
     

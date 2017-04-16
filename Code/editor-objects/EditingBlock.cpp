@@ -49,8 +49,9 @@ void EditingBlock::update(EventHandler &e)
     sf::Vector2f block_position = getPosition();
     aura.update_position(block_position);
     
+    sf::Vector2i block_grid = getStartGrid();
     sf::Vector2i movement_grid = getMovement_single();
-    pin.update_grid(movement_grid);
+    pin.update_grid( block_grid , movement_grid );
 }
 
 void EditingBlock::onSelected()

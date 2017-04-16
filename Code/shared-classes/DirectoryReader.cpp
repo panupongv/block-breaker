@@ -1,5 +1,7 @@
 #include "DirectoryReader.hpp"
 
+using namespace std;
+
 DirectoryReader::DirectoryReader(const std::string & folder_name)
 	:
 	folder_name(folder_name)

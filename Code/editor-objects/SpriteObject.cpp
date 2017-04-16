@@ -102,8 +102,8 @@ void SpriteObject::applyCurrentFrame()
     (
         column*width,
         row*height,
-        (column+1)*width,
-        (row+1)*height
+        width,
+        height
     );
     
     this->sprite.setTextureRect(frame);
