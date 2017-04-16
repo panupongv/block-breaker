@@ -107,6 +107,11 @@ bool EventHandler::gotKey(sf::Keyboard::Key key) const
     return keyEventHandler->gotKey(key);
 }
 
+bool EventHandler::gotKeyHold(sf::Keyboard::Key key) const
+{
+    return sf::Keyboard::isKeyPressed(key);
+}
+
 std::string EventHandler::getString() const
 {
     return keyEventHandler->getTextEntered();

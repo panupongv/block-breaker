@@ -26,8 +26,12 @@ int main()
 		case 0:
 			Game(&window).run();
 			break;
-		case 1:
-			StageSelect stage_select(&window, "block-breaker\\stages");
+            case 1:
+#ifdef __APPLE__
+                StageSelect stage_select(&window, "stages/");
+#else
+                StageSelect stage_select(&window, "block-breaker\\stages");
+#endif
 			stage_select.run();
 			if(window.isOpen())
 				Game(&window, stage_select.getSelectedName()).run();

@@ -3,6 +3,9 @@
 enum RenderLayer {
     BackgroundLayer ,
     EditingSpaceBackgroundLayer,
+    EditingSpaceElementLayer,
+    EditingSpaceAuraLayer,
+    EditingSpacePinLayer,
     DraftBlockLayer,
     BlockLayer,
     PinLayer,
@@ -21,7 +24,7 @@ enum UpdateOperation {
     NewStage ,
     LoadStage ,
     SaveFile ,
-    ReplaceFile ,
+    ReplaceFileOperation ,
     Exit,
     ChangeColor,
     ChangeType

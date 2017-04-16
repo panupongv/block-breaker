@@ -28,7 +28,7 @@ public:
     
     //actions
     void addObject( BaseObject* sprite );
-    void removeObject( BaseObject* sprite );
+    void removeObject( BaseObject* sprite , bool delete_also = true);
     
     //need sub class implementation
     virtual void update(EventHandler& eHandler) = 0; // called when not starting not ending

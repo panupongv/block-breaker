@@ -9,6 +9,11 @@ BaseObject::BaseObject(string name, RenderLayer layer)
     this->layer = layer;
 }
 
+BaseObject::~BaseObject()
+{
+    
+}
+
 string BaseObject::getName() const
 {
     return this->name;

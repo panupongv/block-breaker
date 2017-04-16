@@ -10,10 +10,11 @@ namespace helper
 
     sf::Vector2f getCenterOf(sf::FloatRect rect);
 
-    int gird_x_of_pos( float x );
+    int grid_x_of_pos( float x );
     int grid_y_of_pos( float y );
     float pos_x_of_grid( int x );
     float pos_y_of_grid( int y );
     sf::Vector2i grid_of_pos( sf::Vector2f pos );
     sf::Vector2f pos_of_grid( sf::Vector2i grid );
+    sf::Vector2i direction_of_key ( sf::Keyboard::Key key );
 }

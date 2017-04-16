@@ -13,6 +13,7 @@ class BaseObject
 public:
     BaseObject();
     BaseObject(std::string name, RenderLayer layer);
+    virtual ~BaseObject();
     
     //getters
     std::string getName() const;

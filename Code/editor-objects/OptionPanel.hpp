@@ -27,10 +27,12 @@ private:
     void collectElement(BaseObject* element,Scene& scene);
     void disableAll();
     void changeModeTo(OptionMode mode);
+    void set_button_position(BaseObject* button, int y);
     void update_overall(EventHandler& e);
     void update_in_load_mode(EventHandler& e);
     void update_in_edit_mode(EventHandler& e);
     void update_in_save_mode(EventHandler& e);
+    void update_file_name(std::string new_file_name);
     
 private:
     const int char_size = 25;
