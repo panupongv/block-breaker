@@ -69,6 +69,7 @@ void SpriteObject::setTexture(string textureName)
 {
     this->texture = sf::Texture();
     this->texture.loadFromFile(resourcePath() + textureName);
+    this->texture.setRepeated(true);
     this->sprite.setTexture(texture);
     
     this->num_col = 1;
@@ -172,7 +173,7 @@ void SpriteObject::move(float offset_x, float offset_y)
     this->getSprite().move(offset_x,offset_y);
 }
 
-void SpriteObject::setColor(const sf::Color &color)
+void SpriteObject::setColor(sf::Color color)
 {
     this->color = color;
     

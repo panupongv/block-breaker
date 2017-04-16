@@ -13,6 +13,7 @@ class BaseObject
 public:
     BaseObject();
     BaseObject(std::string name, RenderLayer layer);
+    virtual ~BaseObject();
     
     //getters
     std::string getName() const;
@@ -26,7 +27,7 @@ public:
     
     //abstract setters,mutators
     virtual void setPosition(float x, float y, PositioningMode mode = PositioningMode::TopLeft) = 0;
-    virtual void setColor(const sf::Color& color) = 0;
+    virtual void setColor(sf::Color color) = 0;
     virtual void move(float x, float y) = 0;
     
     //abstract getters

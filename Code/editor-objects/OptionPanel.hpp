@@ -7,7 +7,12 @@
 #include "InputField.hpp"
 #include "enums.hpp"
 #include "TextList.hpp"
+<<<<<<< HEAD
 #include <iostream>
+=======
+#include "ColorPalatte.hpp"
+#include "BlockTemplateButton.hpp"
+>>>>>>> master-editor
 
 enum OptionMode { Load , Edit , Save };
 
@@ -19,23 +24,34 @@ public:
     OptionMode getCurrentMode() const;
     UpdateOperation getUpdateOperation( ) const;
     std::string getFileName() const;
+    sf::Color getSelectedColor() const;
+    BlockType getSelectedType() const;
     
 private:
     void collectButton(TextObject* button,Scene& scene);
     void collectElement(BaseObject* element,Scene& scene);
     void disableAll();
     void changeModeTo(OptionMode mode);
+    void set_button_position(BaseObject* button, int y);
     void update_overall(EventHandler& e);
     void update_in_load_mode(EventHandler& e);
     void update_in_edit_mode(EventHandler& e);
     void update_in_save_mode(EventHandler& e);
+    void update_file_name(std::string new_file_name);
     
 private:
     const int char_size = 25;
     const int left_edge = 615;
     
+<<<<<<< HEAD
     std::string file_name;
 	UpdateOperation operation;// = None;
+=======
+    std::string file_name = "";
+    sf::Color selected_color = sf::Color::White;
+    BlockType selected_type = normal;
+    UpdateOperation operation = None;
+>>>>>>> master-editor
     
     std::vector<BaseObject*> buttons;
     std::vector<BaseObject*> elements;
@@ -45,7 +61,10 @@ private:
     
     InputField* input_field;
     TextList* list;
+    TextObject* status;
+    ColorPalatte* palatte;
     
+    std::vector<BlockTemplateButton*> block_buttons;
     TextObject* button_new;
     TextObject* button_load;
     TextObject* button_save;

@@ -16,12 +16,13 @@ public:
     virtual void disable();
     
     //getters
+    sf::Text& getTextRender();
     std::string getText() const;
     int getSize() const;
     
     //abstract setters, mutators
     virtual void setPosition(float x, float y, PositioningMode mode= PositioningMode::TopLeft);
-    virtual void setColor(const sf::Color& color);
+    virtual void setColor(sf::Color color);
     virtual void move(float x, float y);
     
     //abstract getters

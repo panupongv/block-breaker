@@ -1,12 +1,15 @@
 #include "DraftBlock.hpp"
 #include "WindowHelper.hpp"
+#include "ResourcePath.hpp"
 
 using namespace std;
 
-DraftBlock::DraftBlock( string textureName , sf::RenderWindow& window , sf::Color color )
-:SpriteObject("draft block" , RenderLayer::DraftBlockLayer , textureName )
+DraftBlock::DraftBlock( BlockType type , sf::Color color , sf::RenderWindow& window )
+:SpriteObject("draft block" , RenderLayer::DraftBlockLayer , texture_name_of_type(type) )
+,TemplateData( type , color )
 {
-    this->setColor( color );
+    setColor(color);
+    this->TemplateData::setColor(color);
     this->window = &window;
 }
 
@@ -24,6 +27,7 @@ void DraftBlock::setColor(sf::Color color)
 {
     color.a = 255*this->transparency;
     SpriteObject::setColor(color);
+    TemplateData::setColor(color);
 }
 
 void DraftBlock::update( EventHandler& e )

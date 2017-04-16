@@ -97,14 +97,15 @@ void Scene::addObject(BaseObject* object)
     }
 }
 
-void Scene::removeObject(BaseObject* object)
+void Scene::removeObject(BaseObject* object , bool delete_also)
 {
     for(int i = 0 ; i < this->objects.size() ; ++i)
     {
         if(object == this->objects[i])
         {
             this->objects.erase(this->objects.begin()+i);
-            delete object;
+            if(delete_also)
+                delete object;
             return;
         }
     }

@@ -33,6 +33,7 @@ public:
     bool gotDragOn(const sf::FloatRect& rect , sf::Mouse::Button button = sf::Mouse::Left) const;
     
     bool gotKey(sf::Keyboard::Key key) const;
+    bool gotKeyHold(sf::Keyboard::Key key) const;
     std::string getString() const;
     
     bool wasClosed() const;

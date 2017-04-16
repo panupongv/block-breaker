@@ -20,10 +20,10 @@ public:
     void addBlock( std::vector<BlockData> blockDatas );
     
 private:
-    const int num_row = 20;
-    const int num_column = 40;
+    const int num_row = 32;
+    const int num_column = 12;
 #ifdef __APPLE__
-    const std::string directory = "block-breaker/stages/";
+    const std::string directory = "stages/";
     const std::string create_sub_cmd = "mkdir stages";
 #else
     const std::string directory = "block-breaker\\stages\\";

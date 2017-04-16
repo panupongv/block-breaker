@@ -10,27 +10,11 @@ EditorScene::EditorScene( sf::RenderWindow& window ) : Scene("editor",window),pa
 void EditorScene::update(EventHandler& eHandler)
 {
     Scene::update(eHandler);
-    
-//    cout << eHandler.gotKey(sf::Keyboard::E) << endl;
-    //implement update here
-//    if(eHandler.gotClickOn(stage_title))
-//    {
-//        cout << "drag on text : " << rand()%100 << endl;
-//        stage_title->disable();
-//    }
-    
-//    if(eHandler.cursorOn(background))
-//        cout << "cursor on bg : " << rand()%1000 << endl;
-//    static string s;
-//    if(eHandler.getString()[0] == 8)
-//        s.erase(s.size()-1);
-//    else
-//        s += eHandler.getString();
-//    if(eHandler.getString().empty() == false)
-//        cout << s << endl;
-    
     panel.update(eHandler);
+    space.update(eHandler);
+    
     UpdateOperation panelOperation = panel.getUpdateOperation();
+    UpdateOperation spaceOperation = space.getUpdateOperation();
     
     if(panelOperation == Exit)
     {
@@ -38,9 +22,35 @@ void EditorScene::update(EventHandler& eHandler)
         setNextScene(NULL);
         return;
     }
-    
-    space.update(eHandler);
-    UpdateOperation spaceOperation = space.getUpdateOperation();
+    else if( panelOperation == LoadStage)
+    {
+        load_stage(panel.getFileName());
+        stage_title->setText(panel.getFileName());
+        space.set_editable(true);
+    }
+    else if(panelOperation == ChangeType || panelOperation == ChangeColor )
+    {
+        BlockType selected_type = panel.getSelectedType();
+        sf::Color selected_color = panel.getSelectedColor();
+        
+        space.change_draft_block(selected_type, selected_color);
+    }
+    else if(panelOperation == NewStage)
+    {
+        space.clear_all();
+        stage_title->setText("untitled.bbstage");
+        space.set_editable(true);
+    }
+    else if(panelOperation == SaveFile )
+    {
+        save_stage(panel.getFileName());
+        stage_title->setText(panel.getFileName());
+    }
+    else if ( panelOperation == ReplaceFileOperation )
+    {
+        save_stage(panel.getFileName() , true);
+        stage_title->setText(panel.getFileName());
+    }
 }
 
 void EditorScene::draw()
@@ -54,7 +64,7 @@ void EditorScene::init()
     (
         "stage text",
         RenderLayer::TitleLayer,
-        "stage-title.bbstage"
+        "title.bbstage"
     );
     this->stage_title->setPosition(300, 20 , PositioningMode::Center );
     this->stage_title->setColor(sf::Color::Black);
@@ -67,9 +77,12 @@ void EditorScene::init()
         "editor-background.png"
     );
     
-    
     this->addObject(this->background);
     this->addObject(this->stage_title);
+    
+    StageData stage_data("title.bbstage");
+    space.load_from_data(stage_data);
+    space.set_editable(false);
 }
 
 void EditorScene::begin()
@@ -82,5 +95,17 @@ void EditorScene::begin()
 void EditorScene::end()
 {
     //todo;
+}
+
+void EditorScene::load_stage(std::string file_name)
+{
+    cout << "load from " << file_name << endl;
+    StageData data(file_name);
+    space.load_from_data(data);
+}
+
+void EditorScene::save_stage(std::string file_name , bool replace )
+{
+    space.save_stage_as(file_name , replace);
 }
 

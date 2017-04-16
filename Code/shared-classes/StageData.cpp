@@ -44,6 +44,7 @@ bool StageData::save( bool overwrite ) const
     
     ofstream file(path);
     
+    cout << path << endl;
     if(file.fail())
         return false;
     

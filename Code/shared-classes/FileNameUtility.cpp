@@ -1,5 +1,10 @@
 #include "FileNameUtility.hpp"
+<<<<<<< HEAD
 #include "FileNameUtility.hpp"
+=======
+#include <fstream>
+#include "ResourcePath.hpp"
+>>>>>>> master-editor
 
 using namespace std;
 
@@ -21,6 +26,29 @@ int FileNameUtility::dot_position_of ( const string& file_name ) const
     throw invalid_argument("the specify file_name -" + file_name + "- does not have any dot");
     
     return -1;
+}
+
+bool FileNameUtility::file_exist(const std::string &file_path) const
+{
+    if( file_path.empty() )
+        return false;
+#ifdef __APPLE__
+    if( *(file_path.end()) == '/')
+        return false;
+#else
+    if( *(file_path.end()) == '\\' )
+        return false;
+#endif
+    
+    ifstream file;
+    file.open(smartPath(file_path));
+    if(file.fail())
+    {
+        return false;
+    }
+    
+    file.close();
+    return true;
 }
 
 string FileNameUtility::extension_of(const string &file_name) const

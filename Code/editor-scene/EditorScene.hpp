@@ -24,9 +24,14 @@ protected:
     virtual void init();
     
 private:
+    void load_stage( std::string file_name );
+    void save_stage( std::string file_name , bool replace = false);
+    
+private:
     OptionPanel panel;
     WorkSpace space;
     SpriteObject* background;
     TextObject* stage_title;
-    DraftBlock* draft_block;
+    
+
 };
