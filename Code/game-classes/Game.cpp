@@ -20,8 +20,7 @@ Game::Game(sf::RenderWindow * window, std::string character_name)
 	for (int i = 8; i > -2; i--)
 	{
 		generateRow(upper_bound + i * Block::block_size_y);
-	}
-	
+	}	
 }
 
 Game::Game(sf::RenderWindow * window, std::string character_name, std::string file_name)
@@ -29,7 +28,9 @@ Game::Game(sf::RenderWindow * window, std::string character_name, std::string fi
 	window(window),
 	finished(false),
 	endless(false),
-	lives(1)
+	lives(3),
+	score(0),
+	breakable_block_num(0)
 {
 	srand(time(NULL));
 	StageData stage_data(file_name);
@@ -44,10 +45,10 @@ Game::Game(sf::RenderWindow * window, std::string character_name, std::string fi
 	}
 
 	std::vector<BlockData> block_datas = stage_data.getBlocksData();
-	block_num = block_datas.size();
-	for (int i = 0; i < block_num; i++)
+	for (int i = 0; i <  block_datas.size(); i++)
 	{
-		//Block * temp_block = new Block(block_datas[i]);
+		if (block_datas[i].getType() != normal)
+			breakable_block_num++;
 		Block* new_block = BlockGenerator::create(block_datas[i], false);
 		new_block->move(left_bound, upper_bound);
 		block_list.push_back(new_block);
@@ -152,14 +153,19 @@ void Game::pop(Block * block)
 	{
 		if (block_list[i] == block)
 		{
+			if (block->getBlockType() != normal)
+			{
+				breakable_block_num--;
+				score += 10;
+			}
 			delete block;
 			block = NULL;
 			block_list.erase(block_list.begin() + i);
-			score += 10;
 			break;
 		}
 	}
-	if (!endless && block_list.empty())
+	std::cout << breakable_block_num << std::endl;
+	if (!endless && breakable_block_num == 0)
 		finished = true;
 }
 
@@ -244,15 +250,25 @@ bool Game::setup(std::string character_name)
 	{
 		return false;
 	}
-	lives_text.setCharacterSize(30);
-	score_text.setCharacterSize(30);
-	lives_text.setFont(font);
-	score_text.setFont(font);
-	lives_text.setFillColor(sf::Color::White);
-	score_text.setFillColor(sf::Color::White);
-	lives_text.setPosition(left_bound + 10, lower_bound - 80);
-	score_text.setPosition(left_bound + 10, lower_bound - 40);
-
+	
+	if (endless)
+	{
+		lives_text.setCharacterSize(30);
+		score_text.setCharacterSize(30);
+		lives_text.setFont(font);
+		score_text.setFont(font);
+		lives_text.setFillColor(sf::Color::White);
+		score_text.setFillColor(sf::Color::White);
+		lives_text.setPosition(left_bound + 10, lower_bound - 80);
+		score_text.setPosition(left_bound + 10, lower_bound - 40);
+	}
+	else
+	{
+		lives_text.setCharacterSize(30);
+		lives_text.setFont(font);
+		lives_text.setFillColor(sf::Color::White);
+		lives_text.setPosition(left_bound + 10, lower_bound - 40);
+	}
 	return true;
 }
 
@@ -269,7 +285,8 @@ void Game::draw_sprites()
 		item_list[i]->draw(*window);
 	}
 	window->draw(lives_text);
-	window->draw(score_text);
+	if(endless)
+		window->draw(score_text);
 	window->draw(background);
 	window->display();
 }

@@ -82,11 +82,13 @@ void Ball::checkBlockCollision(Game& game)
 			}
 			else if (collideVertically(*block_list[i]))
 			{
+				move(0, -getVY());
 				setMovement(getVX(), -getVY());
 				y_direction *= -1;
 			}
 			else if(collideHorizontally(*block_list[i]))
 			{
+				move(-getVX(), 0);
 				setMovement(-getVX(), getVY());
 				angle *= -1;
 			}

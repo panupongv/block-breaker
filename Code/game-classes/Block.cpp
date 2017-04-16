@@ -69,6 +69,11 @@ std::string Block::getTextureNameFromType(BlockType type)
     }
 }
 
+BlockType Block::getBlockType() const
+{
+	return normal;
+}
+
 void Block::initializeData(std::vector<sf::Vector2i> points)
 {
 	setAlive(true);
@@ -137,8 +142,9 @@ void BreakableBlock::hitAction(Game & game)
 	game.pop(this);
 }
 
-void BreakableBlock::destroyed(Game & game)
+BlockType BreakableBlock::getBlockType() const
 {
+	return breakable;
 }
 
 ItemBlock::ItemBlock(const BlockData & block_data, bool endless)
@@ -171,6 +177,11 @@ void ItemBlock::hitAction(Game & game)
 	}
 	
 	game.pop(this);
+}
+
+BlockType ItemBlock::getBlockType() const
+{
+	return item;
 }
 
 //void ItemBlock::destroyed(Game & game)

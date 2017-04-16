@@ -77,7 +77,7 @@ private:
 
 	int lives;
 	int score;
-	int block_num;
+	int breakable_block_num;
 	bool endless;
 	bool finished;
 

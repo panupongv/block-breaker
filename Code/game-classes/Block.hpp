@@ -25,7 +25,7 @@ public:
 	virtual void hitAction(Game& game);
 	virtual void destroyed(Game& game);
 	static std::string getTextureNameFromType(BlockType type);
-
+	virtual BlockType getBlockType() const;
 public:
 	static constexpr int block_size_x = 50; //Just Assume
 	static constexpr int block_size_y = 18;  //
@@ -49,7 +49,7 @@ public:
 	BreakableBlock(std::string texture_name, float x, float y, bool endless = false);
 
 	virtual void hitAction(Game& game);
-	void destroyed(Game& game);
+	BlockType getBlockType() const;
 };
 
 class ItemBlock : public BreakableBlock
@@ -60,5 +60,6 @@ public:
 	ItemType item_type;
 
 	void hitAction(Game& game);
+	BlockType getBlockType() const;
 	//void destroyed(Game& game);
 };
