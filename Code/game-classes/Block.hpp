@@ -23,16 +23,15 @@ public:
    
 	void update(Game& game);
 	virtual void hitAction(Game& game);
-	virtual void destroyed(Game& game);
 	static std::string getTextureNameFromType(BlockType type);
-
+	virtual BlockType getBlockType() const;
+	int getFrameToMove() const;
 public:
 	static constexpr int block_size_x = 50; //Just Assume
 	static constexpr int block_size_y = 18;  //
-	static constexpr int frame_to_move = 20;
 	static constexpr int move_speed = 1;
-
 protected:
+	int frame_to_move; //20
 	int frame_passed = 0;
 	void initializeData(std::vector<sf::Vector2i> points);
 
@@ -49,7 +48,7 @@ public:
 	BreakableBlock(std::string texture_name, float x, float y, bool endless = false);
 
 	virtual void hitAction(Game& game);
-	void destroyed(Game& game);
+	BlockType getBlockType() const;
 };
 
 class ItemBlock : public BreakableBlock
@@ -57,8 +56,9 @@ class ItemBlock : public BreakableBlock
 public:
 	ItemBlock(const BlockData& block_data, bool endless = false);
 	ItemBlock(std::string texture_name, float x, float y, bool endless = false);
-	ItemType item_type;
 
 	void hitAction(Game& game);
-	//void destroyed(Game& game);
+	BlockType getBlockType() const;
+private:
+	ItemType item_type;
 };

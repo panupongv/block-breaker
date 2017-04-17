@@ -29,10 +29,10 @@ bool FileNameUtility::file_exist(const std::string &file_path) const
     if( file_path.empty() )
         return false;
 #ifdef __APPLE__
-    if( *(file_path.end()) == '/')
+    if( *(file_path.end() - 1) == '/')
         return false;
 #else
-    if( *(file_path.end()) == '\\' )
+    if( *(file_path.end() - 1) == '\\' )
         return false;
 #endif
     

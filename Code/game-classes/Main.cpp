@@ -1,40 +1,50 @@
 //#pragma once
 
-#ifdef __APPLE__
-    #include <SFML/Graphics.hpp>
-#else
-    #include <SFML\Graphics.hpp>
-#endif
+#include "sfml.hpp"
 
 #include "Menu.hpp"
+#include "CharaterSelect.hpp"
 #include "StageSelect.hpp"
 #include "Game.hpp"
+#include "ResourcePath.hpp"
 #include <iostream>
 
 int main()
 {
-	sf::RenderWindow window(sf::VideoMode(800, 620), "SFML works!");//, sf::Style::Fullscreen);
+	sf::RenderWindow window(sf::VideoMode(800, 620), "Block Breaker");//, sf::Style::Fullscreen);
 	window.setFramerateLimit(60);
+
+	/*sf::SoundBuffer buffer;
+	if (!buffer.loadFromFile("block-breaker\\resources\\mariosong.wav"))
+		std::cout << "not loaded" << std::endl;
+	sf::Sound sound;
+	sound.setBuffer(buffer);
+	sound.play();*/
+	/*sf::Music music;
+	music.openFromFile("block-breaker\\Resources\\mariosong.wav");
+	music.play();
+	sf::Music a;
+	a.openFromFile("block-breaker\\Resources\\bounce.wav");
+	a.play();*/
 
 	while (window.isOpen())
 	{
 
 		Menu menu(&window);
 		menu.run();
+		CharacterSelect character_select(&window);
 		switch (menu.getChoice())
 		{
 		case 0:
-			Game(&window).run();
+			character_select.run();
+			if(window.isOpen())
+				Game(&window, character_select.getSelectedName()).run();
 			break;
-            case 1:
-#ifdef __APPLE__
-                StageSelect stage_select(&window, "stages/");
-#else
-                StageSelect stage_select(&window, "block-breaker\\stages");
-#endif
+           case 1:
+            StageSelect stage_select(&window, smartPath("block-breaker\\Stages"));
 			stage_select.run();
 			if(window.isOpen())
-				Game(&window, stage_select.getSelectedName()).run();
+				Game(&window, character_select.getSelectedName(), stage_select.getSelectedName()).run();
 			break;
 		}
 	}
