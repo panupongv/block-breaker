@@ -272,7 +272,7 @@ void OptionPanel::changeModeTo(OptionMode mode)
             
         case Save:
             input_field->enable();
-            input_field->clearText();
+            input_field->setText(file_name.substr(0,file_name.size()-8));
             status->enable();
             button_cancel->enable();
             button_confirm_save->disable();

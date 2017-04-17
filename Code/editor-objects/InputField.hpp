@@ -14,6 +14,7 @@ public:
     void setTextSize( int font_size );
     void setTextColor( sf::Color color);
     void clearText();
+    void setText( std::string text );
     
     //polymorphism
     virtual void update( EventHandler& e );
