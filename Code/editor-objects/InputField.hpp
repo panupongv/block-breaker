@@ -14,12 +14,18 @@ public:
     void setTextSize( int font_size );
     void setTextColor( sf::Color color);
     void clearText();
+    void setText( std::string text );
     
     //polymorphism
     virtual void update( EventHandler& e );
     virtual void draw( sf::RenderTarget& target );
     virtual void enable();
     virtual void disable();
+    
+private:
+    void update_check_selected(EventHandler& e);
+    void update_text ( EventHandler& e );
+    void update_representation( EventHandler& e );
     
 private:
     TextObject textObject;
@@ -30,8 +36,4 @@ private:
     const sf::Color color_deselected = sf::Color(255,255,255,100);
     const int limit_char = 20;
     
-    
-    void update_check_selected(EventHandler& e);
-    void update_text ( EventHandler& e );
-    void update_representation( EventHandler& e );
 };

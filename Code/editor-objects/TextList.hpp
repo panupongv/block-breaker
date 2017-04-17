@@ -24,6 +24,12 @@ public:
     virtual void draw ( sf::RenderTarget& target );
     
 private:
+    float getAvailableScroll ( ) const;
+    float getItemPositionY( int id ) const;
+    void update_scroll(EventHandler& e);
+    void update_detect_click(EventHandler& e);
+    
+private:
     sf::RenderWindow& window;
     std::vector<std::string> string_list;
     float shift_y = 0;
@@ -32,9 +38,5 @@ private:
     int space_x = 10;
     
     std::string selected_item = "";
-    
-    float getAvailableScroll ( ) const;
-    float getItemPositionY( int id ) const;
-    void update_scroll(EventHandler& e);
-    void update_detect_click(EventHandler& e);
+
 };

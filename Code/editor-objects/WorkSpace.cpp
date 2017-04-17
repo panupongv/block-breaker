@@ -123,6 +123,13 @@ void WorkSpace::update_click(EventHandler &e)
 
 void WorkSpace::update_key(EventHandler &e)
 {
+    bool ctrl_hold = e.gotKeyHold(sf::Keyboard::LControl);
+    bool a_key = e.gotKeyHold(sf::Keyboard::A);
+    
+    if(ctrl_hold)
+        if(a_key)
+            select_all_blocks();
+    
     if( has_selecting_blocks() == false )
         return;
     
@@ -235,7 +242,7 @@ bool WorkSpace::has_selecting_blocks() const
     return get_selecting_block().size() > 0;
 }
 
-bool WorkSpace::deselect_all_blocks()
+void WorkSpace::deselect_all_blocks()
 {
     vector<EditingBlock*> selecting_blocks = get_selecting_block();
     for(int i = 0 ; i < selecting_blocks.size() ; i++)
@@ -243,6 +250,16 @@ bool WorkSpace::deselect_all_blocks()
         selecting_blocks[i]->deselect();
     }
 	return false;
+}
+
+void WorkSpace::select_all_blocks()
+{
+    cout << "select all" << endl;
+    deselect_all_blocks();
+    for(int i = 0 ; i < blocks.size() ; ++i )
+    {
+        blocks[i]->select();
+    }
 }
 
 EditingBlock* WorkSpace::block_at(sf::Vector2i grid)

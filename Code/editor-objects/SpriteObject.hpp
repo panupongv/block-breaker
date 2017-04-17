@@ -35,15 +35,6 @@ public:
     virtual void draw( sf::RenderTarget& target );
     
 private:
-    sf::Sprite sprite;
-    sf::Texture texture;
-    sf::Color color = sf::Color::White;
-    int current_frame = 0;
-    int num_row;
-    int num_col;
-    int width;
-    int height;
-    
     //mutators
     void setTexture(std::string textureName);
     void setTextureSheet(std::string textureSheetName , int width , int height );
@@ -53,4 +44,14 @@ private:
     int getNumFrame() const;
     int getCurrentRow() const;
     int getCurrentColumn() const;
+    
+private:
+    sf::Sprite sprite;
+    sf::Texture texture;
+    sf::Color color = sf::Color::White;
+    int current_frame = 0;
+    int num_row;
+    int num_col;
+    int width;
+    int height;
 };

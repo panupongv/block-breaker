@@ -30,6 +30,11 @@ void InputField::clearText()
     current_text = "";
 }
 
+void InputField::setText( string text )
+{
+    current_text = text;
+}
+
 void InputField::update(EventHandler& e)
 {
     update_check_selected(e);

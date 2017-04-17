@@ -2,6 +2,7 @@
 #include "WindowHelper.hpp"
 #include "DirectoryReader.hpp"
 #include "FileNameUtility.hpp"
+#include "ResourcePath.hpp"
 
 using namespace std;
 
@@ -272,7 +273,7 @@ void OptionPanel::changeModeTo(OptionMode mode)
             
         case Save:
             input_field->enable();
-            input_field->clearText();
+            input_field->setText(file_name.substr(0,file_name.size()-8));
             status->enable();
             button_cancel->enable();
             button_confirm_save->disable();
@@ -316,7 +317,7 @@ void OptionPanel::update_overall(EventHandler &e)
 void OptionPanel::update_in_load_mode(EventHandler &e)
 {
     string search_string = input_field->getText();
-    BBStageFileFinder finder("stages");
+    BBStageFileFinder finder(stagePath());
     vector<string> files = finder.searchFileNames(search_string);
     list->setStringList(files);
     
@@ -424,7 +425,7 @@ void OptionPanel::update_in_save_mode(EventHandler &e)
     else
     {
         FileNameUtility util;
-        bool already_exist = util.file_exist("stages/" + entered_file_name);
+        bool already_exist = util.file_exist(stagePath() + entered_file_name);
         
         if(already_exist)
         {
