@@ -249,7 +249,6 @@ void WorkSpace::deselect_all_blocks()
     {
         selecting_blocks[i]->deselect();
     }
-	return false;
 }
 
 void WorkSpace::select_all_blocks()
