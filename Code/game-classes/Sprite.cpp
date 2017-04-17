@@ -74,30 +74,41 @@ sf::Vector2f Sprite::center() const
 						sprite.getPosition().y + (frame_height / 2.0f));
 }
 
-bool Sprite::collide(Sprite & another_sprite)
+bool Sprite::collide(const Sprite & another_sprite) const
 {
 	if (this == NULL) return false;
-	try
-	{
-		return sprite.getGlobalBounds().intersects(another_sprite.sprite.getGlobalBounds());
-	}
-	catch (...)
-	{
-		return false;
-	}
+	return left() < another_sprite.left() + another_sprite.getFrameWidth()
+		 && left() + getFrameWidth() > another_sprite.left()
+		&& top() < another_sprite.top() + another_sprite.getFrameHeight()
+		&& top() + getFrameHeight() > another_sprite.top();
 }
 
-bool Sprite::collideHorizontally(Sprite & another_sprite)
+bool Sprite::collideHorizontally(const Sprite & another_sprite) const
 {
-	return collide(another_sprite)
-		&& (center().x < another_sprite.left() || center().x > another_sprite.right());
+	return collide(another_sprite) && (center().x < another_sprite.left() || center().x > another_sprite.right());
 }
 
-bool Sprite::collideVertically(Sprite & another_sprite)
+bool Sprite::collideVertically(const Sprite & another_sprite) const
 {
-	return collide(another_sprite)
-		&& (center().y < another_sprite.top() || center().y > another_sprite.bottom());
+	return collide(another_sprite) && (center().y < another_sprite.top() || center().y > another_sprite.bottom());
 }
+//bool Sprite::collide(Sprite & another_sprite)
+//{
+//	if (this == NULL) return false;
+//	return sprite.getGlobalBounds().intersects(another_sprite.sprite.getGlobalBounds());
+//}
+//
+//bool Sprite::collideHorizontally(Sprite & another_sprite)
+//{
+//	return collide(another_sprite)
+//		&& (center().x < another_sprite.left() || center().x > another_sprite.right());
+//}
+//
+//bool Sprite::collideVertically(Sprite & another_sprite)
+//{
+//	return collide(another_sprite)
+//		&& (center().y < another_sprite.top() || center().y > another_sprite.bottom());
+//}
 
 float Sprite::getVX() const
 {

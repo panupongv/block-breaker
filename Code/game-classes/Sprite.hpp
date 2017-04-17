@@ -33,9 +33,9 @@ public:
 	sf::Vector2f center() const;
 
 	//bool collide(const sf::FloatRect& rect);
-	bool collide(Sprite& another_sprite);
-	bool collideHorizontally(Sprite& another_sprite);
-	bool collideVertically(Sprite& another_sprite);
+	bool collide(const Sprite& another_sprite) const;
+	bool collideHorizontally(const Sprite& another_sprite) const;
+	bool collideVertically(const Sprite& another_sprite) const;
 
 	//bool isAlive() const;
 	bool isMoving() const;

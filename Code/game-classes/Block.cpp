@@ -2,19 +2,20 @@
 
 Block::Block(const BlockData& block_data, bool endless)
 	: 
-	Block(getTextureNameFromType(block_data.getType()), block_data.getStartGrid().x * block_size_x, block_data.getStartGrid().y * block_size_y)
+	Block(getTextureNameFromType(block_data.getType()), Game::left_bound +  block_data.getStartGrid().x * block_size_x, Game::upper_bound + block_data.getStartGrid().y * block_size_y)
 {
 	setColor(block_data.getColor());
 	initializeData(block_data.getMovement());
 }
 
 Block::Block(std::string texture_name, float x, float y, bool endless)
-: Sprite(texture_name, block_size_x, block_size_y, x , y ) 
+: Sprite(texture_name, block_size_x, block_size_y, x , y ),
+  endless(endless)
 {
 	if (endless)
-	{
-		this->endless = true;
-	}
+		frame_to_move = 20;
+	else
+		frame_to_move = 5;
 }
 
 Block::Block(BlockType type , float x , float y, bool endless)
@@ -24,7 +25,7 @@ Block::Block(BlockType type , float x , float y, bool endless)
 
 void Block::update(Game& game)
 {
-	if (frame_passed == frame_to_move)
+	if (frame_passed >= frame_to_move)
 	{
 		if (!endless)
 		{
@@ -48,11 +49,7 @@ void Block::update(Game& game)
 
 void Block::hitAction(Game & game)
 {
-	;
-}
-
-void Block::destroyed(Game & game)
-{
+	game.sound_player.playNormalBlockSound();
 }
 
 std::string Block::getTextureNameFromType(BlockType type)
@@ -72,6 +69,11 @@ std::string Block::getTextureNameFromType(BlockType type)
 BlockType Block::getBlockType() const
 {
 	return normal;
+}
+
+int Block::getFrameToMove() const
+{
+	return frame_to_move;
 }
 
 void Block::initializeData(std::vector<sf::Vector2i> points)
@@ -139,6 +141,7 @@ BreakableBlock::BreakableBlock(std::string texture_name, float x, float y, bool 
 
 void BreakableBlock::hitAction(Game & game)
 {
+	game.sound_player.playBreakableBlockSound();
 	game.pop(this);
 }
 
@@ -165,6 +168,7 @@ ItemBlock::ItemBlock(std::string texture_name, float x, float y, bool endless)
 
 void ItemBlock::hitAction(Game & game)
 {
+	game.sound_player.playBreakableBlockSound();
 	switch (item_type)
 	{
 	case ADDBALL: game.add(new Ball(center().x, center().y)); 
@@ -175,7 +179,6 @@ void ItemBlock::hitAction(Game & game)
 		break;
 	case EXPLOSIVE: game.add(new Explosion(center().x, center().y));
 	}
-	
 	game.pop(this);
 }
 

@@ -8,6 +8,7 @@
 #include "Explosion.hpp"
 #include "StageData.hpp"
 #include "BlockGenerator.hpp"
+#include "SoundPlayer.hpp"
 
 #include <iostream>
 #include <string>
@@ -48,8 +49,10 @@ public:
 	sf::Vector2f getMousePosition() const;
 
 public:
-	static const int left_bound = 100;
-	static const int right_bound = 700;
+	SoundPlayer sound_player;
+
+	static const int left_bound = 10;
+	static const int right_bound = 610;
 	static const int upper_bound = 10;
 	static const int lower_bound = 610;
 	static const int game_width = 600;
@@ -60,6 +63,7 @@ private:
 	void update_sprites();
 	void event_input();
 	void generateRow(int y);
+
 private:
 	sf::RenderWindow* window;
 	sf::Event event;

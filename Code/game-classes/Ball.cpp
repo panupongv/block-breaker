@@ -35,13 +35,15 @@ void Ball::update(Game& game)
 				frame_counter = 0;
 				nextFrame();
 			}
+			mario--;
+			if (!mario) setFrame(0);
 		}
 		if (hit_counter >= hit_to_accelerate)
 			accelerate();
 	}
 	else
 	{ 
-		setCenter(game.getMousePosition().x, game.getPlayer()->getHitLine() - getFrameHeight()/2 + 1);
+		setCenter(game.getPlayer()->center().x, game.getPlayer()->getHitLine() - getFrameHeight()/2 + 1);
 	}
 }
 
@@ -49,14 +51,14 @@ void Ball::checkEdgeCollision(Game & game)
 {
 	if ((left() <= game.left_bound && getVX() < 0) || (right() >= game.right_bound && getVX() > 0))
 	{
+		game.sound_player.playBounceSound();
 		angle *= -1;
 		setMovement(-getVX(), getVY());
 		hit_counter++;
 	}
 	if ((top() <= game.upper_bound && getVY() < 0))
 	{
-		//angle = ((90 + abs(angle)) + 90) * angle / abs(angle);
-		//setMovement(vxByAngle(), vyByAngle());
+		game.sound_player.playBounceSound();
 		y_direction = 1;
 		setMovement(getVX(), -getVY());
 		hit_counter++;
@@ -70,28 +72,31 @@ void Ball::checkBlockCollision(Game& game)
 	std::vector<Block*> block_list = game.getBlockList();
 	for (int i = 0; i < block_list.size(); i++)
 	{
+		float dx, dy;
+		dx = block_list[i]->center().x - center().x;
+		dy = block_list[i]->center().y - center().y;
+		bool v_right = getVX() > 0, v_down = getVY() > 0;
 		if (collide(*block_list[i]))
 		{
 			if (mario)
 			{
+				game.sound_player.playBreakableBlockSound();
 				game.pop(block_list[i]);
-				mario--;
-				if (!mario) setFrame(0);
-				hit_counter++;
 				return;
 			}
-			else if (collideVertically(*block_list[i]))
-			{
-				move(0, -getVY());
-				setMovement(getVX(), -getVY());
-				y_direction *= -1;
-			}
-			else if(collideHorizontally(*block_list[i]))
+			else if (collideHorizontally(*block_list[i]) && ((dx > 0 && v_right == true) || (dx < 0 && v_right == false)))
 			{
 				move(-getVX(), 0);
 				setMovement(-getVX(), getVY());
 				angle *= -1;
 			}
+			else if (collideVertically(*block_list[i]) && ((dy > 0 && v_down == true) || (dy < 0 && v_down == false)))
+			{
+				move(0, -getVY());
+				setMovement(getVX(), -getVY());
+				y_direction *= -1;
+			}
+			game.sound_player.playBounceSound();
 			hit_counter++;
 			block_list[i]->hitAction(game);
 			return;
@@ -109,27 +114,27 @@ void Ball::checkPlayerCollision(Game& game)
 		{
 		case 1: 
 		{
-			angle = -60; setMovement(vxByAngle(), vyByAngle()); 
+			angle = -60; setMovement(vxByAngle(), vyByAngle()); game.sound_player.playBounceSound();
 		}break;
 		case 2:
 		{
-			angle = -30; setMovement(vxByAngle(), vyByAngle());
+			angle = -30; setMovement(vxByAngle(), vyByAngle()); game.sound_player.playBounceSound();
 		}break;
 		case 3:
 		{
-			setMovement(getVX(), -getVY());
+			setMovement(getVX(), -getVY()); game.sound_player.playBounceSound();
 		}break;
 		case 4:
 		{
-			angle = (static_cast<int>(angle) % 90) * 0.75f; setMovement(vxByAngle(), vyByAngle());
+			angle = (static_cast<int>(angle) % 90) * 0.75f; setMovement(vxByAngle(), vyByAngle()); game.sound_player.playBounceSound();
 		}break;
 		case 5: 
 		{
-			angle = 30; setMovement(vxByAngle(), vyByAngle());
+			angle = 30; setMovement(vxByAngle(), vyByAngle()); game.sound_player.playBounceSound();
 		}break;
 		case 6:
 		{
-			angle = 60; setMovement(vxByAngle(), vyByAngle());
+			angle = 60; setMovement(vxByAngle(), vyByAngle()); game.sound_player.playBounceSound();
 		}break;
 		default: y_direction = 1;
 			break;
@@ -139,20 +144,10 @@ void Ball::checkPlayerCollision(Game& game)
 			hit_counter++;
 			setVX(getVX() + player->getDeltaX() / 5.0f);
 		}
-		/*switch (player->getHitZone(center().x))
-		{
-		case 1: setMovement(-abs(getVX() * 2), -(getVY() - 3));
-			break;
-		case 2: setMovement(getVX() - 6, -(getVY() * 1.1));
-			break;
-		case 3: setMovement(getVX(), -getVY());
-			break;
-		case 4: setMovement(getVX() + 6, -(getVY() *1.1));
-			break;
-		case 5: setMovement(abs(getVX() * 2), -(getVY() - 3));
-			break;
-		default: break;
-		}*/
+		speed = sqrt(pow(getVX(), 2) + pow(getVY(), 2));
+		if (speed < 5)
+			speed = 5;
+		std::cout << "Speed: " << speed << std::endl;
 	}
 }
 
@@ -175,7 +170,7 @@ void Ball::accelerate()
 
 void Ball::marioBall()
 {
-	mario = 5;
+	mario = 300;
 }
 
 float Ball::vxByAngle()
@@ -218,7 +213,7 @@ void ShotRocket::update(Game & game)
 	}
 	else
 	{
-		setCenter(game.getMousePosition().x, game.getPlayer()->top() + 23);
+		setCenter(game.getPlayer()->center().x, game.getPlayer()->top() + 23);
 	}
 }
 

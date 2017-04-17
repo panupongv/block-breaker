@@ -12,7 +12,11 @@ Player::Player(std::string texture_name)
 void Player::update(Game& game)
 {
 	latest_pos = center().x;
-	if(game.getMousePosition().x - getFrameWidth()/2.0f >= game.left_bound && game.getMousePosition().x + getFrameWidth() / 2.0f <= game.right_bound)
+	if (game.getMousePosition().x - getFrameWidth() / 2.0f < game.left_bound)
+		setCenter(game.left_bound + getFrameWidth() / 2.0f, hit_line + getFrameHeight() / 2);
+	else if (game.getMousePosition().x + getFrameWidth() / 2.0f > game.right_bound)
+		setCenter(game.right_bound - getFrameWidth() / 2.0f, hit_line + getFrameHeight() / 2);
+	else
 		setCenter(game.getMousePosition().x, hit_line + getFrameHeight() / 2);
 	delta_x = center().x - latest_pos;
 }

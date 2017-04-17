@@ -19,7 +19,7 @@ Game::Game(sf::RenderWindow * window, std::string character_name)
 	
 	for (int i = 8; i > -2; i--)
 	{
-		generateRow(upper_bound + i * Block::block_size_y);
+		generateRow(i * Block::block_size_y);
 	}	
 }
 
@@ -50,7 +50,6 @@ Game::Game(sf::RenderWindow * window, std::string character_name, std::string fi
 		if (block_datas[i].getType() != normal)
 			breakable_block_num++;
 		Block* new_block = BlockGenerator::create(block_datas[i], false);
-		new_block->move(left_bound, upper_bound);
 		block_list.push_back(new_block);
 		sprite_list.push_back(new_block);
 		//std::cout << "Brick[" << i << "] at " << block_datas[i].getStartGrid().x << ", " << block_datas[i].getStartGrid().y << std::endl;
@@ -75,9 +74,9 @@ void Game::run()
 		if (endless)
 		{
 			frame_passed++;
-			if (frame_passed == static_cast<int>(Block::block_size_y / Block::move_speed) * Block::frame_to_move)
+			if (frame_passed == static_cast<int>(Block::block_size_y / Block::move_speed) * block_list.front()->getFrameToMove())
 			{
-				generateRow(upper_bound - Block::block_size_y);
+				generateRow(-Block::block_size_y);
 				frame_passed = 0;
 			}
 			if (block_list.front()->bottom() > player->getHitLine())
@@ -164,7 +163,6 @@ void Game::pop(Block * block)
 			break;
 		}
 	}
-	std::cout << breakable_block_num << std::endl;
 	if (!endless && breakable_block_num == 0)
 		finished = true;
 }
@@ -209,6 +207,7 @@ void Game::pop(Explosion * explosion)
 
 void Game::applyMarioBall()
 {
+	sound_player.playMarioSound();
 	for (int i = 0; i < ball_list.size(); i++)
 		ball_list[i]->marioBall();
 }
@@ -245,7 +244,7 @@ bool Game::setup(std::string character_name)
 		return false;
 	}
 	background.setTexture(background_texture);
-
+	background.move(-90, 0);
 	if (!font.loadFromFile("block-breaker\\Resources\\munro.ttf"))
 	{
 		return false;
@@ -331,11 +330,11 @@ void Game::generateRow(int y)
 		Block* new_block;//= new Block("block2.png", left_bound + i * Block::block_size_x, upper_bound - Block::block_size_y, true);
 		if (rand() % 8 == 0)
 		{
-			new_block = BlockGenerator::create(item, left_bound + Block::block_size_x * i, y, true);
+			new_block = BlockGenerator::create(item, left_bound + Block::block_size_x * i, upper_bound + y, true);
 		}
 		else
 		{
-			new_block = BlockGenerator::create(breakable, left_bound + Block::block_size_x * i, y, true);
+			new_block = BlockGenerator::create(breakable, left_bound + Block::block_size_x * i, upper_bound + y, true);
 			new_block->setColor(BlockGenerator::getColor(BlockGenerator::ColorCode(current_color)));
 			current_color = (current_color + 1) % BlockGenerator::COLOR_NUM;
 		}
