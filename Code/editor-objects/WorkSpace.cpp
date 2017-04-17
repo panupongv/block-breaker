@@ -68,7 +68,7 @@ void WorkSpace::update_cursor(EventHandler &e)
 
 void WorkSpace::update_click(EventHandler &e)
 {
-    bool no_click = not e.gotClickOn(background);
+    bool no_click = !e.gotClickOn(background);
     
     if(no_click)
         return;
@@ -242,10 +242,12 @@ bool WorkSpace::deselect_all_blocks()
     {
         selecting_blocks[i]->deselect();
     }
+	return false;
 }
 
 EditingBlock* WorkSpace::block_at(sf::Vector2i grid)
 {
+	assert_empty_at(grid);
     for(int i = 0 ; i < blocks.size() ; ++i)
     {
         sf::Vector2i block_grid = blocks[i]->getStartGrid();
@@ -254,6 +256,7 @@ EditingBlock* WorkSpace::block_at(sf::Vector2i grid)
             return blocks[i];
         }
     }
+	return nullptr;
 }
 
 void WorkSpace::select_block_at(sf::Vector2i grid)

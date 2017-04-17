@@ -1,34 +1,36 @@
 #include "Game.hpp"
 #include "ResourcePath.hpp"
 
-Game::Game(sf::RenderWindow * window)
+Game::Game(sf::RenderWindow * window, std::string character_name)
 	:
 	window(window),
 	finished(false),
 	endless(true),
 	frame_passed(0),
 	current_color(0),
-	lives(2)
+	lives(2),
+	score(0)
 {
 	srand(time(NULL));
-	if (!setup())
+	if (!setup(character_name))
 	{
 		std::cout << "Game setup failed" << std::endl;
 	}
 	
 	for (int i = 8; i > -2; i--)
 	{
-		generateRow(upper_bound + i * Block::block_size_y);
-	}
-	
+		generateRow(i * Block::block_size_y);
+	}	
 }
 
-Game::Game(sf::RenderWindow * window, std::string file_name)
+Game::Game(sf::RenderWindow * window, std::string character_name, std::string file_name)
 	:
 	window(window),
 	finished(false),
 	endless(false),
-	lives(1)
+	lives(3),
+	score(0),
+	breakable_block_num(0)
 {
 	srand(time(NULL));
 	StageData stage_data(file_name);
@@ -37,18 +39,17 @@ Game::Game(sf::RenderWindow * window, std::string file_name)
 		std::cout << "No map found" << std::endl;
 	}
 
-	if (!setup())
+	if (!setup(character_name))
 	{
 		std::cout << "Game setup failed" << std::endl;
 	}
 
 	std::vector<BlockData> block_datas = stage_data.getBlocksData();
-	block_num = block_datas.size();
-	for (int i = 0; i < block_num; i++)
+	for (int i = 0; i <  block_datas.size(); i++)
 	{
-		//Block * temp_block = new Block(block_datas[i]);
+		if (block_datas[i].getType() != normal)
+			breakable_block_num++;
 		Block* new_block = BlockGenerator::create(block_datas[i], false);
-		new_block->move(left_bound, upper_bound);
 		block_list.push_back(new_block);
 		sprite_list.push_back(new_block);
 		//std::cout << "Brick[" << i << "] at " << block_datas[i].getStartGrid().x << ", " << block_datas[i].getStartGrid().y << std::endl;
@@ -73,9 +74,9 @@ void Game::run()
 		if (endless)
 		{
 			frame_passed++;
-			if (frame_passed == static_cast<int>(Block::block_size_y / Block::move_speed) * Block::frame_to_move)
+			if (frame_passed == static_cast<int>(Block::block_size_y / Block::move_speed) * block_list.front()->getFrameToMove())
 			{
-				generateRow(upper_bound - Block::block_size_y);
+				generateRow(-Block::block_size_y);
 				frame_passed = 0;
 			}
 			if (block_list.front()->bottom() > player->getHitLine())
@@ -151,13 +152,18 @@ void Game::pop(Block * block)
 	{
 		if (block_list[i] == block)
 		{
+			if (block->getBlockType() != normal)
+			{
+				breakable_block_num--;
+				score += 10;
+			}
 			delete block;
 			block = NULL;
 			block_list.erase(block_list.begin() + i);
 			break;
 		}
 	}
-	if (!endless && block_list.empty())
+	if (!endless && breakable_block_num == 0)
 		finished = true;
 }
 
@@ -201,6 +207,7 @@ void Game::pop(Explosion * explosion)
 
 void Game::applyMarioBall()
 {
+	sound_player.playMarioSound();
 	for (int i = 0; i < ball_list.size(); i++)
 		ball_list[i]->marioBall();
 }
@@ -225,9 +232,9 @@ sf::Vector2f Game::getMousePosition() const
 	return sf::Vector2f(sf::Mouse::getPosition(*window).x, sf::Mouse::getPosition(*window).y);
 }
 
-bool Game::setup()
+bool Game::setup(std::string character_name)
 {
-	player = new Player("catpad.png");
+	player = new Player(character_name);
 	sprite_list.push_back(player);
 	ball_list.push_back(new Ball());
 	sprite_list.push_back(ball_list.back());
@@ -237,6 +244,30 @@ bool Game::setup()
 		return false;
 	}
 	background.setTexture(background_texture);
+	background.move(-90, 0);
+	if (!font.loadFromFile("block-breaker\\Resources\\munro.ttf"))
+	{
+		return false;
+	}
+	
+	if (endless)
+	{
+		lives_text.setCharacterSize(30);
+		score_text.setCharacterSize(30);
+		lives_text.setFont(font);
+		score_text.setFont(font);
+		lives_text.setFillColor(sf::Color::White);
+		score_text.setFillColor(sf::Color::White);
+		lives_text.setPosition(left_bound + 10, lower_bound - 80);
+		score_text.setPosition(left_bound + 10, lower_bound - 40);
+	}
+	else
+	{
+		lives_text.setCharacterSize(30);
+		lives_text.setFont(font);
+		lives_text.setFillColor(sf::Color::White);
+		lives_text.setPosition(left_bound + 10, lower_bound - 40);
+	}
 	return true;
 }
 
@@ -252,6 +283,9 @@ void Game::draw_sprites()
 	{
 		item_list[i]->draw(*window);
 	}
+	window->draw(lives_text);
+	if(endless)
+		window->draw(score_text);
 	window->draw(background);
 	window->display();
 }
@@ -261,9 +295,10 @@ void Game::update_sprites()
 	//const int sprite_num = sprite_list.size();
 	for (int i = 0; i < sprite_list.size(); i++)
 	{
-		//if (sprite_list[i]->isAlive())
 		 sprite_list[i]->update(*this);
 	}
+	lives_text.setString("lives: " + std::to_string(lives));
+	score_text.setString("score: " + std::to_string(score));
 }
 
 void Game::event_input()
@@ -295,11 +330,11 @@ void Game::generateRow(int y)
 		Block* new_block;//= new Block("block2.png", left_bound + i * Block::block_size_x, upper_bound - Block::block_size_y, true);
 		if (rand() % 8 == 0)
 		{
-			new_block = BlockGenerator::create(item, left_bound + Block::block_size_x * i, y, true);
+			new_block = BlockGenerator::create(item, left_bound + Block::block_size_x * i, upper_bound + y, true);
 		}
 		else
 		{
-			new_block = BlockGenerator::create(breakable, left_bound + Block::block_size_x * i, y, true);
+			new_block = BlockGenerator::create(breakable, left_bound + Block::block_size_x * i, upper_bound + y, true);
 			new_block->setColor(BlockGenerator::getColor(BlockGenerator::ColorCode(current_color)));
 			current_color = (current_color + 1) % BlockGenerator::COLOR_NUM;
 		}
