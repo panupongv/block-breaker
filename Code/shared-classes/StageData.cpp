@@ -1,4 +1,5 @@
 #include "StageData.hpp"
+#include "ResourcePath.hpp"
 #include <fstream>
 
 using namespace std;
@@ -20,7 +21,7 @@ int StageData::getNumColumn() const
 
 string StageData::getPath() const
 {
-    return this->directory + this->file_name;
+    return stagePath() + this->file_name;
 }
 string StageData::getFileName() const
 {
@@ -35,7 +36,6 @@ void StageData::setFileName(string file_name )
 bool StageData::save( bool overwrite ) const
 {
     string path = getPath();
-    system(create_sub_cmd.c_str());
     
     //check file exist
     ifstream file_in(path);
@@ -44,7 +44,6 @@ bool StageData::save( bool overwrite ) const
     
     ofstream file(path);
     
-    cout << path << endl;
     if(file.fail())
         return false;
     
@@ -65,6 +64,8 @@ bool StageData::save( bool overwrite ) const
 bool StageData::load()
 {
     string path = this->getPath();
+    cout << "load path : " << path << endl;
+    
     ifstream file(path);
     if(file.fail())
     {

@@ -1,5 +1,6 @@
 #include "EditorScene.hpp"
 #include "EventHandler.hpp"
+#include "ResourcePath.hpp"
 
 #include <iostream>
 
@@ -99,7 +100,7 @@ void EditorScene::end()
 
 void EditorScene::load_stage(std::string file_name)
 {
-    cout << "load from " << file_name << endl;
+    cout << "load stage : " << file_name << endl;
     StageData data(file_name);
     space.load_from_data(data);
 }

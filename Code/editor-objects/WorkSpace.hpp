@@ -29,7 +29,8 @@ private:
     void swap_new_draft_block(DraftBlock* new_draft_block);
     bool is_empty_at( sf::Vector2i grid );
     bool has_selecting_blocks() const;
-    bool deselect_all_blocks();
+    void deselect_all_blocks();
+    void select_all_blocks();
     EditingBlock* block_at( sf::Vector2i grid );
     void deselect_block_at( sf::Vector2i grid );
     void select_block_at( sf::Vector2i grid );
