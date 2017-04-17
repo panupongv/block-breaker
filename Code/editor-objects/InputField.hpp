@@ -23,6 +23,11 @@ public:
     virtual void disable();
     
 private:
+    void update_check_selected(EventHandler& e);
+    void update_text ( EventHandler& e );
+    void update_representation( EventHandler& e );
+    
+private:
     TextObject textObject;
     std::string current_text;
     int blink_delay = 20;
@@ -31,8 +36,4 @@ private:
     const sf::Color color_deselected = sf::Color(255,255,255,100);
     const int limit_char = 20;
     
-    
-    void update_check_selected(EventHandler& e);
-    void update_text ( EventHandler& e );
-    void update_representation( EventHandler& e );
 };
