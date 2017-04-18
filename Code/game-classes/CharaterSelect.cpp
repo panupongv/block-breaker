@@ -84,13 +84,13 @@ void CharacterSelect::eventInput()
 		case sf::Event::MouseButtonPressed:
 		{
 			float x = sf::Mouse::getPosition().x;
-			if (x < 50)
+			if (x < window->getPosition().x + 50)
 			{
 				selected--;
 				if (selected == -1)
 					selected += character_num;
 			}
-			else if (x <= window->getSize().x - 50)
+			else if (x >= window->getSize().x - 50)
 				selected = (selected + 1) % character_num;
 			else
 				finished = true;

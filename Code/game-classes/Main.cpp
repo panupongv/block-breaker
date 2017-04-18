@@ -43,6 +43,7 @@ int main()
            case 1:
             StageSelect stage_select(&window, smartPath("block-breaker\\Stages"));
 			stage_select.run();
+			character_select.run();
 			if(window.isOpen())
 				Game(&window, character_select.getSelectedName(), stage_select.getSelectedName()).run();
 			break;

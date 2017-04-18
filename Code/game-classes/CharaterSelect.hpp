@@ -1,6 +1,7 @@
 #pragma once
 
 #include "sfml.hpp"
+#include "SFML\System\Time.hpp"
 #include <iostream>
 #include <string>
 #include <vector>
