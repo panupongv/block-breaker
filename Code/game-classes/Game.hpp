@@ -62,8 +62,8 @@ private:
 	void draw_sprites();
 	void update_sprites();
 	void event_input();
-	void generateRow(int y);
-
+	void generateRow(int y, bool ingame = false);
+	void accelerateBlocks();
 private:
 	sf::RenderWindow* window;
 	sf::Event event;
@@ -82,9 +82,14 @@ private:
 	int lives;
 	int score;
 	int breakable_block_num;
-	bool endless;
+	int blocks_frame_to_move;
+	int delay;
+	int end_delay;
 	bool finished;
+	bool endless;
+	bool win;
 
 	int current_color;
 	int frame_passed;
+	int row_generated;
 };

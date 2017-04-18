@@ -76,6 +76,12 @@ int Block::getFrameToMove() const
 	return frame_to_move;
 }
 
+void Block::setFrameToMove(int frame_num)
+{
+	if(frame_num >= 1)
+		frame_to_move = frame_num;
+}
+
 void Block::initializeData(std::vector<sf::Vector2i> points)
 {
 	setAlive(true);

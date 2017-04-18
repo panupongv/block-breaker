@@ -8,8 +8,9 @@ Game::Game(sf::RenderWindow * window, std::string character_name)
 	endless(true),
 	frame_passed(0),
 	current_color(0),
-	lives(2),
-	score(0)
+	lives(1),
+	score(0),
+	row_generated(0)
 {
 	srand(time(NULL));
 	if (!setup(character_name))
@@ -21,6 +22,7 @@ Game::Game(sf::RenderWindow * window, std::string character_name)
 	{
 		generateRow(i * Block::block_size_y);
 	}	
+	blocks_frame_to_move = block_list.front()->getFrameToMove();
 }
 
 Game::Game(sf::RenderWindow * window, std::string character_name, std::string file_name)
@@ -66,7 +68,7 @@ Game::~Game()
 
 void Game::run()
 {
-	while (!finished && window->isOpen())
+	while (window->isOpen() && end_delay)
 	{
 		draw_sprites();
 		update_sprites();
@@ -76,11 +78,26 @@ void Game::run()
 			frame_passed++;
 			if (frame_passed == static_cast<int>(Block::block_size_y / Block::move_speed) * block_list.front()->getFrameToMove())
 			{
-				generateRow(-Block::block_size_y);
+				generateRow(-Block::block_size_y, true);
 				frame_passed = 0;
+				row_generated++;
+				if (row_generated >= 3)
+				{
+					accelerateBlocks();
+				}
 			}
 			if (block_list.front()->bottom() > player->getHitLine())
 				finished = true;
+		}
+		if (delay)
+		{
+			delay--;
+			if (!delay)
+				add(new Ball());
+		}
+		if (finished)
+		{
+			end_delay--;
 		}
 	}
 	std::cout << "Game ended" << std::endl;
@@ -90,7 +107,7 @@ void Game::add(Ball * ball)
 {
 	ball_list.push_back(ball);
 	sprite_list.push_back(ball);
-	std::cout << ball->left() << ", " << ball->top() << std::endl;
+	//std::cout << ball->left() << ", " << ball->top() << std::endl;
 }
 
 void Game::add(Item * item)
@@ -129,9 +146,14 @@ void Game::pop(Ball * ball)
 	{
 		lives--;
 		if (lives == 0)
+		{
 			finished = true;
+			win = false;
+		}
 		else
-			add(new Ball());
+		{
+			delay = 60;
+		}
 	}
 }
 
@@ -164,7 +186,10 @@ void Game::pop(Block * block)
 		}
 	}
 	if (!endless && breakable_block_num == 0)
+	{
 		finished = true;
+		win = true;
+	}
 }
 
 void Game::pop(Item * item)
@@ -268,6 +293,9 @@ bool Game::setup(std::string character_name)
 		lives_text.setFillColor(sf::Color::White);
 		lives_text.setPosition(left_bound + 10, lower_bound - 40);
 	}
+	delay = 0;
+	end_delay = 60;
+	
 	return true;
 }
 
@@ -322,7 +350,7 @@ void Game::event_input()
 	}
 }
 
-void Game::generateRow(int y)
+void Game::generateRow(int y, bool ingame)
 {
 	int column_num = game_width / Block::block_size_x;
 	for (int i = 0; i < column_num; i++)
@@ -338,8 +366,20 @@ void Game::generateRow(int y)
 			new_block->setColor(BlockGenerator::getColor(BlockGenerator::ColorCode(current_color)));
 			current_color = (current_color + 1) % BlockGenerator::COLOR_NUM;
 		}
+		if (ingame)
+			new_block->setFrameToMove(blocks_frame_to_move);
 		block_list.push_back(new_block);
 		sprite_list.push_back(new_block);
+	}
+}
+
+void Game::accelerateBlocks()
+{
+	if (blocks_frame_to_move > 10)
+	{
+		blocks_frame_to_move--;
+		for (int i = 0; i < block_list.size(); i++)
+			block_list[i]->setFrameToMove(blocks_frame_to_move);
 	}
 }
 

@@ -147,7 +147,11 @@ void Ball::checkPlayerCollision(Game& game)
 		speed = sqrt(pow(getVX(), 2) + pow(getVY(), 2));
 		if (speed < 5)
 			speed = 5;
+		if (speed > speed_limit)
+			speed = speed_limit;
 		std::cout << "Speed: " << speed << std::endl;
+		setMovement(vxByAngle(), vyByAngle());
+		
 	}
 }
 

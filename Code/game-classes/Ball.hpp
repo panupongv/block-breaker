@@ -36,7 +36,7 @@ private:
 
 	int y_direction;
 	float speed = 5;
-	float speed_limit = 10;
+	float speed_limit = 20;
 	float angle;
 };
 

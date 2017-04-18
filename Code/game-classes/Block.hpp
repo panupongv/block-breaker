@@ -26,6 +26,7 @@ public:
 	static std::string getTextureNameFromType(BlockType type);
 	virtual BlockType getBlockType() const;
 	int getFrameToMove() const;
+	void setFrameToMove(int frame_num);
 public:
 	static constexpr int block_size_x = 50; //Just Assume
 	static constexpr int block_size_y = 18;  //
