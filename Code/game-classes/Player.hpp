@@ -13,12 +13,14 @@ public:
 	int getHitLine() const;
 	int getHitZone(float x) const;
 	float getDeltaX() const;
+	bool haveRocket() const;
+	void setHaveRocket(bool status);
 private:
 	int getWidthByName(const std::string& texture_name) const;
 	int getHeightByName(const std::string& texture_name) const;
 	int getHitlineByName(const std::string& texture_name) const;
 private:
-	//unsigned int status;
+	bool have_rocket;
 	const int hit_line;
 	float latest_pos;
 	float delta_x;

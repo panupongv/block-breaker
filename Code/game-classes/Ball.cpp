@@ -51,17 +51,15 @@ void Ball::checkEdgeCollision(Game & game)
 {
 	if ((left() <= game.left_bound && getVX() < 0) || (right() >= game.right_bound && getVX() > 0))
 	{
-		game.sound_player.playBounceSound();
+		game.getSoundPlayer().playBounceSound();
 		angle *= -1;
 		setMovement(-getVX(), getVY());
-		hit_counter++;
 	}
 	if ((top() <= game.upper_bound && getVY() < 0))
 	{
-		game.sound_player.playBounceSound();
+		game.getSoundPlayer().playBounceSound();
 		y_direction = 1;
 		setMovement(getVX(), -getVY());
-		hit_counter++;
 	}
 	if (top() > game.lower_bound)
 		game.pop(this);
@@ -80,7 +78,7 @@ void Ball::checkBlockCollision(Game& game)
 		{
 			if (mario)
 			{
-				game.sound_player.playBreakableBlockSound();
+				game.getSoundPlayer().playBreakableBlockSound();
 				game.pop(block_list[i]);
 				return;
 			}
@@ -96,8 +94,7 @@ void Ball::checkBlockCollision(Game& game)
 				setMovement(getVX(), -getVY());
 				y_direction *= -1;
 			}
-			game.sound_player.playBounceSound();
-			hit_counter++;
+			game.getSoundPlayer().playBounceSound();
 			block_list[i]->hitAction(game);
 			return;
 		}
@@ -114,27 +111,27 @@ void Ball::checkPlayerCollision(Game& game)
 		{
 		case 1: 
 		{
-			angle = -60; setMovement(vxByAngle(), vyByAngle()); game.sound_player.playBounceSound();
+			angle = -60; setMovement(vxByAngle(), vyByAngle()); game.getSoundPlayer().playBounceSound();
 		}break;
 		case 2:
 		{
-			angle = -30; setMovement(vxByAngle(), vyByAngle()); game.sound_player.playBounceSound();
+			angle = -30; setMovement(vxByAngle(), vyByAngle()); game.getSoundPlayer().playBounceSound();
 		}break;
 		case 3:
 		{
-			setMovement(getVX(), -getVY()); game.sound_player.playBounceSound();
+			setMovement(getVX(), -getVY()); game.getSoundPlayer().playBounceSound();
 		}break;
 		case 4:
 		{
-			angle = (static_cast<int>(angle) % 90) * 0.75f; setMovement(vxByAngle(), vyByAngle()); game.sound_player.playBounceSound();
+			angle = (static_cast<int>(angle) % 90) * 0.8f; setMovement(vxByAngle(), vyByAngle()); game.getSoundPlayer().playBounceSound();
 		}break;
 		case 5: 
 		{
-			angle = 30; setMovement(vxByAngle(), vyByAngle()); game.sound_player.playBounceSound();
+			angle = 30; setMovement(vxByAngle(), vyByAngle()); game.getSoundPlayer().playBounceSound();
 		}break;
 		case 6:
 		{
-			angle = 60; setMovement(vxByAngle(), vyByAngle()); game.sound_player.playBounceSound();
+			angle = 60; setMovement(vxByAngle(), vyByAngle()); game.getSoundPlayer().playBounceSound();
 		}break;
 		default: y_direction = 1;
 			break;
@@ -142,7 +139,7 @@ void Ball::checkPlayerCollision(Game& game)
 		if (y_direction == -1)
 		{
 			hit_counter++;
-			setVX(getVX() + player->getDeltaX() / 5.0f);
+			setVX(getVX() + player->getDeltaX() / 10.0f);
 		}
 		speed = sqrt(pow(getVX(), 2) + pow(getVY(), 2));
 		if (speed < 5)
@@ -165,10 +162,16 @@ void Ball::launch()
 	}
 }
 
+BallOrRocket Ball::getType() const
+{
+	return BALL;
+}
+
 void Ball::accelerate()
 {
 	if (speed < speed_limit)
 		speed += 0.1f;
+	setMovement(vxByAngle(), vyByAngle());
 	hit_counter = 0;
 }
 
@@ -209,7 +212,7 @@ void ShotRocket::update(Game & game)
 		{
 			if (collide(*block_list[i]))
 			{
-				game.add(new Explosion(center().x, center().y));
+				game.add(new Explosion(game, center().x, center().y));
 				game.pop(this);
 				break;
 			}
@@ -224,4 +227,9 @@ void ShotRocket::update(Game & game)
 void ShotRocket::launch()
 {
 	if (!started) started = true;
+}
+
+BallOrRocket ShotRocket::getType() const
+{
+	return ROCKET;
 }

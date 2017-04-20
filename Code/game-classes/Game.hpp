@@ -15,6 +15,7 @@
 #include <vector>
 #include <cstdlib>
 #include <ctime>
+#include <cassert>
 
 class Sprite;
 class Player;
@@ -30,6 +31,8 @@ public:
 	Game(sf::RenderWindow *window, std::string character_name, std::string file_name);
 	~Game();
 	void run();
+	bool getStatus() const;
+	int getFinalScore() const;
 
 	void add(Ball* ball);
 	void add(Item* item);
@@ -47,10 +50,9 @@ public:
 	std::vector<Item*> getItemList() const;
 
 	sf::Vector2f getMousePosition() const;
+	SoundPlayer& getSoundPlayer();
 
 public:
-	SoundPlayer sound_player;
-
 	static const int left_bound = 10;
 	static const int right_bound = 610;
 	static const int upper_bound = 10;
@@ -61,7 +63,7 @@ private:
 	bool setup(std::string character_name);
 	void draw_sprites();
 	void update_sprites();
-	void event_input();
+	void eventInput();
 	void generateRow(int y, bool ingame = false);
 	void accelerateBlocks();
 private:
@@ -78,6 +80,8 @@ private:
 	std::vector<Block*> block_list;
 	std::vector<Item*> item_list;
 	std::vector<Sprite*> sprite_list;
+
+	SoundPlayer sound_player;
 
 	int lives;
 	int score;

@@ -52,6 +52,7 @@ Game::Game(sf::RenderWindow * window, std::string character_name, std::string fi
 		if (block_datas[i].getType() != normal)
 			breakable_block_num++;
 		Block* new_block = BlockGenerator::create(block_datas[i], false);
+		new_block->move(left_bound, upper_bound);
 		block_list.push_back(new_block);
 		sprite_list.push_back(new_block);
 		//std::cout << "Brick[" << i << "] at " << block_datas[i].getStartGrid().x << ", " << block_datas[i].getStartGrid().y << std::endl;
@@ -72,7 +73,7 @@ void Game::run()
 	{
 		draw_sprites();
 		update_sprites();
-		event_input();
+		eventInput();
 		if (endless)
 		{
 			frame_passed++;
@@ -97,10 +98,27 @@ void Game::run()
 		}
 		if (finished)
 		{
+			if (ball_list.size() != 0 && !(ball_list.front()->bottom() > player->getHitLine()) && breakable_block_num != 0)
+			{
+				finished = false;
+				end_delay = 60;
+			}
 			end_delay--;
 		}
 	}
 	std::cout << "Game ended" << std::endl;
+}
+
+bool Game::getStatus() const
+{
+	assert(finished);
+	return win;
+}
+
+int Game::getFinalScore() const
+{
+	assert(finished);
+	return score;
 }
 
 void Game::add(Ball * ball)
@@ -257,6 +275,11 @@ sf::Vector2f Game::getMousePosition() const
 	return sf::Vector2f(sf::Mouse::getPosition(*window).x, sf::Mouse::getPosition(*window).y);
 }
 
+SoundPlayer & Game::getSoundPlayer() 
+{
+	return sound_player;
+}
+
 bool Game::setup(std::string character_name)
 {
 	player = new Player(character_name);
@@ -329,7 +352,7 @@ void Game::update_sprites()
 	score_text.setString("score: " + std::to_string(score));
 }
 
-void Game::event_input()
+void Game::eventInput()
 {
 	while (window->pollEvent(event))
 	{
@@ -340,7 +363,17 @@ void Game::event_input()
 		case sf::Event::MouseButtonPressed:
 		{
 			for (int i = 0; i < ball_list.size(); i++)
-			ball_list[i]->launch();
+			{
+				ball_list[i]->launch();
+				switch (ball_list[i]->getType())
+				{
+				case BALL:
+					sound_player.playBallLaunchSound(); break;
+				case ROCKET:
+					sound_player.playRocketLaunchSound(); break;
+				}
+			}
+			player->setHaveRocket(false);
 		}
 			break;
 		case sf::Event::KeyPressed:

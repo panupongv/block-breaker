@@ -35,3 +35,7 @@ enum BlockType {
     breakable ,
     item
 };
+
+enum ItemType { ADDBALL, MARIOBALL, MACHINEGUN, EXPLOSIVE };
+
+enum BallOrRocket {BALL, ROCKET};

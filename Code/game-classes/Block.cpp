@@ -2,7 +2,7 @@
 
 Block::Block(const BlockData& block_data, bool endless)
 	: 
-	Block(getTextureNameFromType(block_data.getType()), Game::left_bound +  block_data.getStartGrid().x * block_size_x, Game::upper_bound + block_data.getStartGrid().y * block_size_y)
+	Block(getTextureNameFromType(block_data.getType()), block_data.getStartGrid().x * block_size_x, block_data.getStartGrid().y * block_size_y)
 {
 	setColor(block_data.getColor());
 	initializeData(block_data.getMovement());
@@ -49,7 +49,7 @@ void Block::update(Game& game)
 
 void Block::hitAction(Game & game)
 {
-	game.sound_player.playNormalBlockSound();
+	game.getSoundPlayer().playNormalBlockSound();
 }
 
 std::string Block::getTextureNameFromType(BlockType type)
@@ -147,7 +147,7 @@ BreakableBlock::BreakableBlock(std::string texture_name, float x, float y, bool 
 
 void BreakableBlock::hitAction(Game & game)
 {
-	game.sound_player.playBreakableBlockSound();
+	game.getSoundPlayer().playBreakableBlockSound();
 	game.pop(this);
 }
 
@@ -174,7 +174,7 @@ ItemBlock::ItemBlock(std::string texture_name, float x, float y, bool endless)
 
 void ItemBlock::hitAction(Game & game)
 {
-	game.sound_player.playBreakableBlockSound();
+	game.getSoundPlayer().playBreakableBlockSound();
 	switch (item_type)
 	{
 	case ADDBALL: game.add(new Ball(center().x, center().y)); 
@@ -183,7 +183,7 @@ void ItemBlock::hitAction(Game & game)
 		break;
 	case MACHINEGUN: game.add(new Rocket(center().x, center().y));
 		break;
-	case EXPLOSIVE: game.add(new Explosion(center().x, center().y));
+	case EXPLOSIVE: game.add(new Explosion(game, center().x, center().y));
 	}
 	game.pop(this);
 }

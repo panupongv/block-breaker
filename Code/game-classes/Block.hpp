@@ -11,9 +11,6 @@ class Game;
 class Ball;
 class Item;
 
-const int TYPE_NUM = 4;
-enum ItemType { ADDBALL, MARIOBALL, MACHINEGUN, EXPLOSIVE };
-
 class Block : public Sprite
 {
 public:
@@ -61,5 +58,6 @@ public:
 	void hitAction(Game& game);
 	BlockType getBlockType() const;
 private:
+	const int TYPE_NUM = 4;
 	ItemType item_type;
 };

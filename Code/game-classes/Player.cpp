@@ -52,6 +52,16 @@ float Player::getDeltaX() const
 	return delta_x;
 }
 
+bool Player::haveRocket() const
+{
+	return have_rocket;
+}
+
+void Player::setHaveRocket(bool status)
+{
+	have_rocket = status;
+}
+
 int Player::getWidthByName(const std::string & texture_name) const
 {
 	if (texture_name == "paddle.png")

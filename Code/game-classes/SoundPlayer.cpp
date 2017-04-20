@@ -19,6 +19,18 @@ SoundPlayer::SoundPlayer()
 	if(!mario_buffer.loadFromFile(smartPath("block-breaker\\Resources\\mariosong.wav")))
 		std::cout << "unable to load \"mariosong.wav\"" << std::endl;
 	mario.setBuffer(mario_buffer);
+
+	if (!explode_buffer.loadFromFile(smartPath("block-breaker\\Resources\\explodesound.wav")))
+		std::cout << "unable to load \"explodesound.wav\"" << std::endl;
+	explode.setBuffer(explode_buffer);
+
+	if (!ball_launch_buffer.loadFromFile(smartPath("block-breaker\\Resources\\pulse.wav")))
+		std::cout << "unable to load \"pulse.wav\"" << std::endl;
+	ball_launch.setBuffer(ball_launch_buffer);
+
+	if (!rocket_launch_buffer.loadFromFile(smartPath("block-breaker\\Resources\\cannon.wav")))
+		std::cout << "unable to load \"cannon.wav\"" << std::endl;
+	rocket_launch.setBuffer(rocket_launch_buffer);
 }
 
 void SoundPlayer::playNormalBlockSound()
@@ -39,4 +51,19 @@ void SoundPlayer::playBounceSound()
 void SoundPlayer::playMarioSound() 
 {
 	mario.play();
+}
+
+void SoundPlayer::playExplodeSound()
+{
+	explode.play();
+}
+
+void SoundPlayer::playBallLaunchSound()
+{
+	ball_launch.play();
+}
+
+void SoundPlayer::playRocketLaunchSound()
+{
+	rocket_launch.play();
 }

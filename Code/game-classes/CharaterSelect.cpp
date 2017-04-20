@@ -90,7 +90,7 @@ void CharacterSelect::eventInput()
 				if (selected == -1)
 					selected += character_num;
 			}
-			else if (x >= window->getSize().x - 50)
+			else if (x >= window->getPosition().x + window->getSize().x - 50)
 				selected = (selected + 1) % character_num;
 			else
 				finished = true;

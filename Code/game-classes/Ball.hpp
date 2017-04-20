@@ -1,5 +1,6 @@
 #pragma once
 
+#include "enums.hpp"
 #include "Sprite.hpp"
 #include "Game.hpp"
 #include <cmath>
@@ -16,7 +17,7 @@ public:
 
 	virtual void update(Game& game);
 	virtual void launch();
-	
+	virtual BallOrRocket getType() const;
 	void marioBall();
 private:
 	float vxByAngle();
@@ -28,15 +29,15 @@ private:
 	void accelerate();
 private:
 	bool started;
-	int mario = 0;
 
+	int mario = 0;
 	int hit_counter;
 	int frame_counter;
 	static constexpr int hit_to_accelerate = 2;
 
 	int y_direction;
 	float speed = 5;
-	float speed_limit = 20;
+	float speed_limit = 15;
 	float angle;
 };
 
@@ -46,6 +47,7 @@ public:
 	ShotRocket();
 	void update(Game& game);
 	void launch();
+	BallOrRocket getType() const;
 private:
 	bool started;
 };

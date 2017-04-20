@@ -46,5 +46,9 @@ Rocket::Rocket(float x, float y)
 
 void Rocket::applyPower(Game & game)
 {
-	game.add(new ShotRocket());
+	if (!game.getPlayer()->haveRocket())
+	{
+		game.add(new ShotRocket());
+		game.getPlayer()->setHaveRocket(true);
+	}
 }
