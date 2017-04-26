@@ -1,6 +1,12 @@
 #include "Sprite.hpp"
 #include "ResourcePath.hpp"
 
+Sprite::Sprite(std::string texture_name, int frame_width, int frame_height)
+	:
+	Sprite(texture_name, frame_width, frame_height, 0, 0, 0, 0)
+{
+}
+
 Sprite::Sprite(std::string texture_name, int frame_width, int frame_height, float initial_x, float initial_y)
 	:
 	Sprite(texture_name, frame_width, frame_height, initial_x, initial_y, 0, 0)

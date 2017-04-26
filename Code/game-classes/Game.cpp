@@ -10,7 +10,8 @@ Game::Game(sf::RenderWindow * window, std::string character_name)
 	current_color(0),
 	lives(1),
 	score(0),
-	row_generated(0)
+	row_generated(0),
+	breakable_block_num(0)
 {
 	srand(time(NULL));
 	if (!setup(character_name))
@@ -55,7 +56,6 @@ Game::Game(sf::RenderWindow * window, std::string character_name, std::string fi
 		new_block->move(left_bound, upper_bound);
 		block_list.push_back(new_block);
 		sprite_list.push_back(new_block);
-		//std::cout << "Brick[" << i << "] at " << block_datas[i].getStartGrid().x << ", " << block_datas[i].getStartGrid().y << std::endl;
 	}
 }
 
@@ -71,40 +71,10 @@ void Game::run()
 {
 	while (window->isOpen() && end_delay)
 	{
-		draw_sprites();
-		update_sprites();
+		drawSprites();
+		updateSprites();
 		eventInput();
-		if (endless)
-		{
-			frame_passed++;
-			if (frame_passed == static_cast<int>(Block::block_size_y / Block::move_speed) * block_list.front()->getFrameToMove())
-			{
-				generateRow(-Block::block_size_y, true);
-				frame_passed = 0;
-				row_generated++;
-				if (row_generated >= 3)
-				{
-					accelerateBlocks();
-				}
-			}
-			if (block_list.front()->bottom() > player->getHitLine())
-				finished = true;
-		}
-		if (delay)
-		{
-			delay--;
-			if (!delay)
-				add(new Ball());
-		}
-		if (finished)
-		{
-			if (ball_list.size() != 0 && !(ball_list.front()->bottom() > player->getHitLine()) && breakable_block_num != 0)
-			{
-				finished = false;
-				end_delay = 60;
-			}
-			end_delay--;
-		}
+		manageEvent();
 	}
 	std::cout << "Game ended" << std::endl;
 }
@@ -125,7 +95,6 @@ void Game::add(Ball * ball)
 {
 	ball_list.push_back(ball);
 	sprite_list.push_back(ball);
-	//std::cout << ball->left() << ", " << ball->top() << std::endl;
 }
 
 void Game::add(Item * item)
@@ -322,7 +291,7 @@ bool Game::setup(std::string character_name)
 	return true;
 }
 
-void Game::draw_sprites()
+void Game::drawSprites()
 {
 	window->clear();
 	const int sprite_num = sprite_list.size();
@@ -341,7 +310,7 @@ void Game::draw_sprites()
 	window->display();
 }
 
-void Game::update_sprites()
+void Game::updateSprites()
 {
 	//const int sprite_num = sprite_list.size();
 	for (int i = 0; i < sprite_list.size(); i++)
@@ -383,6 +352,44 @@ void Game::eventInput()
 	}
 }
 
+void Game::manageEvent()
+{
+	if (endless)
+	{
+		frame_passed++;
+		if (frame_passed == static_cast<int>(Block::block_size_y / Block::move_speed) * block_list.front()->getFrameToMove())
+		{
+			generateRow(-Block::block_size_y, true);
+			frame_passed = 0;
+			row_generated++;
+			if (row_generated >= 3)
+			{
+				accelerateBlocks();
+			}
+		}
+		if (block_list.front()->bottom() > player->getHitLine())
+			finished = true;
+	}
+	if (delay)
+	{
+		delay--;
+		if (!delay)
+			add(new Ball());
+	}
+
+	if (!endless && finished)
+	{
+		if (ball_list.size() != 0 && breakable_block_num != 0)
+		{
+			finished = false;
+			end_delay = 60;
+		}
+	}
+
+	if (finished)
+		end_delay--;
+}
+
 void Game::generateRow(int y, bool ingame)
 {
 	int column_num = game_width / Block::block_size_x;
@@ -391,11 +398,11 @@ void Game::generateRow(int y, bool ingame)
 		Block* new_block;//= new Block("block2.png", left_bound + i * Block::block_size_x, upper_bound - Block::block_size_y, true);
 		if (rand() % 8 == 0)
 		{
-			new_block = BlockGenerator::create(item, left_bound + Block::block_size_x * i, upper_bound + y, true);
+			new_block = BlockGenerator::create(item, left_bound + Block::block_size_x * i, upper_bound + y, endless);
 		}
 		else
 		{
-			new_block = BlockGenerator::create(breakable, left_bound + Block::block_size_x * i, upper_bound + y, true);
+			new_block = BlockGenerator::create(breakable, left_bound + Block::block_size_x * i, upper_bound + y, endless);
 			new_block->setColor(BlockGenerator::getColor(BlockGenerator::ColorCode(current_color)));
 			current_color = (current_color + 1) % BlockGenerator::COLOR_NUM;
 		}

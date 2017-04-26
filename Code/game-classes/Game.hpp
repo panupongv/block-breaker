@@ -61,9 +61,10 @@ public:
 	static const int game_height = 600;
 private:
 	bool setup(std::string character_name);
-	void draw_sprites();
-	void update_sprites();
+	void drawSprites();
+	void updateSprites();
 	void eventInput();
+	void manageEvent();
 	void generateRow(int y, bool ingame = false);
 	void accelerateBlocks();
 private:

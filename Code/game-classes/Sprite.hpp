@@ -18,6 +18,7 @@ class Ball;
 class Sprite
 {
 public:
+	Sprite(std::string texture_name, int frame_width, int frame_height);
 	Sprite(std::string texture_name, int frame_width, int frame_height, float initial_x, float initial_y);
 	Sprite(std::string texture_name, int frame_width, int frame_height, float initial_x, float initial_y, float vx, float vy);
 	virtual void update(Game& game) = 0; //Game& game
