@@ -29,8 +29,11 @@ int main()
 			{
 				Game game(&window, character_select.getSelectedName());
 				game.run();
-				GameResult result(&window, game.getFinalScore());
-				result.run();
+				if (window.isOpen())
+				{
+					GameResult result(&window, game.getFinalScore());
+					result.run();
+				}
 			}
 			break;
            case 1:
