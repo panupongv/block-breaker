@@ -15,7 +15,7 @@ private:
 	void draw();
 	void update();
 private:
-	static constexpr int TEXT_NUM = 3;
+	static constexpr int TEXT_NUM = 4;
 
 	sf::RenderWindow *window;
 	sf::Font font;

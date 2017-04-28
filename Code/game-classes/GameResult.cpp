@@ -15,10 +15,32 @@ GameResult::GameResult(sf::RenderWindow * window, int score)
 	sf::FloatRect text_rect = score_text.getLocalBounds();
 	score_text.setOrigin(text_rect.left + text_rect.width / 2.0f,
 		text_rect.top + text_rect.height / 2.0f);
-	score_text.setPosition(sf::Vector2f(width / 2.0f, height / 2.0f));
+	score_text.setPosition(sf::Vector2f(width / 2.0f, height / 2.0f - 100));
 	score_text.setFillColor(sf::Color::White);
-	std::cout << score_text.getPosition().x << ", " << score_text.getPosition().y << std::endl;
+	//std::cout << score_text.getPosition().x << ", " << score_text.getPosition().y << std::endl;
 
+}
+
+GameResult::GameResult(sf::RenderWindow * window, bool win)
+	:
+	window(window),
+	width(window->getSize().x),
+	height(window->getSize().y),
+	mode(CUSTOM)
+{
+	if (!setup())
+		std::cout << "Setup failed - GameResult" << std::endl;
+	if(win)
+		win_text.setString("too easy");
+	else
+		win_text.setString("lol noob");
+	win_text.setFont(font);
+	win_text.setCharacterSize(80);
+	sf::FloatRect text_rect = win_text.getLocalBounds();
+	win_text.setOrigin(text_rect.left + text_rect.width / 2.0f,
+		text_rect.top + text_rect.height / 2.0f);
+	win_text.setPosition(sf::Vector2f(width / 2.0f, height / 2.0f));
+	win_text.setFillColor(sf::Color::White);
 }
 
 void GameResult::run()
@@ -37,6 +59,10 @@ void GameResult::draw()
 	if (mode == ENDLESS)
 	{
 		window->draw(score_text);
+	}
+	else
+	{
+		window->draw(win_text);
 	}
 	window->draw(done_text);
 	window->display();

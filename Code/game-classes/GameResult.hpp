@@ -8,7 +8,7 @@
 class GameResult
 {
 public:
-	GameResult(sf::RenderWindow*window, int score);
+	GameResult(sf::RenderWindow* window, int score);
 	GameResult(sf::RenderWindow* window, bool win);
 	void run();
 private:
@@ -29,6 +29,7 @@ private:
 
 	int width;
 	int height;
+
 	bool in_text;
 	bool finished;
 };
