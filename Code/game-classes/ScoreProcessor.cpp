@@ -26,7 +26,7 @@ std::vector<std::string> ScoreProcessor::getTopScores()
 	std::string temp_score; std::string temp_name;
 	std::string line;
 	std::ostringstream line_strm(line);
-	line_strm.fill('.');
+	line_strm.fill('-');
 	
 	for (std::multimap<int, std::string>::reverse_iterator it = scores.rbegin(); it != scores.rend(); it++)
 	{

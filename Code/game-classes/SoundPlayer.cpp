@@ -31,6 +31,10 @@ SoundPlayer::SoundPlayer()
 	if (!rocket_launch_buffer.loadFromFile(smartPath("block-breaker\\Resources\\cannon.wav")))
 		std::cout << "unable to load \"cannon.wav\"" << std::endl;
 	rocket_launch.setBuffer(rocket_launch_buffer);
+
+	if (!win_buffer.loadFromFile(smartPath("block-breaker\\Resources\\win.wav")))
+		std::cout << "unable to load \"win.wav\"" << std::endl;
+	win.setBuffer(win_buffer);
 }
 
 void SoundPlayer::playNormalBlockSound()
@@ -66,4 +70,9 @@ void SoundPlayer::playBallLaunchSound()
 void SoundPlayer::playRocketLaunchSound()
 {
 	rocket_launch.play();
+}
+
+void SoundPlayer::playWinSound()
+{
+	win.play();
 }

@@ -76,6 +76,8 @@ void Game::run()
 		eventInput();
 		manageEvent();
 	}
+	if (win)
+		sound_player.playWinSound();
 	std::cout << "Game ended" << std::endl;
 }
 

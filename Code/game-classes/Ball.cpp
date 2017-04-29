@@ -188,7 +188,7 @@ void Ball::accelerate()
 
 void Ball::marioBall()
 {
-	mario = 300;
+	mario = 180;
 }
 
 float Ball::vxByAngle()

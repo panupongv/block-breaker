@@ -5,14 +5,9 @@
 0 noob
 0 noob
 0 noob
-0 noob
-0 noob
-0 noob
-0 noob
-0 noob
-0 noob
-0 noob
 1 noob
 2 noob
 100 most
+220 ok
 1230 most
+340 lol

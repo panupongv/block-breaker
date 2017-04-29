@@ -1,9 +1,11 @@
 #pragma once
 
 #include "sfml.hpp"
+#include "ScoreProcessor.hpp"
 #include "ResourcePath.hpp"
 #include <iostream>
 #include <fstream>
+#include <cctype>
 
 class GameResult
 {
@@ -24,8 +26,12 @@ private:
 	sf::Event event;
 	sf::Text score_text;
 	sf::Text win_text;
+	sf::Text name_text;
 	sf::Text done_text;
 	sf::Font font;
+
+	int score;
+	std::string name;
 
 	int width;
 	int height;

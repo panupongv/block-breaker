@@ -5,7 +5,8 @@ GameResult::GameResult(sf::RenderWindow * window, int score)
 	window(window),
 	width(window->getSize().x),
 	height(window->getSize().y),
-	mode(ENDLESS)
+	mode(ENDLESS),
+	score(score)
 {
 	if(!setup())
 		std::cout << "Setup failed - GameResult" << std::endl;
@@ -17,8 +18,16 @@ GameResult::GameResult(sf::RenderWindow * window, int score)
 		text_rect.top + text_rect.height / 2.0f);
 	score_text.setPosition(sf::Vector2f(width / 2.0f, height / 2.0f - 100));
 	score_text.setFillColor(sf::Color::White);
-	//std::cout << score_text.getPosition().x << ", " << score_text.getPosition().y << std::endl;
 
+	name = "";
+	name_text.setString("NAME: " + name);
+	name_text.setFont(font);
+	name_text.setCharacterSize(80);
+	text_rect = name_text.getLocalBounds();
+	name_text.setOrigin(text_rect.left + text_rect.width / 2.0f,
+		text_rect.top + text_rect.height / 2.0f);
+	name_text.setPosition(sf::Vector2f(width / 2.0f, height / 2.0f));
+	name_text.setFillColor(sf::Color::White);
 }
 
 GameResult::GameResult(sf::RenderWindow * window, bool win)
@@ -51,6 +60,8 @@ void GameResult::run()
 		draw();
 		update();
 	}
+	if (mode == ENDLESS)
+		ScoreProcessor().addScore(score, name);
 }
 
 void GameResult::draw()
@@ -59,6 +70,7 @@ void GameResult::draw()
 	if (mode == ENDLESS)
 	{
 		window->draw(score_text);
+		window->draw(name_text);
 	}
 	else
 	{
@@ -81,6 +93,19 @@ void GameResult::eventInput()
 			if (in_text)
 				finished = true;
 			break;
+		case sf::Event::TextEntered:
+			char pressed = event.key.code;
+			if (isalpha(pressed))
+				name += pressed;
+			else if(pressed == '\b' && name.size() != 0)
+				name = name.substr(0, name.size() - 1);
+			name_text.setString("NAME: " + name);
+			sf::FloatRect text_rect = name_text.getLocalBounds();
+			name_text.setOrigin(text_rect.left + text_rect.width / 2.0f,
+				text_rect.top + text_rect.height / 2.0f);
+			name_text.setPosition(sf::Vector2f(width / 2.0f, height / 2.0f));
+			name_text.setFillColor(sf::Color::White);
+		break;
 		}
 	}
 }
