@@ -52,3 +52,24 @@ void Rocket::applyPower(Game & game)
 		game.getPlayer()->setHaveRocket(true);
 	}
 }
+
+FastForward::FastForward(float x, float y)
+	:
+	Item("fast.png", 40, 40, x, y)
+{
+}
+
+void FastForward::applyPower(Game & game)
+{
+	
+}
+
+Beer::Beer(float x, float y)
+	:
+	Item("beer.png", 40, 40, x, y)
+{
+}
+
+void Beer::applyPower(Game & game)
+{
+}

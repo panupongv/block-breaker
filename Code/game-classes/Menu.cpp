@@ -13,7 +13,7 @@ Menu::Menu(sf::RenderWindow * window)
 		std::cout << "Title image not avaliable" << std::endl;
 	}
 	title = sf::Sprite(title_texture);
-	title.setPosition(width / 2 - title_texture.getSize().x / 2, -10);
+	title.setPosition(width / 2 - title_texture.getSize().x / 2, 0);
 	if (!font.loadFromFile(smartPath("block-breaker\\Resources\\munro.ttf")))
 	{
 		std::cout << "Font not avaliable" << std::endl;
@@ -32,14 +32,8 @@ Menu::Menu(sf::RenderWindow * window)
 		sf::FloatRect text_rect = texts[i].getLocalBounds();
 		texts[i].setOrigin(text_rect.left + text_rect.width / 2.0f,
 			text_rect.top + text_rect.height / 2.0f);
-		texts[i].setPosition(sf::Vector2f(width / 2.0f, height / 7.0f * (i + 1) + 150));
-
-		/*texts[i].setPosition(sf::Vector2f((width / 2) - (texts[i].getCharacterSize() * texts[i].getString().getSize() / 2.0),
-			height / (3 + 1) * (i + 1)));
-		std::cout << (texts[i].getCharacterSize() * texts[i].getString().getSize()) << ", *///" << texts[i].getPosition().x << " " << texts[i].getPosition().y << std::endl;
+		texts[i].setPosition(sf::Vector2f(width / 2.0f, 75 * (i + 1) + 250));
 	}
-	//texts[0].setFillColor(sf::Color::Red); 
-
 	selected = -1;
 }
 

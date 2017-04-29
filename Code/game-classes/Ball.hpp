@@ -9,16 +9,28 @@ class Game;
 class Sprite;
 class Block;
 
-class Ball : public Sprite
+class Projectile : public Sprite
 {
 public:
-	Ball(std::string texture_name = "ball.png", int width = 20, int height = 20, bool random = true);
+	Projectile(std::string texture_name, int height, int width);
+	virtual void update(Game& game) = 0;
+	virtual void launch(Game& game) = 0;
+protected:
+	bool started;
+};
+
+class Ball : public Projectile
+{
+public:
+	Ball(bool random = true);
 	Ball(float x, float y);
 
 	virtual void update(Game& game);
-	virtual void launch();
-	virtual BallOrRocket getType() const;
+	void launch();
+	void launch(Game& game);
+
 	void marioBall();
+	void accelerate();
 private:
 	float vxByAngle();
 	float vyByAngle();
@@ -26,7 +38,6 @@ private:
 	void checkEdgeCollision(Game& game);
 	void checkBlockCollision(Game& game);
 	void checkPlayerCollision(Game& game);
-	void accelerate();
 private:
 	bool started;
 
@@ -36,18 +47,17 @@ private:
 	static constexpr int hit_to_accelerate = 2;
 
 	int y_direction;
-	float speed = 5;
-	float speed_limit = 15;
+	float speed = 6;
+	float speed_limit = 12;
 	float angle;
 };
 
-class ShotRocket : public Ball
+class ShotRocket : public Projectile
 {
 public:
 	ShotRocket();
 	void update(Game& game);
-	void launch();
-	BallOrRocket getType() const;
+	void launch(Game& game);
 private:
 	bool started;
 };

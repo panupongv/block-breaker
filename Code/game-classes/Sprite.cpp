@@ -36,7 +36,8 @@ Sprite::Sprite(std::string texture_name, int frame_width, int frame_height, floa
 
 void Sprite::draw(sf::RenderWindow & window) const
 {
-	window.draw(sprite);
+	if(this != NULL)
+		window.draw(sprite);
 }
 
 int Sprite::getCurrentFrame() const

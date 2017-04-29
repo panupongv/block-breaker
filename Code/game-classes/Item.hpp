@@ -30,3 +30,17 @@ public:
 	Rocket(float x, float y);
 	void applyPower(Game& game);
 };
+
+class FastForward : public Item
+{
+public:
+	FastForward(float x, float y);
+	void applyPower(Game& game);
+};
+
+class Beer : public Item
+{
+public:
+	Beer(float x, float y);
+	void applyPower(Game& game);
+};

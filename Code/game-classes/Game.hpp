@@ -21,6 +21,7 @@ class Sprite;
 class Player;
 class Block;
 class Ball;
+class ShotRocket;
 class Item;
 class Explosion;
 
@@ -35,14 +36,18 @@ public:
 	int getFinalScore() const;
 
 	void add(Ball* ball);
+	void add(ShotRocket* rocket);
 	void add(Item* item);
 	void add(Explosion* explosion);
 	void pop(Ball* ball);
+	void pop(ShotRocket* rocket);
 	void pop(Block* block);
 	void pop(Item* item);
 	void pop(Explosion* explosion);
 
 	void applyMarioBall();
+	void accelerateBall();
+	void applyDrunkPlayer();
 
 	Player* getPlayer();
 	std::vector<Block*> getBlockList() const;
@@ -81,6 +86,7 @@ private:
 	std::vector<Block*> block_list;
 	std::vector<Item*> item_list;
 	std::vector<Sprite*> sprite_list;
+	ShotRocket* shot_rocket;
 
 	SoundPlayer sound_player;
 

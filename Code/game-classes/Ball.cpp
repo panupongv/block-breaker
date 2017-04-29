@@ -1,8 +1,15 @@
 #include "Ball.hpp"
 
-Ball::Ball(std::string texture_name, int width, int height, bool random)
+Projectile::Projectile(std::string texture_name, int height, int width)
 	:
-	Sprite(texture_name, width, height, 0, 0),
+	Sprite(texture_name, height, width),
+	started(false)
+{
+}
+
+Ball::Ball(bool random)
+	:
+	Projectile("ball.png", 20, 20),
 	angle(((rand() % 60) - 30) * random),
 	hit_counter(0),
 	frame_counter(0),
@@ -46,6 +53,7 @@ void Ball::update(Game& game)
 		setCenter(game.getPlayer()->center().x, game.getPlayer()->getHitLine() - getFrameHeight()/2 + 1);
 	}
 }
+
 
 void Ball::checkEdgeCollision(Game & game)
 {
@@ -104,7 +112,7 @@ void Ball::checkBlockCollision(Game& game)
 void Ball::checkPlayerCollision(Game& game)
 {
 	Player* player = game.getPlayer();
-	if (bottom() >= player->getHitLine() && bottom() <= player->getHitLine() + player->getFrameHeight() / 2.0f && getVY() > 0)
+	if (bottom() >= player->getHitLine() && bottom() <= player->getHitLine() + player->getFrameHeight() * 0.75f && getVY() > 0)
 	{
 		y_direction = -1;
 		switch (player->getHitZone(center().x))
@@ -147,10 +155,11 @@ void Ball::checkPlayerCollision(Game& game)
 		if (speed > speed_limit)
 			speed = speed_limit;
 		std::cout << "Speed: " << speed << std::endl;
+		//angle = atan((getVX() / getVY()) * 3.14159f / 180.0f);
 		setMovement(vxByAngle(), vyByAngle());
-		
 	}
 }
+
 
 void Ball::launch()
 {
@@ -162,9 +171,11 @@ void Ball::launch()
 	}
 }
 
-BallOrRocket Ball::getType() const
+void Ball::launch(Game& game)
 {
-	return BALL;
+	if(!started)
+		game.getSoundPlayer().playBallLaunchSound();
+	launch();
 }
 
 void Ball::accelerate()
@@ -192,7 +203,7 @@ float Ball::vyByAngle()
 
 ShotRocket::ShotRocket()
 	:
-	Ball("rocket.png", 50, 126, false)
+	Projectile("rocket.png", 50, 126)
 {
 	started = false;
 	setMovement(0, -1);
@@ -205,9 +216,12 @@ void ShotRocket::update(Game & game)
 		move();
 		if(getVY() * 1.2 < 18)
 			setVY(getVY() * 1.2);
-		std::vector<Block*> block_list = game.getBlockList();
 		if (bottom() < game.upper_bound)
+		{
 			game.pop(this);
+			return;
+		}
+		std::vector<Block*> block_list = game.getBlockList();
 		for (int i = 0; i < block_list.size(); i++)
 		{
 			if (collide(*block_list[i]))
@@ -224,12 +238,12 @@ void ShotRocket::update(Game & game)
 	}
 }
 
-void ShotRocket::launch()
+void ShotRocket::launch(Game& game)
 {
-	if (!started) started = true;
+	if (!started)
+	{
+		started = true;
+		game.getSoundPlayer().playRocketLaunchSound();
+	}
 }
 
-BallOrRocket ShotRocket::getType() const
-{
-	return ROCKET;
-}

@@ -177,13 +177,18 @@ void ItemBlock::hitAction(Game & game)
 	game.getSoundPlayer().playBreakableBlockSound();
 	switch (item_type)
 	{
-	case ADDBALL: game.add(new Ball(center().x, center().y)); 
+	case ADDBALL: game.add(new Ball(center().x, center().y));
 		break;
 	case MARIOBALL: game.add(new Star(center().x, center().y)); 
 		break;
-	case MACHINEGUN: game.add(new Rocket(center().x, center().y));
+	case ROCKETITEM: game.add(new Rocket(center().x, center().y));
 		break;
 	case EXPLOSIVE: game.add(new Explosion(game, center().x, center().y));
+		break;
+	case FASTFORWARD: game.add(new FastForward(center().x, center().y));
+		break;
+	case BEER: game.add(new Beer(center().x, center().y));
+		break;
 	}
 	game.pop(this);
 }

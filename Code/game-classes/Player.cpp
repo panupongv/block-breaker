@@ -7,6 +7,7 @@ Player::Player(std::string texture_name)
 { 
 	setAlive(true);
 	setMoving(true);
+	setHaveRocket(false);
 }
 
 void Player::update(Game& game)

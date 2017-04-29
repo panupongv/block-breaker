@@ -97,6 +97,13 @@ void Game::add(Ball * ball)
 	sprite_list.push_back(ball);
 }
 
+void Game::add(ShotRocket * rocket)
+{
+	sprite_list.push_back(rocket);
+	shot_rocket = rocket;
+	shot_rocket->setCenter(player->center().x, player->top() + 23);
+}
+
 void Game::add(Item * item)
 {
 	item_list.push_back(item);
@@ -144,9 +151,22 @@ void Game::pop(Ball * ball)
 	}
 }
 
+void Game::pop(ShotRocket * rocket)
+{
+	for (int i = 0; i < sprite_list.size(); i++)
+	{
+		if (sprite_list[i] == rocket)
+		{
+			sprite_list.erase(sprite_list.begin() + i);
+			break;
+		}
+	}
+	delete shot_rocket;
+	shot_rocket = NULL;
+}
+
 void Game::pop(Block * block)
 {
-	//const int sprite_num = sprite_list.size();
 	for (int i = 0; i < sprite_list.size(); i++)
 	{
 		if (sprite_list[i] == block)
@@ -224,6 +244,14 @@ void Game::applyMarioBall()
 		ball_list[i]->marioBall();
 }
 
+void Game::accelerateBall()
+{
+	for (int i = 0; i < ball_list.size(); i++)
+	{
+		ball_list[i];
+	}
+}
+
 std::vector<Block*> Game::getBlockList() const
 {
 	return block_list;
@@ -252,6 +280,7 @@ SoundPlayer & Game::getSoundPlayer()
 bool Game::setup(std::string character_name)
 {
 	player = new Player(character_name);
+	shot_rocket = NULL;
 	sprite_list.push_back(player);
 	ball_list.push_back(new Ball());
 	sprite_list.push_back(ball_list.back());
@@ -331,20 +360,23 @@ void Game::eventInput()
 			window->close();
 		case sf::Event::MouseButtonPressed:
 		{
-			for (int i = 0; i < ball_list.size(); i++)
+			if (event.mouseButton.button == sf::Mouse::Left)
 			{
-				ball_list[i]->launch();
-				switch (ball_list[i]->getType())
+				for (int i = 0; i < ball_list.size(); i++)
 				{
-				case BALL:
-					sound_player.playBallLaunchSound(); break;
-				case ROCKET:
-					sound_player.playRocketLaunchSound(); break;
+					ball_list[i]->launch(*this);
 				}
 			}
-			player->setHaveRocket(false);
+			else if(event.mouseButton.button == sf::Mouse::Right)
+			{
+				if (shot_rocket != NULL)
+				{
+					shot_rocket->launch(*this);
+					player->setHaveRocket(false);
+				}
+			}
 		}
-			break;
+		break;
 		case sf::Event::KeyPressed:
 			finished = true;
 			break;
