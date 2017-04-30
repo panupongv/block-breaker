@@ -18,12 +18,13 @@ private:
 	void update();
 	void moveText(int delta);
 private:
-	DirectoryReader reader;
+	BBStageFileFinder finder;
 
 	sf::RenderWindow * window;
 	sf::Event event;
 	sf::Font font;
 	std::vector<sf::Text> texts;
+	sf::Text back;
 
 	const int FILE_NUM;
 

@@ -60,7 +60,7 @@ void GameResult::run()
 		draw();
 		update();
 	}
-	if (mode == ENDLESS)
+	if (mode == ENDLESS && name != "")
 		ScoreProcessor().addScore(score, name);
 }
 
@@ -129,6 +129,5 @@ bool GameResult::setup()
 	done_text.setCharacterSize(80);
 	done_text.setPosition(600, 480);
 	done_text.setFillColor(sf::Color::White);
-	std::cout << done_text.getPosition().x << ", " << done_text.getPosition().y << std::endl;
 	return true;
 }

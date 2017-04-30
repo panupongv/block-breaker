@@ -13,7 +13,7 @@ private:
 private:
 	sf::RenderWindow * window;
 	sf::Event event;
-	std::vector<sf::Text> score_list;
+	std::vector<std::pair<sf::Text, sf::Text>> score_list;
 	sf::Text head;
 	sf::Font font;
 

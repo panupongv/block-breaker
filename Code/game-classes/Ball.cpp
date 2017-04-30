@@ -10,12 +10,13 @@ Projectile::Projectile(std::string texture_name, int height, int width)
 Ball::Ball(bool random)
 	:
 	Projectile("ball.png", 20, 20),
-	angle(((rand() % 60) - 30) * random),
+	angle(((rand() % 80) - 40) * random),
+	mario(0),
+	fast(0),
 	hit_counter(0),
 	frame_counter(0),
 	started(false)
 {
-		//Sprite::Sprite("ball.png", 70, 70, 250, 500);
 }
 
 Ball::Ball(float x, float y)
@@ -44,6 +45,23 @@ void Ball::update(Game& game)
 			}
 			mario--;
 			if (!mario) setFrame(0);
+		}
+		if (fast)
+		{
+			fast--;
+			if (!fast)
+			{
+				speed = speed_record;
+				setMovement(vxByAngle(), vyByAngle());
+			}
+		}
+		else
+		{
+			if (speed < 5)
+				speed = 5;
+			if (speed > speed_limit)
+				speed = speed_limit;
+			setMovement(vxByAngle(), vyByAngle());
 		}
 		if (hit_counter >= hit_to_accelerate)
 			accelerate();
@@ -147,19 +165,11 @@ void Ball::checkPlayerCollision(Game& game)
 		if (y_direction == -1)
 		{
 			hit_counter++;
-			setVX(getVX() + player->getDeltaX() / 10.0f);
+			setVX(getVX() + player->getDeltaX() / 6.0f);
 		}
 		speed = sqrt(pow(getVX(), 2) + pow(getVY(), 2));
-		if (speed < 5)
-			speed = 5;
-		if (speed > speed_limit)
-			speed = speed_limit;
-		std::cout << "Speed: " << speed << std::endl;
-		//angle = atan((getVX() / getVY()) * 3.14159f / 180.0f);
-		setMovement(vxByAngle(), vyByAngle());
 	}
 }
-
 
 void Ball::launch()
 {
@@ -189,6 +199,14 @@ void Ball::accelerate()
 void Ball::marioBall()
 {
 	mario = 180;
+}
+
+void Ball::fastBall()
+{
+	fast = 300;
+	speed_record = speed;
+	speed = 15;
+	setMovement(vxByAngle(), vyByAngle());
 }
 
 float Ball::vxByAngle()

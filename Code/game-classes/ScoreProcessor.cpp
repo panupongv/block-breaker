@@ -17,40 +17,35 @@ ScoreProcessor::ScoreProcessor()
 	in_file.close();
 }
 
-std::vector<std::string> ScoreProcessor::getTopScores()
+std::vector<std::pair<std::string, std::string>> ScoreProcessor::getTopScores()
 {
 	int count = 10;
 	
-	std::vector<std::string> top_scores;
-	
+	std::vector<std::pair<std::string, std::string>> top_scores;
 	std::string temp_score; std::string temp_name;
-	std::string line;
-	std::ostringstream line_strm(line);
-	line_strm.fill('-');
 	
 	for (std::multimap<int, std::string>::reverse_iterator it = scores.rbegin(); it != scores.rend(); it++)
 	{
 		temp_score = std::to_string(it->first); temp_name = it->second;
-		line_strm << std::left << std::setw(10) << temp_score << std::right << std::setw(10) << temp_name;
-		top_scores.push_back(line_strm.str());
-		line_strm.str("");
-		line_strm.clear();
+		top_scores.push_back(std::make_pair(temp_score, temp_name));
 		count--;
 		if (count == 0)
 			break;
 	}
-
 	return top_scores;
 }
 
 void ScoreProcessor::addScore(int score, std::string name)
 {
+	scores.insert(std::make_pair(score, name));
 	std::ofstream out_file;
 	out_file.open(smartPath("block-breaker\\Data\\scores.txt"));
-	for (std::multimap<int, std::string>::iterator it = scores.begin(); it != scores.end(); it++)
+	int count = 10;
+	for (std::multimap<int, std::string>::reverse_iterator it = scores.rbegin(); it != scores.rend(); it++)
 	{
 		out_file << it->first << " " << it->second << std::endl;
+		count--;
+		if (count == 0) break;
 	}
-	out_file << score << " " << name << std::endl;
 	out_file.close();
 }

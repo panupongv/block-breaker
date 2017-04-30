@@ -27,12 +27,12 @@ Menu::Menu(sf::RenderWindow * window)
 		texts[i].setFont(font);
 		texts[i].setCharacterSize(80);
 		texts[i].setFillColor(sf::Color::White);
-		texts[i].setOutlineColor(sf::Color::White);
+		//texts[i].setOutlineColor(sf::Color::White);
 
 		sf::FloatRect text_rect = texts[i].getLocalBounds();
 		texts[i].setOrigin(text_rect.left + text_rect.width / 2.0f,
 			text_rect.top + text_rect.height / 2.0f);
-		texts[i].setPosition(sf::Vector2f(width / 2.0f, 75 * (i + 1) + 250));
+		texts[i].setPosition(sf::Vector2f(static_cast<int>(width / 2.0f), static_cast<int>(75 * (i + 1) + 250)));
 	}
 	selected = -1;
 }

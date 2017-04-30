@@ -39,28 +39,29 @@ int main()
 			}
 		}
 		break;
-        case 1:
+		case 1:
 		{
 			StageSelect stage_select(&window, smartPath("block-breaker\\Stages"));
 			stage_select.run();
-			character_select.run();
-			if (window.isOpen())
+			if (window.isOpen() && stage_select.getSelectedName() != "")
 			{
-				Game game(&window, character_select.getSelectedName(), stage_select.getSelectedName());
-				game.run();
+				character_select.run();
 				if (window.isOpen())
 				{
-					GameResult result(&window, game.getStatus());
-					result.run();
+					Game game(&window, character_select.getSelectedName(), stage_select.getSelectedName());
+					game.run();
+					if (window.isOpen())
+					{
+						GameResult result(&window, game.getStatus());
+						result.run();
+					}
 				}
 			}
 		}
 		break;
 		case 2:
-		{
 			HighScore(&window).run();
-		}
-		break;
+			break;
 		}
 	}
 	window.close();

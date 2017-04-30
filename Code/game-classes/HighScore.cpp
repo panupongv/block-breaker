@@ -12,10 +12,23 @@ HighScore::HighScore(sf::RenderWindow * window)
 		std::cout << "Font not avaliable" << std::endl;
 	}
 	ScoreProcessor pcs;
-	std::vector<std::string> strings = pcs.getTopScores();
+	std::vector<std::pair<std::string, std::string>> strings = pcs.getTopScores();
+	sf::Text temp_text;
+	std::pair<sf::Text, sf::Text> temp_pair;
+	temp_text.setFont(font);
+	temp_text.setCharacterSize(40);
+	temp_text.setFillColor(sf::Color::White);
 	for (int i = 0; i < strings.size(); i++)
 	{
-		sf::Text temp_text;
+		temp_text.setString(strings[i].first);
+		temp_text.setPosition(150, 70 + (45 * (i + 1)));
+		temp_pair.first = temp_text;
+		temp_text.setString(strings[i].second);
+		temp_text.setPosition(width - 150 - temp_text.getLocalBounds().width, 70 + (45 * (i + 1)));
+		temp_pair.second = temp_text;
+
+		score_list.push_back(temp_pair);
+		/*sf::Text temp_text;
 		temp_text.setString(strings[i]);
 		temp_text.setFont(font);
 		temp_text.setCharacterSize(40);
@@ -26,7 +39,7 @@ HighScore::HighScore(sf::RenderWindow * window)
 		temp_text.setOrigin(text_rect.left + text_rect.width / 2.0f,
 			text_rect.top + text_rect.height / 2.0f);
 		temp_text.setPosition(sf::Vector2f(width / 2.0f, 100 + (45 * (i + 1))));
-		score_list.push_back(temp_text);
+		score_list.push_back(temp_text);*/
 	}
 	head.setString("Top scorers");
 	head.setFont(font);
@@ -58,7 +71,9 @@ void HighScore::draw()
 {
 	window->clear();
 	for (int i = 0; i < score_list.size(); i++)
-		window->draw(score_list[i]);
+	{
+		window->draw(score_list[i].first); window->draw(score_list[i].second);
+	}
 	window->draw(head);
 	window->display();
 }

@@ -3,7 +3,9 @@
 Player::Player(std::string texture_name)
 	:
 	Sprite(texture_name, getWidthByName(texture_name), getHeightByName(texture_name), 250, 500),
-	hit_line(getHitlineByName(texture_name))
+	hit_line(getHitlineByName(texture_name)),
+	center_line(Game::left_bound + Game::game_width / 2.0f),
+	drunk(0)
 { 
 	setAlive(true);
 	setMoving(true);
@@ -14,12 +16,40 @@ void Player::update(Game& game)
 {
 	latest_pos = center().x;
 	if (game.getMousePosition().x - getFrameWidth() / 2.0f < game.left_bound)
-		setCenter(game.left_bound + getFrameWidth() / 2.0f, hit_line + getFrameHeight() / 2);
+	{
+		if (drunk)
+			setCenter(game.right_bound - getFrameWidth() / 2.0f, hit_line + getFrameHeight() / 2);
+		else
+			setCenter(game.left_bound + getFrameWidth() / 2.0f, hit_line + getFrameHeight() / 2);
+	}
 	else if (game.getMousePosition().x + getFrameWidth() / 2.0f > game.right_bound)
-		setCenter(game.right_bound - getFrameWidth() / 2.0f, hit_line + getFrameHeight() / 2);
+	{
+		if (drunk)
+			setCenter(game.left_bound + getFrameWidth() / 2.0f, hit_line + getFrameHeight() / 2);
+		else
+			setCenter(game.right_bound - getFrameWidth() / 2.0f, hit_line + getFrameHeight() / 2);
+	}
 	else
-		setCenter(game.getMousePosition().x, hit_line + getFrameHeight() / 2);
+	{
+		if (drunk)
+		{
+			float mouse_x = game.getMousePosition().x;
+			if (mouse_x < center_line)
+				setCenter(game.right_bound - (mouse_x + game.left_bound) , hit_line + getFrameHeight() / 2);
+			else
+				setCenter(game.left_bound + game.right_bound - mouse_x , hit_line + getFrameHeight() / 2);
+		}
+		else
+			setCenter(game.getMousePosition().x, hit_line + getFrameHeight() / 2);
+	}
 	delta_x = center().x - latest_pos;
+
+	if (drunk)
+	{
+		drunk--;
+		if(!drunk)
+			game.setMousePosition(center().x, center().y);
+	}
 }
 
 int Player::getHitLine() const
@@ -61,6 +91,11 @@ bool Player::haveRocket() const
 void Player::setHaveRocket(bool status)
 {
 	have_rocket = status;
+}
+
+void Player::applyBeer()
+{
+	drunk = 420;
 }
 
 int Player::getWidthByName(const std::string & texture_name) const

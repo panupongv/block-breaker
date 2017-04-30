@@ -1,7 +1,7 @@
 #pragma once
 
 #include "sfml.hpp"
-#include "SFML\System\Time.hpp"
+#include "ResourcePath.hpp"
 #include <iostream>
 #include <string>
 #include <vector>
@@ -34,6 +34,8 @@ private:
 private:
 	sf::RenderWindow* window;
 	sf::Event event;
+	sf::Texture arrow_texture;
+	sf::Sprite arrow;
 	std::vector<CharacterShowcase*> characters;
 
 	int character_num;

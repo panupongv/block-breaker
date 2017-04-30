@@ -32,9 +32,21 @@ SoundPlayer::SoundPlayer()
 		std::cout << "unable to load \"cannon.wav\"" << std::endl;
 	rocket_launch.setBuffer(rocket_launch_buffer);
 
+	if (!drunk_buffer.loadFromFile(smartPath("block-breaker\\Resources\\drunk.wav")))
+		std::cout << "unable to load \"drunk.wav\"" << std::endl;
+	drunk.setBuffer(drunk_buffer);
+
+	if (!sonic_buffer.loadFromFile(smartPath("block-breaker\\Resources\\sonic.wav")))
+		std::cout << "unable to load \"sonic.wav\"" << std::endl;
+	sonic.setBuffer(sonic_buffer);
+
 	if (!win_buffer.loadFromFile(smartPath("block-breaker\\Resources\\win.wav")))
 		std::cout << "unable to load \"win.wav\"" << std::endl;
 	win.setBuffer(win_buffer);
+
+	if (!lose_buffer.loadFromFile(smartPath("block-breaker\\Resources\\lose.wav")))
+		std::cout << "unable to load \"lose.wav\"" << std::endl;
+	lose.setBuffer(lose_buffer);
 }
 
 void SoundPlayer::playNormalBlockSound()
@@ -72,7 +84,22 @@ void SoundPlayer::playRocketLaunchSound()
 	rocket_launch.play();
 }
 
+void SoundPlayer::playDrunkSound()
+{
+	drunk.play();
+}
+
+void SoundPlayer::playSonicSound()
+{
+	sonic.play();
+}
+
 void SoundPlayer::playWinSound()
 {
 	win.play();
+}
+
+void SoundPlayer::playLoseSound()
+{
+	lose.play();
 }

@@ -4,13 +4,13 @@
 StageSelect::StageSelect(sf::RenderWindow * window, std::string file_path)
 	:
 	window(window),
-	reader(file_path),
+	finder(file_path),
 	width(window->getSize().x),
 	height(window->getSize().y),
-	FILE_NUM(reader.getFileNames().size()),
+	FILE_NUM(finder.getFileNames().size()),
 	finished(false)
 {
-	std::vector<std::string> file_list(reader.getFileNames());
+	std::vector<std::string> file_list(finder.getFileNames());
 	if (!font.loadFromFile(smartPath("block-breaker\\Resources\\munro.ttf")))
 	{
 		std::cout << "Font not avaliable" << std::endl;
@@ -22,7 +22,6 @@ StageSelect::StageSelect(sf::RenderWindow * window, std::string file_path)
 		temp_text.setFont(font);
 		temp_text.setCharacterSize(50);
 		temp_text.setFillColor(sf::Color::White);
-		temp_text.setOutlineColor(sf::Color::White);
 
 		sf::FloatRect text_rect = temp_text.getLocalBounds();
 		temp_text.setOrigin(text_rect.left + text_rect.width / 2.0f,
@@ -30,6 +29,11 @@ StageSelect::StageSelect(sf::RenderWindow * window, std::string file_path)
 		temp_text.setPosition(sf::Vector2f(width / 2.0f, i * 75 + 100));
 		texts.push_back(temp_text);
 	}
+	back.setString("back");
+	back.setFont(font);
+	back.setCharacterSize(80);
+	back.setFillColor(sf::Color::White);
+	back.setPosition(200 - back.getLocalBounds().width, 480);
 }
 
 void StageSelect::run()
@@ -44,7 +48,7 @@ void StageSelect::run()
 
 std::string StageSelect::getSelectedName() const
 {
-	if (selected == -1) return "";
+	if (selected < 0 || selected > FILE_NUM) return "";
 	return texts[selected].getString();
 }
 
@@ -62,9 +66,13 @@ void StageSelect::eventInput()
 				finished = true;
 			break;	
 		case sf::Event::MouseWheelScrolled:
-		{
 			moveText(event.mouseWheelScroll.delta);
-		}
+		break;
+		case sf::Event::KeyPressed:
+			if (event.key.code == sf::Keyboard::Up)
+				moveText(-1);
+			else if (event.key.code == sf::Keyboard::Down)
+				moveText(1);
 		break;
 		}
 	}
@@ -77,15 +85,17 @@ void StageSelect::draw()
 	{
 		window->draw(texts[i]);
 	}
+	window->draw(back);
 	window->display();
 }
 
 void StageSelect::update()
 {
 	bool in_text = false;
+	sf::FloatRect mouse_point(sf::Mouse::getPosition(*window).x, sf::Mouse::getPosition(*window).y, 1, 1);
 	for (int i = 0; i < FILE_NUM; i++)
 	{
-		if (texts[i].getGlobalBounds().intersects(sf::FloatRect(sf::Mouse::getPosition(*window).x, sf::Mouse::getPosition(*window).y, 1, 1)))
+		if (texts[i].getGlobalBounds().intersects(mouse_point))
 		{
 			in_text = true;
 			selected = i;
@@ -95,6 +105,16 @@ void StageSelect::update()
 		{
 			texts[i].setFillColor(sf::Color::White);
 		}
+	}
+	if (back.getGlobalBounds().intersects(mouse_point))
+	{
+		in_text = true;
+		selected = 100;
+		back.setFillColor(sf::Color::Red);
+	}
+	else
+	{
+		back.setFillColor(sf::Color::White);
 	}
 	if (!in_text)
 		selected = -1;

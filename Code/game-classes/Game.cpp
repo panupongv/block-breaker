@@ -64,12 +64,11 @@ Game::~Game()
 	const int sprite_num = sprite_list.size();
 	for (int i = 0; i < sprite_num; i++)
 		delete sprite_list[i];
-	std::cout << "Freed " << sprite_num << " sprites" << std::endl;
 }
 
 void Game::run()
 {
-	while (window->isOpen() && end_delay)
+	while (window->isOpen() && end_delay > 0)
 	{
 		drawSprites();
 		updateSprites();
@@ -78,7 +77,8 @@ void Game::run()
 	}
 	if (win)
 		sound_player.playWinSound();
-	std::cout << "Game ended" << std::endl;
+	else
+		sound_player.playLoseSound();
 }
 
 bool Game::getStatus() const
@@ -141,6 +141,8 @@ void Game::pop(Ball * ball)
 	if (ball_list.empty())
 	{
 		lives--;
+		life_texture.loadFromFile(smartPath("block-breaker\\Resources\\life" + std::to_string(lives) + ".png"));
+		life.setTexture(life_texture);
 		if (lives == 0)
 		{
 			finished = true;
@@ -246,12 +248,26 @@ void Game::applyMarioBall()
 		ball_list[i]->marioBall();
 }
 
-void Game::accelerateBall()
+void Game::applyFastBall()
 {
+	sound_player.playSonicSound();
 	for (int i = 0; i < ball_list.size(); i++)
 	{
-		ball_list[i];
+		ball_list[i]->fastBall();
 	}
+}
+
+void Game::applyDrunkPlayer()
+{
+	sound_player.playDrunkSound();
+	player->applyBeer();
+	float center_line = left_bound + game_width / 2.0f;
+	float current_pos = player->center().x;
+	
+	if (current_pos > center_line)
+		sf::Mouse::setPosition(sf::Vector2i(center_line - (current_pos - center_line), player->center().y), *window);
+	else
+		sf::Mouse::setPosition(sf::Vector2i(center_line + (center_line - current_pos), player->center().y), *window);
 }
 
 std::vector<Block*> Game::getBlockList() const
@@ -274,7 +290,12 @@ sf::Vector2f Game::getMousePosition() const
 	return sf::Vector2f(sf::Mouse::getPosition(*window).x, sf::Mouse::getPosition(*window).y);
 }
 
-SoundPlayer & Game::getSoundPlayer() 
+void Game::setMousePosition(float x, float y)
+{
+	sf::Mouse::setPosition(sf::Vector2i(static_cast<int>(x), static_cast<int>(y)), *window);
+}
+
+SoundPlayer & Game::getSoundPlayer()
 {
 	return sound_player;
 }
@@ -287,12 +308,22 @@ bool Game::setup(std::string character_name)
 	ball_list.push_back(new Ball());
 	sprite_list.push_back(ball_list.back());
 	
-	if (!background_texture.loadFromFile(smartPath("block-breaker\\Resources\\brick-wall.png")))
-	{
+	if (!background_texture.loadFromFile(smartPath("block-breaker\\Resources\\background.png")))
 		return false;
-	}
 	background.setTexture(background_texture);
-	background.move(-90, 0);
+	
+	if (!border_texture.loadFromFile(smartPath("block-breaker\\Resources\\border.png")))
+		return false;
+	border.setTexture(border_texture);
+
+	if (!life_texture.loadFromFile(smartPath("block-breaker\\Resources\\life" + std::to_string(lives) + ".png")))
+		return false;
+	life.setTexture(life_texture);
+	if (endless)
+		life.setPosition(620, window->getSize().y / 3 * 2 - life.getGlobalBounds().height / 2);
+	else
+		life.setPosition(620, window->getSize().y / 2 - life.getGlobalBounds().height / 2);
+
 	if (!font.loadFromFile("block-breaker\\Resources\\munro.ttf"))
 	{
 		return false;
@@ -300,22 +331,12 @@ bool Game::setup(std::string character_name)
 	
 	if (endless)
 	{
-		lives_text.setCharacterSize(30);
 		score_text.setCharacterSize(30);
-		lives_text.setFont(font);
 		score_text.setFont(font);
-		lives_text.setFillColor(sf::Color::White);
 		score_text.setFillColor(sf::Color::White);
-		lives_text.setPosition(left_bound + 10, lower_bound - 80);
-		score_text.setPosition(left_bound + 10, lower_bound - 40);
+		score_text.setPosition(705 - score_text.getGlobalBounds().width / 2, window->getSize().y / 3 - score_text.getGlobalBounds().height / 2);
 	}
-	else
-	{
-		lives_text.setCharacterSize(30);
-		lives_text.setFont(font);
-		lives_text.setFillColor(sf::Color::White);
-		lives_text.setPosition(left_bound + 10, lower_bound - 40);
-	}
+
 	delay = 0;
 	end_delay = 60;
 	
@@ -325,19 +346,16 @@ bool Game::setup(std::string character_name)
 void Game::drawSprites()
 {
 	window->clear();
+	//window->draw(background);
 	const int sprite_num = sprite_list.size();
 	for (int i = 0; i < sprite_num; i++)
 	{
 		sprite_list[i]->draw(*window);
 	}
-	for (int i = 0; i < item_list.size(); i++)
-	{
-		item_list[i]->draw(*window);
-	}
-	window->draw(lives_text);
 	if(endless)
 		window->draw(score_text);
-	window->draw(background);
+	window->draw(life);
+	window->draw(border);
 	window->display();
 }
 
@@ -348,8 +366,11 @@ void Game::updateSprites()
 	{
 		 sprite_list[i]->update(*this);
 	}
-	lives_text.setString("lives: " + std::to_string(lives));
-	score_text.setString("score: " + std::to_string(score));
+	if (endless)
+	{
+		score_text.setString("score: " + std::to_string(score));
+		score_text.setPosition(705 - score_text.getGlobalBounds().width / 2, score_text.getPosition().y);
+	}
 }
 
 void Game::eventInput()
@@ -380,7 +401,11 @@ void Game::eventInput()
 		}
 		break;
 		case sf::Event::KeyPressed:
-			finished = true;
+			if (event.key.code == sf::Keyboard::Escape)
+			{
+				finished = true;
+				end_delay = 0;
+			}
 			break;
 		}
 	}

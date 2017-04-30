@@ -13,7 +13,6 @@ class Projectile : public Sprite
 {
 public:
 	Projectile(std::string texture_name, int height, int width);
-	virtual void update(Game& game) = 0;
 	virtual void launch(Game& game) = 0;
 protected:
 	bool started;
@@ -30,7 +29,7 @@ public:
 	void launch(Game& game);
 
 	void marioBall();
-	void accelerate();
+	void fastBall();
 private:
 	float vxByAngle();
 	float vyByAngle();
@@ -38,10 +37,12 @@ private:
 	void checkEdgeCollision(Game& game);
 	void checkBlockCollision(Game& game);
 	void checkPlayerCollision(Game& game);
+	void accelerate();
 private:
 	bool started;
 
-	int mario = 0;
+	int mario;
+	int fast;
 	int hit_counter;
 	int frame_counter;
 	static constexpr int hit_to_accelerate = 2;
@@ -49,6 +50,7 @@ private:
 	int y_direction;
 	float speed = 6;
 	float speed_limit = 12;
+	float speed_record;
 	float angle;
 };
 

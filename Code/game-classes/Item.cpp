@@ -4,12 +4,9 @@ Item::Item(std::string texture_name, int frame_width, int frame_height, float x,
 	:
 	Sprite(texture_name, frame_width, frame_height, 0, 0)
 {
-	int choice = rand() % 2;
-	if (choice) setVX(-2);
-	else setVX(2);
+	setVX((rand() % 7) - 3);
 	setVY(-3);
 	setCenter(x, y);
-	std::cout << center().x << ", " << center().y << ", " << getVX() << ", " << getVY() << std::endl;
 }
 
 void Item::update(Game & game)
@@ -61,7 +58,7 @@ FastForward::FastForward(float x, float y)
 
 void FastForward::applyPower(Game & game)
 {
-	
+	game.applyFastBall();
 }
 
 Beer::Beer(float x, float y)
@@ -72,4 +69,5 @@ Beer::Beer(float x, float y)
 
 void Beer::applyPower(Game & game)
 {
+	game.applyDrunkPlayer();
 }

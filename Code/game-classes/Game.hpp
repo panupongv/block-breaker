@@ -46,7 +46,7 @@ public:
 	void pop(Explosion* explosion);
 
 	void applyMarioBall();
-	void accelerateBall();
+	void applyFastBall();
 	void applyDrunkPlayer();
 
 	Player* getPlayer();
@@ -55,6 +55,7 @@ public:
 	std::vector<Item*> getItemList() const;
 
 	sf::Vector2f getMousePosition() const;
+	void setMousePosition(float x, float y);
 	SoundPlayer& getSoundPlayer();
 
 public:
@@ -76,9 +77,12 @@ private:
 	sf::RenderWindow* window;
 	sf::Event event;
 	sf::Texture background_texture;
+	sf::Texture border_texture;
+	sf::Texture life_texture;
 	sf::Sprite background;
+	sf::Sprite border;
+	sf::Sprite life;
 	sf::Font font;
-	sf::Text lives_text;
 	sf::Text score_text;
 
 	Player* player;
@@ -103,4 +107,6 @@ private:
 	int current_color;
 	int frame_passed;
 	int row_generated;
+
+	const int MAX_LIFE = 3;
 };
