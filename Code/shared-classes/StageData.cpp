@@ -1,6 +1,4 @@
 #include "StageData.hpp"
-#include "ResourcePath.hpp"
-#include <fstream>
 
 using namespace std;
 

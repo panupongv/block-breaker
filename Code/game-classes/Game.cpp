@@ -285,16 +285,6 @@ std::vector<Block*> Game::getBlockList() const
 	return block_list;
 }
 
-std::vector<Ball*> Game::getBallList() const
-{
-	return ball_list;
-}
-
-std::vector<Item*> Game::getItemList() const
-{
-	return item_list;
-}
-
 sf::Vector2f Game::getMousePosition() const
 {
 	return sf::Vector2f(sf::Mouse::getPosition(*window).x, sf::Mouse::getPosition(*window).y);
@@ -316,10 +306,6 @@ bool Game::setup(std::string character_name)
 	sprite_list.push_back(player);
 	ball_list.push_back(new Ball());
 	sprite_list.push_back(ball_list.back());
-	
-	if (!background_texture.loadFromFile(smartPath("block-breaker\\Resources\\background.png")))
-		return false;
-	background.setTexture(background_texture);
 	
 	if (!border_texture.loadFromFile(smartPath("block-breaker\\Resources\\border.png")))
 		return false;

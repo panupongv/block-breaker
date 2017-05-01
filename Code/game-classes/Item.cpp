@@ -12,6 +12,8 @@ Item::Item(std::string texture_name, int frame_width, int frame_height, float x,
 void Item::update(Game & game)
 {
 	move();
+	if (top() < game.upper_bound && getVY() > 0)
+		setVY(0);
 	if (left() < game.left_bound && getVX() < 0 || right() > game.right_bound && getVX() > 0)
 		setVX(-getVX());
 	if (collide(*(game.getPlayer())))

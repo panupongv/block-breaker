@@ -17,7 +17,7 @@ private:
 	sf::Text head;
 	sf::Font font;
 
-	bool finished;
 	int width;
 	int height;
+	bool finished;
 };

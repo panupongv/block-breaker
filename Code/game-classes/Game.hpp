@@ -51,8 +51,6 @@ public:
 
 	Player* getPlayer();
 	std::vector<Block*> getBlockList() const;
-	std::vector<Ball*> getBallList() const;
-	std::vector<Item*> getItemList() const;
 
 	sf::Vector2f getMousePosition() const;
 	void setMousePosition(float x, float y);
@@ -76,10 +74,8 @@ private:
 private:
 	sf::RenderWindow* window;
 	sf::Event event;
-	sf::Texture background_texture;
 	sf::Texture border_texture;
 	sf::Texture life_texture;
-	sf::Sprite background;
 	sf::Sprite border;
 	sf::Sprite life;
 	sf::Font font;
