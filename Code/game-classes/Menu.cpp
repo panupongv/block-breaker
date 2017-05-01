@@ -1,5 +1,4 @@
 #include "Menu.hpp"
-#include "ResourcePath.hpp"
 
 Menu::Menu(sf::RenderWindow * window)
 	:
@@ -58,11 +57,15 @@ void Menu::draw()
 	window->draw(title);
 	for (int i = 0; i < TEXT_NUM; i++)
 		window->draw(texts[i]);
+	ball.draw(*window);
+	pad.draw(*window);
 	window->display();
 }
 
 void Menu::update()
 {
+	ball.update();
+	pad.update(ball);
 	bool in_text = false;
 	for (int i = 0; i < TEXT_NUM; i++)
 	{
@@ -126,4 +129,33 @@ void Menu::eventInput()
 		break;
 		}
 	}
+}
+
+MenuBall::MenuBall()
+	:
+	Sprite("whiteball.png", 20, 20, 390, 210)
+{
+	setMovement(-2, -2.5);
+}
+
+void MenuBall::update()
+{
+	move();
+	if (left() < 45 || right() > 755)
+		setVX(-getVX());
+	if (top() < 130 || bottom() > 230)
+		setVY(-getVY());
+}
+
+MenuPad::MenuPad()
+	:
+	Sprite("whitepad.png", 200, 30, 300, 230)
+{
+}
+
+void MenuPad::update(const Sprite & ball)
+{
+	float ball_x = ball.center().x;
+	if (ball_x >= 145 && ball_x <= 655)
+		setCenter(ball.center().x, center().y);
 }

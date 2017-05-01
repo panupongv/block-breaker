@@ -7,7 +7,6 @@ Player::Player(std::string texture_name)
 	center_line(Game::left_bound + Game::game_width / 2.0f),
 	drunk(0)
 { 
-	setAlive(true);
 	setMoving(true);
 	setHaveRocket(false);
 }

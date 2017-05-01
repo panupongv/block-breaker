@@ -14,8 +14,7 @@ Ball::Ball(bool random)
 	mario(0),
 	fast(0),
 	hit_counter(0),
-	frame_counter(0),
-	started(false)
+	frame_counter(0)
 {
 }
 
@@ -63,7 +62,7 @@ void Ball::update(Game& game)
 				speed = speed_limit;
 			setMovement(vxByAngle(), vyByAngle());
 		}
-		if (hit_counter >= hit_to_accelerate)
+		if (hit_counter >= HIT_TO_ACCELERATE)
 			accelerate();
 	}
 	else
@@ -110,13 +109,13 @@ void Ball::checkBlockCollision(Game& game)
 			}
 			else if (collideHorizontally(*block_list[i]) && ((dx > 0 && v_right == true) || (dx < 0 && v_right == false)))
 			{
-				move(-getVX(), 0);
+				//move(-getVX(), 0);
 				setMovement(-getVX(), getVY());
 				angle *= -1;
 			}
 			else if (collideVertically(*block_list[i]) && ((dy > 0 && v_down == true) || (dy < 0 && v_down == false)))
 			{
-				move(0, -getVY());
+				//move(0, -getVY());
 				setMovement(getVX(), -getVY());
 				y_direction *= -1;
 			}
@@ -130,7 +129,7 @@ void Ball::checkBlockCollision(Game& game)
 void Ball::checkPlayerCollision(Game& game)
 {
 	Player* player = game.getPlayer();
-	if (bottom() >= player->getHitLine() && bottom() <= player->getHitLine() + player->getFrameHeight() * 0.75f && getVY() > 0)
+	if (bottom() >= player->getHitLine() && bottom() <= player->bottom() && getVY() > 0)
 	{
 		y_direction = -1;
 		switch (player->getHitZone(center().x))

@@ -70,7 +70,7 @@ private:
 	void drawSprites();
 	void updateSprites();
 	void eventInput();
-	void manageEvent();
+	void gameLogics();
 	void generateRow(int y, bool ingame = false);
 	void accelerateBlocks();
 private:
@@ -89,8 +89,8 @@ private:
 	std::vector<Ball*> ball_list;
 	std::vector<Block*> block_list;
 	std::vector<Item*> item_list;
+	std::vector<ShotRocket*> rocket_list;
 	std::vector<Sprite*> sprite_list;
-	ShotRocket* shot_rocket;
 
 	SoundPlayer sound_player;
 
@@ -107,6 +107,4 @@ private:
 	int current_color;
 	int frame_passed;
 	int row_generated;
-
-	const int MAX_LIFE = 3;
 };

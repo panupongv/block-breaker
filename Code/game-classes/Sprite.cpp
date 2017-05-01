@@ -34,10 +34,14 @@ Sprite::Sprite(std::string texture_name, int frame_width, int frame_height, floa
 	frame_number = texture.getSize().x / frame_width;
 }
 
+void Sprite::update(Game & game)
+{
+	;
+}
+
 void Sprite::draw(sf::RenderWindow & window) const
 {
-	if(this != NULL)
-		window.draw(sprite);
+	window.draw(sprite);
 }
 
 int Sprite::getCurrentFrame() const
@@ -99,23 +103,6 @@ bool Sprite::collideVertically(const Sprite & another_sprite) const
 {
 	return collide(another_sprite) && (center().y < another_sprite.top() || center().y > another_sprite.bottom());
 }
-//bool Sprite::collide(Sprite & another_sprite)
-//{
-//	if (this == NULL) return false;
-//	return sprite.getGlobalBounds().intersects(another_sprite.sprite.getGlobalBounds());
-//}
-//
-//bool Sprite::collideHorizontally(Sprite & another_sprite)
-//{
-//	return collide(another_sprite)
-//		&& (center().x < another_sprite.left() || center().x > another_sprite.right());
-//}
-//
-//bool Sprite::collideVertically(Sprite & another_sprite)
-//{
-//	return collide(another_sprite)
-//		&& (center().y < another_sprite.top() || center().y > another_sprite.bottom());
-//}
 
 float Sprite::getVX() const
 {
@@ -127,11 +114,6 @@ float Sprite::getVY() const
 	return vy;
 }
 
-//bool Sprite::isAlive() const
-//{
-//	return alive;
-//}
-//
 bool Sprite::isMoving() const
 {
 	return moving;
@@ -195,7 +177,3 @@ void Sprite::setMoving(bool status)
 	moving = status;
 }
 
-void Sprite::setAlive(bool status)
-{
-	alive = status;
-}

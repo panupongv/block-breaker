@@ -24,7 +24,7 @@ public:
 	Ball(bool random = true);
 	Ball(float x, float y);
 
-	virtual void update(Game& game);
+	void update(Game& game);
 	void launch();
 	void launch(Game& game);
 
@@ -39,13 +39,11 @@ private:
 	void checkPlayerCollision(Game& game);
 	void accelerate();
 private:
-	bool started;
-
 	int mario;
 	int fast;
 	int hit_counter;
 	int frame_counter;
-	static constexpr int hit_to_accelerate = 2;
+	const int HIT_TO_ACCELERATE = 2;
 
 	int y_direction;
 	float speed = 6;
@@ -60,6 +58,4 @@ public:
 	ShotRocket();
 	void update(Game& game);
 	void launch(Game& game);
-private:
-	bool started;
 };

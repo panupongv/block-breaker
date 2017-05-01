@@ -7,6 +7,7 @@ Game::Game(sf::RenderWindow * window, std::string character_name)
 	finished(false),
 	endless(true),
 	frame_passed(0),
+
 	current_color(0),
 	lives(1),
 	score(0),
@@ -73,7 +74,7 @@ void Game::run()
 		drawSprites();
 		updateSprites();
 		eventInput();
-		manageEvent();
+		gameLogics();
 	}
 	if (win)
 		sound_player.playWinSound();
@@ -101,9 +102,9 @@ void Game::add(Ball * ball)
 
 void Game::add(ShotRocket * rocket)
 {
+	rocket->setCenter(player->center().x, player->top() + 23);
 	sprite_list.push_back(rocket);
-	shot_rocket = rocket;
-	shot_rocket->setCenter(player->center().x, player->top() + 23);
+	rocket_list.push_back(rocket);
 }
 
 void Game::add(Item * item)
@@ -165,8 +166,17 @@ void Game::pop(ShotRocket * rocket)
 			break;
 		}
 	}
-	delete shot_rocket;
-	shot_rocket = NULL;
+
+	for (int i = 0; i < rocket_list.size(); i++)
+	{
+		if (rocket_list[i] == rocket)
+		{
+			delete rocket;
+			rocket = NULL;
+			rocket_list.erase(rocket_list.begin() + i);
+			break;
+		}
+	}
 }
 
 void Game::pop(Block * block)
@@ -303,7 +313,6 @@ SoundPlayer & Game::getSoundPlayer()
 bool Game::setup(std::string character_name)
 {
 	player = new Player(character_name);
-	shot_rocket = NULL;
 	sprite_list.push_back(player);
 	ball_list.push_back(new Ball());
 	sprite_list.push_back(ball_list.back());
@@ -364,7 +373,9 @@ void Game::updateSprites()
 	//const int sprite_num = sprite_list.size();
 	for (int i = 0; i < sprite_list.size(); i++)
 	{
-		 sprite_list[i]->update(*this);
+		if (sprite_list[i] == NULL)
+			continue;
+		sprite_list[i]->update(*this);
 	}
 	if (endless)
 	{
@@ -392,9 +403,9 @@ void Game::eventInput()
 			}
 			else if(event.mouseButton.button == sf::Mouse::Right)
 			{
-				if (shot_rocket != NULL)
+				if (!rocket_list.empty())
 				{
-					shot_rocket->launch(*this);
+					rocket_list.front()->launch(*this);
 					player->setHaveRocket(false);
 				}
 			}
@@ -404,14 +415,14 @@ void Game::eventInput()
 			if (event.key.code == sf::Keyboard::Escape)
 			{
 				finished = true;
-				end_delay = 0;
+				end_delay = -1000;
 			}
 			break;
 		}
 	}
 }
 
-void Game::manageEvent()
+void Game::gameLogics()
 {
 	if (endless)
 	{
@@ -429,20 +440,12 @@ void Game::manageEvent()
 		if (block_list.front()->bottom() > player->getHitLine())
 			finished = true;
 	}
+
 	if (delay)
 	{
 		delay--;
-		if (!delay)
+		if (!delay && lives != 0)
 			add(new Ball());
-	}
-
-	if (!endless && finished)
-	{
-		if (ball_list.size() != 0 && breakable_block_num != 0)
-		{
-			finished = false;
-			end_delay = 60;
-		}
 	}
 
 	if (finished)

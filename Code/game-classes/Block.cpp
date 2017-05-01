@@ -84,7 +84,6 @@ void Block::setFrameToMove(int frame_num)
 
 void Block::initializeData(std::vector<sf::Vector2i> points)
 {
-	setAlive(true);
 	if(points.size() == 2)
 	{
 		sf::Vector2i point1 = points[0], point2 = points[1];
@@ -159,7 +158,6 @@ BlockType BreakableBlock::getBlockType() const
 ItemBlock::ItemBlock(const BlockData & block_data, bool endless)
 	:
 	BreakableBlock(block_data, endless),
-	//item_type(ItemType(1))
 	item_type(ItemType(rand() % TYPE_NUM))
 {
 }
@@ -167,7 +165,6 @@ ItemBlock::ItemBlock(const BlockData & block_data, bool endless)
 ItemBlock::ItemBlock(std::string texture_name, float x, float y, bool endless)
 	:
 	BreakableBlock(texture_name, x, y, endless),
-	//item_type(ItemType(2))
 	item_type(ItemType(rand() % TYPE_NUM))
 {
 }
@@ -197,8 +194,3 @@ BlockType ItemBlock::getBlockType() const
 {
 	return item;
 }
-
-//void ItemBlock::destroyed(Game & game)
-//{
-//	game.explodeBlocks(left(), top());
-//}

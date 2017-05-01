@@ -1,8 +1,24 @@
 #pragma once
 
-#include "SFML/Graphics.hpp"
+#include "sfml.hpp"
+#include "Sprite.hpp"
+#include "ResourcePath.hpp"
 #include <iostream>
 #include <string>
+
+class MenuBall : public Sprite
+{
+public:
+	MenuBall();
+	void update();
+};
+
+class MenuPad : public Sprite
+{
+public:
+	MenuPad();
+	void update(const Sprite& ball);
+};
 
 class Menu
 {
@@ -23,6 +39,9 @@ private:
 	sf::Texture title_texture;
 	sf::Sprite title;
 	sf::Text texts[TEXT_NUM];
+
+	MenuBall ball;
+	MenuPad pad;
 
 	int width;
 	int height;

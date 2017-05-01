@@ -38,4 +38,3 @@ enum BlockType {
 
 enum ItemType { ADDBALL, MARIOBALL, ROCKETITEM, EXPLOSIVE, FASTFORWARD, BEER };
 
-enum BallOrRocket {BALL, ROCKET};
