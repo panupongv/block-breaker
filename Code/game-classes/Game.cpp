@@ -347,10 +347,10 @@ void Game::drawSprites()
 	{
 		sprite_list[i]->draw(*window);
 	}
-	if(endless)
+	window->draw(border);
+	if (endless)
 		window->draw(score_text);
 	window->draw(life);
-	window->draw(border);
 	window->display();
 }
 
