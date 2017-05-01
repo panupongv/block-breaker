@@ -356,7 +356,6 @@ void Game::drawSprites()
 
 void Game::updateSprites()
 {
-	//const int sprite_num = sprite_list.size();
 	for (int i = 0; i < sprite_list.size(); i++)
 	{
 		if (sprite_list[i] == NULL)

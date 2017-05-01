@@ -1,11 +1,5 @@
 #pragma once
 
-#ifdef __APPLE__
-#include <SFML/Graphics.hpp>
-#else
-#include <SFML\Graphics.hpp>
-#endif
-
 #include <vector>
 #include <string>
 

@@ -4,8 +4,11 @@ Item::Item(std::string texture_name, int frame_width, int frame_height, float x,
 	:
 	Sprite(texture_name, frame_width, frame_height, 0, 0)
 {
-	setVX((rand() % 7) - 3);
-	setVY(-3);
+	int choice = rand() % 2;
+	if (choice == 1)
+		setVX(2);
+	else
+		setVX(-2);
 	setCenter(x, y);
 }
 
@@ -13,7 +16,10 @@ void Item::update(Game & game)
 {
 	move();
 	if (top() < game.upper_bound && getVY() > 0)
-		setVY(0);
+	{
+		setPosition(left(), game.upper_bound + 1);
+		setVY(gravity);
+	}
 	if (left() < game.left_bound && getVX() < 0 || right() > game.right_bound && getVX() > 0)
 		setVX(-getVX());
 	if (collide(*(game.getPlayer())))
