@@ -1,11 +1,6 @@
 #pragma once
 
-#ifdef __APPLE__
-    #include <SFML/Graphics.hpp>
-#else
-    #include <SFML\Graphics.hpp>
-#endif
-
+#include "sfml.hpp"
 #include <iostream>
 #include <string>
 #include <vector>
@@ -21,7 +16,7 @@ public:
 	Sprite(std::string texture_name, int frame_width, int frame_height);
 	Sprite(std::string texture_name, int frame_width, int frame_height, float initial_x, float initial_y);
 	Sprite(std::string texture_name, int frame_width, int frame_height, float initial_x, float initial_y, float vx, float vy);
-	virtual void update(Game& game) = 0; //Game& game
+	virtual void update(Game& game); 
 	void draw(sf::RenderWindow& window) const;
 
 	int getCurrentFrame() const;
@@ -33,12 +28,10 @@ public:
 	float bottom() const;
 	sf::Vector2f center() const;
 
-	//bool collide(const sf::FloatRect& rect);
 	bool collide(const Sprite& another_sprite) const;
 	bool collideHorizontally(const Sprite& another_sprite) const;
 	bool collideVertically(const Sprite& another_sprite) const;
 
-	//bool isAlive() const;
 	bool isMoving() const;
 
 	float getVX() const;
@@ -57,7 +50,6 @@ public:
 	void setFrame(int grid_x);
 
 	void setMoving(bool status);
-	void setAlive(bool status);
 
 private:
 	sf::Sprite sprite;
@@ -71,6 +63,5 @@ private:
 	float vx;
 	float vy;
 
-	bool alive = true;
 	bool moving;
 };
