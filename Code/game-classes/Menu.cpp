@@ -26,7 +26,6 @@ Menu::Menu(sf::RenderWindow * window)
 		texts[i].setFont(font);
 		texts[i].setCharacterSize(80);
 		texts[i].setFillColor(sf::Color::White);
-		//texts[i].setOutlineColor(sf::Color::White);
 
 		sf::FloatRect text_rect = texts[i].getLocalBounds();
 		texts[i].setOrigin(text_rect.left + text_rect.width / 2.0f,
@@ -135,7 +134,7 @@ MenuBall::MenuBall()
 	:
 	Sprite("whiteball.png", 20, 20, 390, 210)
 {
-	setMovement(-2, -2.5);
+	setMovement(-1.5, -2.5);
 }
 
 void MenuBall::update()
@@ -151,11 +150,19 @@ MenuPad::MenuPad()
 	:
 	Sprite("whitepad.png", 200, 30, 300, 230)
 {
+	srand(time(NULL));
 }
 
 void MenuPad::update(const Sprite & ball)
 {
 	float ball_x = ball.center().x;
-	if (ball_x >= 145 && ball_x <= 655)
-		setCenter(ball.center().x, center().y);
+	float x = center().x;
+	if (ball.getVY() > 0 && ball.bottom() > 150)
+	{
+		float offset = rand() % 30;
+		if (ball_x < x - offset && left() > 49)
+			move(-4, 0);
+		else if (ball_x > x + offset && right() < 751)
+			move(4, 0);
+	}
 }

@@ -5,6 +5,7 @@
 #include "ResourcePath.hpp"
 #include <iostream>
 #include <string>
+#include <cstdlib>
 
 class MenuBall : public Sprite
 {

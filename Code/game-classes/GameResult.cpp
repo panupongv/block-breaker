@@ -40,7 +40,7 @@ GameResult::GameResult(sf::RenderWindow * window, bool win)
 	if (!setup())
 		std::cout << "Setup failed - GameResult" << std::endl;
 	if(win)
-		win_text.setString("too easy");
+		win_text.setString("easy");
 	else
 		win_text.setString("lol noob");
 	win_text.setFont(font);
@@ -97,8 +97,10 @@ void GameResult::eventInput()
 			char pressed = event.key.code;
 			if (isalpha(pressed))
 				name += pressed;
-			else if(pressed == '\b' && name.size() != 0)
+			else if (pressed == '\b' && name.size() != 0)
 				name = name.substr(0, name.size() - 1);
+			else if (pressed == 13)
+				finished = true;
 			name_text.setString("NAME: " + name);
 			sf::FloatRect text_rect = name_text.getLocalBounds();
 			name_text.setOrigin(text_rect.left + text_rect.width / 2.0f,

@@ -4,6 +4,9 @@ BlockBreaker::BlockBreaker()
 	:
 	window(sf::VideoMode(800, 620), "Block Breaker")
 {
+	sf::Image icon;
+	icon.loadFromFile(smartPath("block-breaker\\Resources\\iconnohelmet.png"));
+	window.setIcon(32, 32, icon.getPixelsPtr());
 	window.setFramerateLimit(60);
 }
 
