@@ -11,12 +11,14 @@ public:
     
     virtual void setPosition( float x, float y );
     virtual void setColor( sf::Color color );
+    
     //polymorphism
     virtual void update(EventHandler& e);
     
 private:
     float normal_x = 0;
     float normal_y = 0;
+    float selected_shift = 10;
     
     std::string texture_name_of( BlockType type ) const;
 };

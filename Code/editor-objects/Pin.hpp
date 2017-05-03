@@ -12,7 +12,4 @@ private:
     void set_horizontal();
     void set_vertical();
     
-private:
-    const float levitate_speed = 1;
-    
 };

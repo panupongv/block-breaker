@@ -21,7 +21,6 @@ void ColorPalatte::update(EventHandler &e)
     update_detect_click(e);
 }
 
-
 void ColorPalatte::enable()
 {
     for(int i = 0 ; i < buttons.size() ; ++i)

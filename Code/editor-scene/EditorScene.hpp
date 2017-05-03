@@ -26,6 +26,7 @@ protected:
 private:
     void load_stage( std::string file_name );
     void save_stage( std::string file_name , bool replace = false);
+    void set_title( std::string text );
     
 private:
     OptionPanel panel;

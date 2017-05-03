@@ -54,16 +54,6 @@ void SpriteObject::disable()
     this->sprite.setColor(sf::Color(0,0,0,0));
     BaseObject::disable();
 }
-bool SpriteObject::insideRect(float x, float y) const
-{
-    sf::FloatRect rect = this->sprite.getGlobalBounds();
-    
-    return
-    x > rect.left &&
-    x < rect.left + rect.width &&
-    y > rect.top &&
-    y < rect.top + rect.height;
-}
 
 void SpriteObject::setTexture(string textureName)
 {

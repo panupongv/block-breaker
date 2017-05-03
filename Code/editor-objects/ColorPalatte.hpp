@@ -17,9 +17,11 @@ public:
     sf::Color getSelectedColor() const;
     
 private:
-    std::vector<ColorButton*> buttons;
-    sf::Color selectedColor = sf::Color::White;
-    
-    void deselect_all_color_button();
     void update_detect_click(EventHandler& e);
+    void deselect_all_color_button();
+    
+private:
+    sf::Color selectedColor = sf::Color::White;
+    std::vector<ColorButton*> buttons;
+    
 };

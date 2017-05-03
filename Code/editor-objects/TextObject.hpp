@@ -35,7 +35,7 @@ public:
     virtual void draw(sf::RenderTarget &target);
     
 private:
-    sf::Font font;
     sf::Text textRender;
+    sf::Font font;
     sf::Color color = sf::Color::White;
 };
