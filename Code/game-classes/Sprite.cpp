@@ -114,11 +114,6 @@ float Sprite::getVY() const
 	return vy;
 }
 
-bool Sprite::isMoving() const
-{
-	return moving;
-}
-
 void Sprite::setPosition(float x, float y)
 {
 	sprite.setPosition(x, y);
@@ -170,10 +165,5 @@ void Sprite::setFrame(int grid_x)
 {
 	current_frame = grid_x % frame_number;
 	sprite.setTextureRect(sf::IntRect(current_frame * frame_width, 0, frame_width, frame_height));
-}
-
-void Sprite::setMoving(bool status)
-{
-	moving = status;
 }
 

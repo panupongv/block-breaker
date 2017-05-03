@@ -30,7 +30,7 @@ void Ball::update(Game& game)
 {
 	if (started)
 	{
-		move(getVX(), getVY());
+		move();
 		checkEdgeCollision(game);
 		checkBlockCollision(game);
 		checkPlayerCollision(game);
@@ -64,6 +64,11 @@ void Ball::update(Game& game)
 		}
 		if (hit_counter >= HIT_TO_ACCELERATE)
 			accelerate();
+		if (angle < 8 && angle > -8)
+		{
+			angle += 3;
+			setMovement(vxByAngle(), vyByAngle());
+		}
 	}
 	else
 	{ 
@@ -109,13 +114,13 @@ void Ball::checkBlockCollision(Game& game)
 			}
 			else if (collideHorizontally(*block_list[i]) && ((dx > 0 && v_right == true) || (dx < 0 && v_right == false)))
 			{
-				//move(-getVX(), 0);
+				move(-getVX(), 0);
 				setMovement(-getVX(), getVY());
 				angle *= -1;
 			}
 			else if (collideVertically(*block_list[i]) && ((dy > 0 && v_down == true) || (dy < 0 && v_down == false)))
 			{
-				//move(0, -getVY());
+				move(0, -getVY());
 				setMovement(getVX(), -getVY());
 				y_direction *= -1;
 			}
@@ -190,8 +195,13 @@ void Ball::launch(Game& game)
 void Ball::accelerate()
 {
 	if (speed < speed_limit)
-		speed += 0.1f;
-	setMovement(vxByAngle(), vyByAngle());
+	{
+		if (speed > 9)
+			speed += 0.1f;
+		else
+			speed += 0.3f;
+	}
+		setMovement(vxByAngle(), vyByAngle());
 	hit_counter = 0;
 }
 

@@ -70,9 +70,9 @@ void StageSelect::eventInput()
 		break;
 		case sf::Event::KeyPressed:
 			if (event.key.code == sf::Keyboard::Up)
-				moveText(-1);
-			else if (event.key.code == sf::Keyboard::Down)
 				moveText(1);
+			else if (event.key.code == sf::Keyboard::Down)
+				moveText(-1);
 		break;
 		}
 	}

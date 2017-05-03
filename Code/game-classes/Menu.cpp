@@ -45,9 +45,9 @@ void Menu::run()
 	}
 }
 
-int Menu::getChoice() const
+MenuChoice Menu::getChoice() const
 {
-	return selected;
+	return MenuChoice(selected);
 }
 
 void Menu::draw()
@@ -121,7 +121,9 @@ void Menu::eventInput()
 			}
 			else if (event.key.code == sf::Keyboard::Return)
 			{
-				if (selected != -1)
+				if (selected == 3)
+					window->close();
+				else if (selected != -1)
 					finished = true;
 			}
 		}
@@ -130,14 +132,19 @@ void Menu::eventInput()
 	}
 }
 
-MenuBall::MenuBall()
+Menu::MenuBall::MenuBall()
 	:
 	Sprite("whiteball.png", 20, 20, 390, 210)
 {
-	setMovement(-1.5, -2.5);
+	int choice = rand() % 2;
+	if (choice == 1)
+		setVX(1.5);
+	else
+		setVX(-1.5);
+	setVY(-1.8);
 }
 
-void MenuBall::update()
+void Menu::MenuBall::update()
 {
 	move();
 	if (left() < 45 || right() > 755)
@@ -146,14 +153,14 @@ void MenuBall::update()
 		setVY(-getVY());
 }
 
-MenuPad::MenuPad()
+Menu::MenuPad::MenuPad()
 	:
 	Sprite("whitepad.png", 200, 30, 300, 230)
 {
 	srand(time(NULL));
 }
 
-void MenuPad::update(const Sprite & ball)
+void Menu::MenuPad::update(const Sprite & ball)
 {
 	float ball_x = ball.center().x;
 	float x = center().x;

@@ -69,6 +69,7 @@ Game::~Game()
 
 void Game::run()
 {
+	window->setMouseCursorVisible(false);
 	while (window->isOpen() && end_delay > 0)
 	{
 		drawSprites();
@@ -80,6 +81,7 @@ void Game::run()
 		sound_player.playWinSound();
 	else
 		sound_player.playLoseSound();
+	window->setMouseCursorVisible(true); 
 }
 
 bool Game::getStatus() const
@@ -120,25 +122,15 @@ void Game::add(Explosion * explosion)
 
 void Game::pop(Ball * ball)
 {
-	for (int i = 0; i < sprite_list.size(); i++)
-	{
-		if (sprite_list[i] == ball)
-		{
-			sprite_list.erase(sprite_list.begin() + i);
-			break;
-		}
-	}
+	std::vector<Ball*>::iterator ball_it = std::find(ball_list.begin(), ball_list.end(), ball);
+	if(ball_it != ball_list.end())
+		ball_list.erase(ball_it);
+	std::vector<Sprite*>::iterator sprite_it = std::find(sprite_list.begin(), sprite_list.end(), ball);
+	if(sprite_it != sprite_list.end())
+		sprite_list.erase(sprite_it);
+	delete ball;
+	ball = NULL;
 
-	for (int i = 0; i < ball_list.size(); i++)
-	{
-		if (ball_list[i] == ball)
-		{
-			delete ball;
-			ball = NULL;
-			ball_list.erase(ball_list.begin() + i);
-			break;
-		}
-	}
 	if (ball_list.empty())
 	{
 		lives--;
@@ -158,54 +150,31 @@ void Game::pop(Ball * ball)
 
 void Game::pop(ShotRocket * rocket)
 {
-	for (int i = 0; i < sprite_list.size(); i++)
-	{
-		if (sprite_list[i] == rocket)
-		{
-			sprite_list.erase(sprite_list.begin() + i);
-			break;
-		}
-	}
-
-	for (int i = 0; i < rocket_list.size(); i++)
-	{
-		if (rocket_list[i] == rocket)
-		{
-			delete rocket;
-			rocket = NULL;
-			rocket_list.erase(rocket_list.begin() + i);
-			break;
-		}
-	}
+	std::vector<ShotRocket*>::iterator rocket_it = std::find(rocket_list.begin(), rocket_list.end(), rocket);
+	if(rocket_it != rocket_list.end())
+		rocket_list.erase(rocket_it);
+	std::vector<Sprite*>::iterator sprite_it = std::find(sprite_list.begin(), sprite_list.end(), rocket);
+	if (sprite_it != sprite_list.end())
+		sprite_list.erase(sprite_it);
+	delete rocket;
+	rocket = NULL;
 }
 
 void Game::pop(Block * block)
 {
-	for (int i = 0; i < sprite_list.size(); i++)
+	if (block->getBlockType() != normal)
 	{
-		if (sprite_list[i] == block)
-		{
-			sprite_list.erase(sprite_list.begin() + i);
-			break;
-		}
+		breakable_block_num--;
+		score += 10;
 	}
-
-	//const int block_num = block_list.size();
-	for (int i = 0; i < block_list.size(); i++)
-	{
-		if (block_list[i] == block)
-		{
-			if (block->getBlockType() != normal)
-			{
-				breakable_block_num--;
-				score += 10;
-			}
-			delete block;
-			block = NULL;
-			block_list.erase(block_list.begin() + i);
-			break;
-		}
-	}
+	std::vector<Block*>::iterator block_it = std::find(block_list.begin(), block_list.end(), block);
+	if(block_it != block_list.end())
+		block_list.erase(block_it);
+	std::vector<Sprite*>::iterator sprite_it = std::find(sprite_list.begin(), sprite_list.end(), block);
+	if (sprite_it != sprite_list.end())
+		sprite_list.erase(sprite_it);
+	delete block;
+	block = NULL;
 	if (!endless && breakable_block_num == 0)
 	{
 		finished = true;
@@ -215,40 +184,21 @@ void Game::pop(Block * block)
 
 void Game::pop(Item * item)
 {
-	for (int i = 0; i < sprite_list.size(); i++)
-	{
-		if (sprite_list[i] == item)
-		{
-			sprite_list.erase(sprite_list.begin() + i);
-			break;
-		}
-	}
-
-	//const int block_num = block_list.size();
-	for (int i = 0; i < item_list.size(); i++)
-	{
-		if (item_list[i] == item)
-		{
-			delete item;
-			item = NULL;
-			item_list.erase(item_list.begin() + i);
-			break;
-		}
-	}
+	std::vector<Item*>::iterator item_it = std::find(item_list.begin(), item_list.end(), item);
+	if(item_it != item_list.begin())
+		item_list.erase(item_it);
+	std::vector<Sprite*>::iterator sprite_it = std::find(sprite_list.begin(), sprite_list.end(), item);
+	if (sprite_it != sprite_list.end())
+		sprite_list.erase(sprite_it);
+	delete item;
+	item = NULL;
 }
 
 void Game::pop(Explosion * explosion)
 {
-	for (int i = 0; i < sprite_list.size(); i++)
-	{
-		if (sprite_list[i] == explosion)
-		{
-			delete explosion;
-			explosion = NULL;
-			sprite_list.erase(sprite_list.begin() + i);
-			break;
-		}
-	}
+	std::vector<Sprite*>::iterator sprite_it = std::find(sprite_list.begin(), sprite_list.end(), explosion);
+	if(sprite_it != sprite_list.end())
+		sprite_list.erase(sprite_it);
 }
 
 void Game::applyMarioBall()
@@ -319,7 +269,12 @@ bool Game::setup(std::string character_name)
 	else
 		life.setPosition(620, window->getSize().y / 2 - life.getGlobalBounds().height / 2);
 
-	if (!font.loadFromFile("block-breaker\\Resources\\munro.ttf"))
+	if (!drunk_sign_texture.loadFromFile(smartPath("block-breaker\\Resources\\drunkicon.png")))
+		return false;
+	drunk_sign.setTexture(drunk_sign_texture);
+	drunk_sign.setPosition(left_bound + 100, upper_bound + 150);
+
+	if (!font.loadFromFile(smartPath("block-breaker\\Resources\\munro.ttf")))
 	{
 		return false;
 	}
@@ -341,7 +296,8 @@ bool Game::setup(std::string character_name)
 void Game::drawSprites()
 {
 	window->clear();
-	//window->draw(background);
+	if (player->isDrunk())
+		window->draw(drunk_sign);
 	const int sprite_num = sprite_list.size();
 	for (int i = 0; i < sprite_num; i++)
 	{
@@ -423,7 +379,10 @@ void Game::gameLogics()
 			}
 		}
 		if (block_list.front()->bottom() > player->getHitLine())
+		{
 			finished = true;
+			end_delay = -1000;
+		}
 	}
 
 	if (delay)
@@ -442,7 +401,7 @@ void Game::generateRow(int y, bool ingame)
 	int column_num = game_width / Block::block_size_x;
 	for (int i = 0; i < column_num; i++)
 	{
-		Block* new_block;//= new Block("block2.png", left_bound + i * Block::block_size_x, upper_bound - Block::block_size_y, true);
+		Block* new_block;
 		if (rand() % 8 == 0)
 		{
 			new_block = BlockGenerator::create(item, left_bound + Block::block_size_x * i, upper_bound + y, endless);

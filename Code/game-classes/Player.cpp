@@ -7,7 +7,6 @@ Player::Player(std::string texture_name)
 	center_line(Game::left_bound + Game::game_width / 2.0f),
 	drunk(0)
 { 
-	setMoving(true);
 	setHaveRocket(false);
 }
 
@@ -85,6 +84,11 @@ float Player::getDeltaX() const
 bool Player::haveRocket() const
 {
 	return have_rocket;
+}
+
+bool Player::isDrunk() const
+{
+	return drunk;
 }
 
 void Player::setHaveRocket(bool status)

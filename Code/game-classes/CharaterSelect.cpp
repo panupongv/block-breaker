@@ -1,6 +1,6 @@
 #include "CharaterSelect.hpp"
 
-CharacterShowcase::CharacterShowcase(std::string texture_name, std::string name)
+CharacterSelect::CharacterShowcase::CharacterShowcase(std::string texture_name, std::string name)
 	:
 	texture_name(texture_name)
 {
@@ -29,13 +29,13 @@ CharacterShowcase::CharacterShowcase(std::string texture_name, std::string name)
 	sprite.setPosition(sf::Vector2f(400, 320));
 }
 
-void CharacterShowcase::draw(sf::RenderWindow & window)
+void CharacterSelect::CharacterShowcase::draw(sf::RenderWindow & window)
 {
 	window.draw(text);
 	window.draw(sprite);
 }
 
-std::string CharacterShowcase::getTextureName() const
+std::string CharacterSelect::CharacterShowcase::getTextureName() const
 {
 	return texture_name;
 }

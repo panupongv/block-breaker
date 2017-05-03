@@ -7,6 +7,9 @@
 #include <fstream>
 #include <cctype>
 
+//After game menu
+//Record high score for endless
+//Do nothing for custom
 class GameResult
 {
 public:
@@ -30,6 +33,7 @@ private:
 	sf::Text done_text;
 	sf::Font font;
 
+	//Score and player's name
 	int score;
 	std::string name;
 

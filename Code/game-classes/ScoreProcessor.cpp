@@ -9,9 +9,7 @@ ScoreProcessor::ScoreProcessor()
 
 	while (in_file >> temp_score >> temp_name)
 	{
-		//std::cout << temp_score << " " << temp_name << std::endl;
 		scores.insert(make_pair(temp_score, temp_name));
-		//std::cout << scores.rbegin()->first << ", " << scores.rbegin()->second << std::endl;
 	}
 
 	in_file.close();
@@ -20,7 +18,6 @@ ScoreProcessor::ScoreProcessor()
 std::vector<std::pair<std::string, std::string>> ScoreProcessor::getTopScores()
 {
 	int count = 10;
-	
 	std::vector<std::pair<std::string, std::string>> top_scores;
 	std::string temp_score; std::string temp_name;
 	

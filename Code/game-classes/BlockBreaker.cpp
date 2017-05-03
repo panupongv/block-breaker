@@ -6,7 +6,7 @@ BlockBreaker::BlockBreaker()
 {
 	sf::Image icon;
 	icon.loadFromFile(smartPath("block-breaker\\Resources\\iconnohelmet.png"));
-	window.setIcon(32, 32, icon.getPixelsPtr());
+	window.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
 	window.setFramerateLimit(60);
 }
 
@@ -19,7 +19,7 @@ void BlockBreaker::run()
 		CharacterSelect character_select(&window);
 		switch (menu.getChoice())
 		{
-		case 0:
+		case ENDLESS:
 		{
 			character_select.run();
 			if (window.isOpen())
@@ -34,7 +34,7 @@ void BlockBreaker::run()
 			}
 		}
 		break;
-		case 1:
+		case CUSTOM:
 		{
 			StageSelect stage_select(&window, smartPath("block-breaker\\Stages"));
 			stage_select.run();
@@ -54,7 +54,7 @@ void BlockBreaker::run()
 			}
 		}
 		break;
-		case 2:
+		case HIGHSCORE:
 			HighScore(&window).run();
 			break;
 		}

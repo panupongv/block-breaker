@@ -1,5 +1,7 @@
 #pragma once
 
+enum MenuChoice {ENDLESS, CUSTOM, HIGHSCORE};
+
 enum RenderLayer {
     BackgroundLayer ,
     EditingSpaceBackgroundLayer,

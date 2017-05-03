@@ -3,6 +3,7 @@
 #include "sfml.hpp"
 #include "ScoreProcessor.hpp"
 
+//High score page
 class HighScore
 {
 public:

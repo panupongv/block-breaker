@@ -11,6 +11,8 @@ class StageSelect
 public:
 	StageSelect(sf::RenderWindow * window, std::string file_path);
 	void run();
+
+	//File name of selected stage in string
 	std::string getSelectedName() const;
 private:
 	void eventInput();

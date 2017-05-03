@@ -9,7 +9,6 @@
 #include "Game.hpp"
 #include "GameResult.hpp"
 #include "ResourcePath.hpp"
-#include "ScoreProcessor.hpp"
 #include <iostream>
 
 class BlockBreaker

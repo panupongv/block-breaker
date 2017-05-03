@@ -40,7 +40,7 @@ GameResult::GameResult(sf::RenderWindow * window, bool win)
 	if (!setup())
 		std::cout << "Setup failed - GameResult" << std::endl;
 	if(win)
-		win_text.setString("easy");
+		win_text.setString("gg");
 	else
 		win_text.setString("lol noob");
 	win_text.setFont(font);
@@ -48,7 +48,7 @@ GameResult::GameResult(sf::RenderWindow * window, bool win)
 	sf::FloatRect text_rect = win_text.getLocalBounds();
 	win_text.setOrigin(text_rect.left + text_rect.width / 2.0f,
 		text_rect.top + text_rect.height / 2.0f);
-	win_text.setPosition(sf::Vector2f(width / 2.0f, height / 2.0f));
+	win_text.setPosition(sf::Vector2f(width / 2.0f, height / 2.0f - 30));
 	win_text.setFillColor(sf::Color::White);
 }
 

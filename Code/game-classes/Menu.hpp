@@ -7,30 +7,35 @@
 #include <string>
 #include <cstdlib>
 
-class MenuBall : public Sprite
-{
-public:
-	MenuBall();
-	void update();
-};
-
-class MenuPad : public Sprite
-{
-public:
-	MenuPad();
-	void update(const Sprite& ball);
-};
-
 class Menu
 {
 public:
 	Menu(sf::RenderWindow *window);
 	void run();
-	int getChoice() const;
+
+	//Selected choice
+	MenuChoice getChoice() const;
+
 private:
 	void eventInput();
 	void draw();
 	void update();
+
+private:
+	//Self moving objects in menu
+	class MenuBall : public Sprite
+	{
+	public:
+		MenuBall();
+		void update();
+	};
+	class MenuPad : public Sprite
+	{
+	public:
+		MenuPad();
+		void update(const Sprite& ball);
+	};
+
 private:
 	static constexpr int TEXT_NUM = 4;
 
@@ -49,5 +54,4 @@ private:
 
 	int selected;
 	bool finished;
-
 };

@@ -4,6 +4,8 @@
 #include "ResourcePath.hpp"
 #include <iostream>
 
+//Every game sound
+//Contained in one class to extend the scope of Sound and it's buffer
 class SoundPlayer
 {
 public:

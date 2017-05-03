@@ -6,21 +6,6 @@
 #include <string>
 #include <vector>
 
-class CharacterShowcase
-{
-public:
-	CharacterShowcase(std::string texture_name, std::string name);
-	void draw(sf::RenderWindow& window);
-	std::string getTextureName() const;
-private:
-	sf::Sprite sprite;
-	sf::Texture texture;
-	sf::Text text;
-	sf::Font font;
-
-	const std::string texture_name;
-};
-
 class CharacterSelect
 {
 public:
@@ -31,6 +16,21 @@ public:
 private:
 	void eventInput();
 	void draw();
+private:
+	//Character display in Character select page
+	class CharacterShowcase
+	{
+	public:
+		CharacterShowcase(std::string texture_name, std::string name);
+		void draw(sf::RenderWindow& window);
+		std::string getTextureName() const;
+	private:
+		sf::Sprite sprite;
+		sf::Texture texture;
+		sf::Text text;
+		sf::Font font;
+		const std::string texture_name;
+	};
 private:
 	sf::RenderWindow* window;
 	sf::Event event;

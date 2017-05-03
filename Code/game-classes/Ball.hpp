@@ -9,6 +9,7 @@ class Game;
 class Sprite;
 class Block;
 
+//Abstract
 class Projectile : public Sprite
 {
 public:
@@ -18,6 +19,7 @@ protected:
 	bool started;
 };
 
+//Game ball
 class Ball : public Projectile
 {
 public:
@@ -28,16 +30,24 @@ public:
 	void launch();
 	void launch(Game& game);
 
+	//Penetrating ball
 	void marioBall();
+	//No speed limit ball
 	void fastBall();
+
 private:
+	//Calculate speed vector by angle
 	float vxByAngle();
 	float vyByAngle();
 
+	//Collisions
 	void checkEdgeCollision(Game& game);
 	void checkBlockCollision(Game& game);
 	void checkPlayerCollision(Game& game);
+	
+	//Increase speed
 	void accelerate();
+
 private:
 	int mario;
 	int fast;
@@ -52,6 +62,7 @@ private:
 	float angle;
 };
 
+//Shootable rocket (not dropped item)
 class ShotRocket : public Projectile
 {
 public:

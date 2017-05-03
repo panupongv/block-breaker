@@ -6,6 +6,7 @@
 class SoundPlayer;
 class Game;
 
+//Explosion, destroy blocks in range.
 class Explosion: public Sprite
 {
 public:

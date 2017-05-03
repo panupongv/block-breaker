@@ -5,7 +5,7 @@ Block::Block(const BlockData& block_data, bool endless)
 	Block(getTextureNameFromType(block_data.getType()), block_data.getStartGrid().x * block_size_x, block_data.getStartGrid().y * block_size_y)
 {
 	setColor(block_data.getColor());
-	initializeData(block_data.getMovement());
+	initializeMovementData(block_data.getMovement());
 }
 
 Block::Block(std::string texture_name, float x, float y, bool endless)
@@ -29,8 +29,7 @@ void Block::update(Game& game)
 	{
 		if (!endless)
 		{
-			if (!isMoving()) return;
-			move(getVX(), getVY());
+			move();
 			if ((left() >= second_point.x && getVX() > 0) || (left() <= first_point.x && getVX() < 0)
 				|| (top() >= second_point.y && getVY() > 0) || top() <= first_point.y && getVY() < 0)
 			{
@@ -82,21 +81,21 @@ void Block::setFrameToMove(int frame_num)
 		frame_to_move = frame_num;
 }
 
-void Block::initializeData(std::vector<sf::Vector2i> points)
+void Block::initializeMovementData(std::vector<sf::Vector2i> points)
 {
 	if(points.size() == 2)
 	{
 		sf::Vector2i point1 = points[0], point2 = points[1];
 		float vx = 0, vy = 0;
-		if (point1.x != point2.x) //move horizontally
+		if (point1.x != point2.x) 
 		{
-			if (point1.x < point2.x) //right first
+			if (point1.x < point2.x) 
 			{
 				first_point = sf::Vector2u(Game::left_bound + point1.x * block_size_x, Game::upper_bound + point1.y * block_size_y);
 				second_point = sf::Vector2u(Game::left_bound + point2.x * block_size_x, Game::upper_bound + point2.y * block_size_y);
 				vx = move_speed;
 			}
-			else // left first
+			else 
 			{
 				first_point = sf::Vector2u(Game::left_bound + point2.x * block_size_x, Game::upper_bound + point2.y * block_size_y);
 				second_point = sf::Vector2u(Game::left_bound + point1.x * block_size_x, Game::upper_bound + point1.y * block_size_y);
@@ -104,16 +103,16 @@ void Block::initializeData(std::vector<sf::Vector2i> points)
 			}
 			vy = 0;
 		}
-		else if (point1.y != point2.y) // move vertically
+		else if (point1.y != point2.y) 
 		{
 
-			if (point1.y < point2.y) //down first
+			if (point1.y < point2.y) 
 			{
 				first_point = sf::Vector2u(Game::left_bound + point1.x * block_size_x, Game::upper_bound + point1.y * block_size_y);
 				second_point = sf::Vector2u(Game::left_bound + point2.x * block_size_x, Game::upper_bound + point2.y * block_size_y);
 				vy = move_speed;
 			}
-			else //up first
+			else
 			{
 				first_point = sf::Vector2u(Game::left_bound + point2.x * block_size_x, Game::upper_bound + point2.y * block_size_y);
 				second_point = sf::Vector2u(Game::left_bound + point1.x * block_size_x, Game::upper_bound + point1.y * block_size_y);
@@ -122,12 +121,12 @@ void Block::initializeData(std::vector<sf::Vector2i> points)
 			vx = 0;
 		}
 		setMovement(vx, vy);
-		setMoving(true);
+		moving = true;
 	}
 	else
 	{
 		first_point = second_point = sf::Vector2u(left(), top());
-		setMoving(false);
+		moving = false;
 		setMovement(0, 0);
 	}
 }

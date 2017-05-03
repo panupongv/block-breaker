@@ -26,20 +26,7 @@ HighScore::HighScore(sf::RenderWindow * window)
 		temp_text.setString(strings[i].second);
 		temp_text.setPosition(width - 150 - temp_text.getLocalBounds().width, 70 + (45 * (i + 1)));
 		temp_pair.second = temp_text;
-
 		score_list.push_back(temp_pair);
-		/*sf::Text temp_text;
-		temp_text.setString(strings[i]);
-		temp_text.setFont(font);
-		temp_text.setCharacterSize(40);
-		temp_text.setFillColor(sf::Color::White);
-		temp_text.setOutlineColor(sf::Color::White);
-
-		sf::FloatRect text_rect = temp_text.getLocalBounds();
-		temp_text.setOrigin(text_rect.left + text_rect.width / 2.0f,
-			text_rect.top + text_rect.height / 2.0f);
-		temp_text.setPosition(sf::Vector2f(width / 2.0f, 100 + (45 * (i + 1))));
-		score_list.push_back(temp_text);*/
 	}
 	head.setString("Top scorers");
 	head.setFont(font);
