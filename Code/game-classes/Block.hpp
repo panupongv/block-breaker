@@ -11,9 +11,6 @@ class Game;
 class Ball;
 class Item;
 
-const int TYPE_NUM = 4;
-enum ItemType { ADDBALL, MARIOBALL, MACHINEGUN, EXPLOSIVE };
-
 class Block : public Sprite
 {
 public:
@@ -23,18 +20,21 @@ public:
    
 	void update(Game& game);
 	virtual void hitAction(Game& game);
-	static std::string getTextureNameFromType(BlockType type);
-	virtual BlockType getBlockType() const;
+	
 	int getFrameToMove() const;
+	void setFrameToMove(int frame_num);
+
+	virtual BlockType getBlockType() const;
+	static std::string getTextureNameFromType(BlockType type);
 public:
 	static constexpr int block_size_x = 50; //Just Assume
 	static constexpr int block_size_y = 18;  //
 	static constexpr int move_speed = 1;
 protected:
-	int frame_to_move; //20
-	int frame_passed = 0;
 	void initializeData(std::vector<sf::Vector2i> points);
 
+	int frame_to_move;
+	int frame_passed = 0;
 private:
 	bool endless = false;
 	sf::Vector2u first_point;
@@ -47,7 +47,7 @@ public:
 	BreakableBlock(const BlockData& block_data, bool endless = false);
 	BreakableBlock(std::string texture_name, float x, float y, bool endless = false);
 
-	virtual void hitAction(Game& game);
+	void hitAction(Game& game);
 	BlockType getBlockType() const;
 };
 
@@ -60,5 +60,6 @@ public:
 	void hitAction(Game& game);
 	BlockType getBlockType() const;
 private:
+	const int TYPE_NUM = 6;
 	ItemType item_type;
 };

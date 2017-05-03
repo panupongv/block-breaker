@@ -2,7 +2,7 @@
 
 Block::Block(const BlockData& block_data, bool endless)
 	: 
-	Block(getTextureNameFromType(block_data.getType()), Game::left_bound +  block_data.getStartGrid().x * block_size_x, Game::upper_bound + block_data.getStartGrid().y * block_size_y)
+	Block(getTextureNameFromType(block_data.getType()), block_data.getStartGrid().x * block_size_x, block_data.getStartGrid().y * block_size_y)
 {
 	setColor(block_data.getColor());
 	initializeData(block_data.getMovement());
@@ -49,7 +49,7 @@ void Block::update(Game& game)
 
 void Block::hitAction(Game & game)
 {
-	game.sound_player.playNormalBlockSound();
+	game.getSoundPlayer().playNormalBlockSound();
 }
 
 std::string Block::getTextureNameFromType(BlockType type)
@@ -76,9 +76,14 @@ int Block::getFrameToMove() const
 	return frame_to_move;
 }
 
+void Block::setFrameToMove(int frame_num)
+{
+	if(frame_num >= 1)
+		frame_to_move = frame_num;
+}
+
 void Block::initializeData(std::vector<sf::Vector2i> points)
 {
-	setAlive(true);
 	if(points.size() == 2)
 	{
 		sf::Vector2i point1 = points[0], point2 = points[1];
@@ -141,7 +146,7 @@ BreakableBlock::BreakableBlock(std::string texture_name, float x, float y, bool 
 
 void BreakableBlock::hitAction(Game & game)
 {
-	game.sound_player.playBreakableBlockSound();
+	game.getSoundPlayer().playBreakableBlockSound();
 	game.pop(this);
 }
 
@@ -153,7 +158,6 @@ BlockType BreakableBlock::getBlockType() const
 ItemBlock::ItemBlock(const BlockData & block_data, bool endless)
 	:
 	BreakableBlock(block_data, endless),
-	//item_type(ItemType(1))
 	item_type(ItemType(rand() % TYPE_NUM))
 {
 }
@@ -161,23 +165,27 @@ ItemBlock::ItemBlock(const BlockData & block_data, bool endless)
 ItemBlock::ItemBlock(std::string texture_name, float x, float y, bool endless)
 	:
 	BreakableBlock(texture_name, x, y, endless),
-	//item_type(ItemType(2))
 	item_type(ItemType(rand() % TYPE_NUM))
 {
 }
 
 void ItemBlock::hitAction(Game & game)
 {
-	game.sound_player.playBreakableBlockSound();
+	game.getSoundPlayer().playBreakableBlockSound();
 	switch (item_type)
 	{
-	case ADDBALL: game.add(new Ball(center().x, center().y)); 
+	case ADDBALL: game.add(new Ball(center().x, center().y));
 		break;
 	case MARIOBALL: game.add(new Star(center().x, center().y)); 
 		break;
-	case MACHINEGUN: game.add(new Rocket(center().x, center().y));
+	case ROCKETITEM: game.add(new Rocket(center().x, center().y));
 		break;
-	case EXPLOSIVE: game.add(new Explosion(center().x, center().y));
+	case EXPLOSIVE: game.add(new Explosion(game, center().x, center().y));
+		break;
+	case FASTFORWARD: game.add(new FastForward(center().x, center().y));
+		break;
+	case BEER: game.add(new Beer(center().x, center().y));
+		break;
 	}
 	game.pop(this);
 }
@@ -186,8 +194,3 @@ BlockType ItemBlock::getBlockType() const
 {
 	return item;
 }
-
-//void ItemBlock::destroyed(Game & game)
-//{
-//	game.explodeBlocks(left(), top());
-//}

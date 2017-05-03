@@ -3,12 +3,13 @@
 #include "Sprite.hpp"
 #include "Game.hpp"
 
+class SoundPlayer;
 class Game;
 
 class Explosion: public Sprite
 {
 public:
-	Explosion(float x, float y);
+	Explosion(Game& game, float x, float y);
 	void update(Game& game);
 private:
 	int frame_counter;

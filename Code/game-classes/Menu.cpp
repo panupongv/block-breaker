@@ -1,5 +1,4 @@
 #include "Menu.hpp"
-#include "ResourcePath.hpp"
 
 Menu::Menu(sf::RenderWindow * window)
 	:
@@ -13,32 +12,26 @@ Menu::Menu(sf::RenderWindow * window)
 		std::cout << "Title image not avaliable" << std::endl;
 	}
 	title = sf::Sprite(title_texture);
-	title.setPosition(width / 2 - title_texture.getSize().x / 2, 50);
+	title.setPosition(width / 2 - title_texture.getSize().x / 2, 0);
 	if (!font.loadFromFile(smartPath("block-breaker\\Resources\\munro.ttf")))
 	{
 		std::cout << "Font not avaliable" << std::endl;
 	}
 	texts[0].setString("ENDLESS");
 	texts[1].setString("CUSTOM");
-	texts[2].setString("EXIT");
+	texts[2].setString("HIGH-SCORE");
+	texts[3].setString("EXIT");
 	for (int i = 0; i < TEXT_NUM; i++)
 	{
 		texts[i].setFont(font);
 		texts[i].setCharacterSize(80);
 		texts[i].setFillColor(sf::Color::White);
-		texts[i].setOutlineColor(sf::Color::White);
 
 		sf::FloatRect text_rect = texts[i].getLocalBounds();
 		texts[i].setOrigin(text_rect.left + text_rect.width / 2.0f,
 			text_rect.top + text_rect.height / 2.0f);
-		texts[i].setPosition(sf::Vector2f(width / 2.0f, height / 6.0f * (i + 1) + 200));
-
-		/*texts[i].setPosition(sf::Vector2f((width / 2) - (texts[i].getCharacterSize() * texts[i].getString().getSize() / 2.0),
-			height / (3 + 1) * (i + 1)));
-		std::cout << (texts[i].getCharacterSize() * texts[i].getString().getSize()) << ", *///" << texts[i].getPosition().x << " " << texts[i].getPosition().y << std::endl;
+		texts[i].setPosition(sf::Vector2f(static_cast<int>(width / 2.0f), static_cast<int>(75 * (i + 1) + 250)));
 	}
-	//texts[0].setFillColor(sf::Color::Red); 
-
 	selected = -1;
 }
 
@@ -63,11 +56,15 @@ void Menu::draw()
 	window->draw(title);
 	for (int i = 0; i < TEXT_NUM; i++)
 		window->draw(texts[i]);
+	ball.draw(*window);
+	pad.draw(*window);
 	window->display();
 }
 
 void Menu::update()
 {
+	ball.update();
+	pad.update(ball);
 	bool in_text = false;
 	for (int i = 0; i < TEXT_NUM; i++)
 	{
@@ -100,7 +97,7 @@ void Menu::eventInput()
 			break;
 		case::sf::Event::MouseButtonPressed:
 		{
-			if (selected == 2)
+			if (selected == 3)
 			{
 				window->close();
 			}
@@ -130,5 +127,42 @@ void Menu::eventInput()
 		}
 		break;
 		}
+	}
+}
+
+MenuBall::MenuBall()
+	:
+	Sprite("whiteball.png", 20, 20, 390, 210)
+{
+	setMovement(-1.5, -2.5);
+}
+
+void MenuBall::update()
+{
+	move();
+	if (left() < 45 || right() > 755)
+		setVX(-getVX());
+	if (top() < 130 || bottom() > 230)
+		setVY(-getVY());
+}
+
+MenuPad::MenuPad()
+	:
+	Sprite("whitepad.png", 200, 30, 300, 230)
+{
+	srand(time(NULL));
+}
+
+void MenuPad::update(const Sprite & ball)
+{
+	float ball_x = ball.center().x;
+	float x = center().x;
+	if (ball.getVY() > 0 && ball.bottom() > 150)
+	{
+		float offset = rand() % 30;
+		if (ball_x < x - offset && left() > 49)
+			move(-4, 0);
+		else if (ball_x > x + offset && right() < 751)
+			move(4, 0);
 	}
 }

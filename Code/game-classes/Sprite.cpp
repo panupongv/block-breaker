@@ -1,6 +1,12 @@
 #include "Sprite.hpp"
 #include "ResourcePath.hpp"
 
+Sprite::Sprite(std::string texture_name, int frame_width, int frame_height)
+	:
+	Sprite(texture_name, frame_width, frame_height, 0, 0, 0, 0)
+{
+}
+
 Sprite::Sprite(std::string texture_name, int frame_width, int frame_height, float initial_x, float initial_y)
 	:
 	Sprite(texture_name, frame_width, frame_height, initial_x, initial_y, 0, 0)
@@ -26,6 +32,11 @@ Sprite::Sprite(std::string texture_name, int frame_width, int frame_height, floa
 	setPosition(initial_x, initial_y);
 
 	frame_number = texture.getSize().x / frame_width;
+}
+
+void Sprite::update(Game & game)
+{
+	;
 }
 
 void Sprite::draw(sf::RenderWindow & window) const
@@ -92,23 +103,6 @@ bool Sprite::collideVertically(const Sprite & another_sprite) const
 {
 	return collide(another_sprite) && (center().y < another_sprite.top() || center().y > another_sprite.bottom());
 }
-//bool Sprite::collide(Sprite & another_sprite)
-//{
-//	if (this == NULL) return false;
-//	return sprite.getGlobalBounds().intersects(another_sprite.sprite.getGlobalBounds());
-//}
-//
-//bool Sprite::collideHorizontally(Sprite & another_sprite)
-//{
-//	return collide(another_sprite)
-//		&& (center().x < another_sprite.left() || center().x > another_sprite.right());
-//}
-//
-//bool Sprite::collideVertically(Sprite & another_sprite)
-//{
-//	return collide(another_sprite)
-//		&& (center().y < another_sprite.top() || center().y > another_sprite.bottom());
-//}
 
 float Sprite::getVX() const
 {
@@ -120,11 +114,6 @@ float Sprite::getVY() const
 	return vy;
 }
 
-//bool Sprite::isAlive() const
-//{
-//	return alive;
-//}
-//
 bool Sprite::isMoving() const
 {
 	return moving;
@@ -188,7 +177,3 @@ void Sprite::setMoving(bool status)
 	moving = status;
 }
 
-void Sprite::setAlive(bool status)
-{
-	alive = status;
-}

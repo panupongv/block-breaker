@@ -35,3 +35,6 @@ enum BlockType {
     breakable ,
     item
 };
+
+enum ItemType { ADDBALL, MARIOBALL, ROCKETITEM, EXPLOSIVE, FASTFORWARD, BEER };
+

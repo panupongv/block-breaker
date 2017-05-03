@@ -1,10 +1,11 @@
 #include "Explosion.hpp"
 
-Explosion::Explosion(float x, float y)
+Explosion::Explosion(Game& game, float x, float y)
 	:
 	Sprite("explosion.png", 128, 128, 0, 0),
 	frame_counter(0)
 {
+	game.getSoundPlayer().playExplodeSound();
 	setCenter(x, y);
 }
 

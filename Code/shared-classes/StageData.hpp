@@ -1,8 +1,10 @@
 #pragma once
 
+#include "BlockData.hpp"
+#include "ResourcePath.hpp"
+#include <fstream>
 #include <string>
 #include <vector>
-#include "BlockData.hpp"
 
 class StageData
 {

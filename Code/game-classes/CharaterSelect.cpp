@@ -4,7 +4,7 @@ CharacterShowcase::CharacterShowcase(std::string texture_name, std::string name)
 	:
 	texture_name(texture_name)
 {
-	if (!font.loadFromFile("block-breaker\\Resources\\munro.ttf"))
+	if (!font.loadFromFile(smartPath("block-breaker\\Resources\\munro.ttf")))
 	{
 		std::cout << "failed to load font - CharacterShowcase" << std::endl;
 		system("pause");
@@ -17,7 +17,7 @@ CharacterShowcase::CharacterShowcase(std::string texture_name, std::string name)
 		text_rect.top + text_rect.height / 2.0f);
 	text.setPosition(sf::Vector2f(400, 150));
 	text.setFillColor(sf::Color::White);
-	if (!texture.loadFromFile("block-breaker\\Resources\\" + texture_name))
+	if (!texture.loadFromFile(smartPath("block-breaker\\Resources\\" + texture_name)))
 	{
 		std::cout << "failed to load texture - CharacterShowcase" << std::endl;
 		system("pause");
@@ -46,10 +46,13 @@ CharacterSelect::CharacterSelect(sf::RenderWindow * window)
 	selected(0)
 {
 	characters.push_back(new CharacterShowcase("paddle.png", "CLASSIC"));
-	characters.push_back(new CharacterShowcase("bread.png", "BREAD"));
-	characters.push_back(new CharacterShowcase("catpad2.png", "CAT"));
+	characters.push_back(new CharacterShowcase("bread.png", "FRENCH"));
+	characters.push_back(new CharacterShowcase("catpad2.png", "2CAT"));
 	characters.push_back(new CharacterShowcase("crocodile.png", "CROCODILE"));
 	character_num = characters.size();
+	if (!arrow_texture.loadFromFile(smartPath("block-breaker\\Resources\\arrow.png")))
+		std::cout << "Failed to load texture - character select";
+	arrow.setTexture(arrow_texture);
 }
 
 CharacterSelect::~CharacterSelect()
@@ -81,6 +84,21 @@ void CharacterSelect::eventInput()
 		case sf::Event::Closed:
 			window->close();
 			break;
+		case sf::Event::MouseButtonPressed:
+		{
+			float x = sf::Mouse::getPosition().x;
+			if (x < window->getPosition().x + 50)
+			{
+				selected--;
+				if (selected == -1)
+					selected += character_num;
+			}
+			else if (x >= window->getPosition().x + window->getSize().x - 50)
+				selected = (selected + 1) % character_num;
+			else
+				finished = true;
+		}
+		break;
 		case sf::Event::KeyPressed:
 		{
 			switch (event.key.code)
@@ -105,5 +123,6 @@ void CharacterSelect::draw()
 {
 	window->clear();
 	characters[selected]->draw(*window);
+	window->draw(arrow);
 	window->display();
 }
