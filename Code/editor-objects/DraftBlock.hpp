@@ -1,3 +1,7 @@
+/*
+ editor-objects/DraftBlock.hpp
+*/
+
 #pragma once
 
 #include "sfml.hpp"

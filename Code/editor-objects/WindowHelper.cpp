@@ -1,4 +1,9 @@
+/*
+ helper/WindowHelper.cpp
+*/
+
 #include "WindowHelper.hpp"
+#include "ResourcePath.hpp"
 
 using namespace std;
 
@@ -23,6 +28,11 @@ sf::RenderWindow& WindowHelper::createWindow()
     sf::RenderWindow* window = new sf::RenderWindow(mode,"Block Breaker Stage Editor");
     
     window->setSize(sf::Vector2u(default_size_x,default_size_y));
+    
+    sf::Image icon;
+    icon.loadFromFile(smartPath("block-breaker\\Resources\\ballicon.png"));
+    window->setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
+
     
     return *window;
 }

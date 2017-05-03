@@ -1,3 +1,6 @@
+/*
+ util/ResourcePath.cpp
+*/
 
 #include "ResourcePath.hpp"
 #include <iostream>

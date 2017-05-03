@@ -1,3 +1,7 @@
+/*
+ util/sfml.hpp
+*/
+
 #pragma once
 
 #ifdef __APPLE__

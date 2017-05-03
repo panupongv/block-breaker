@@ -7,7 +7,6 @@
 
 class Game;
 class Sprite;
-class Block;
 
 //Abstract
 class Projectile : public Sprite

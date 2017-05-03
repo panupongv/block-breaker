@@ -1,3 +1,7 @@
+/*
+ editor-objects/BlockTemplateButton.cpp
+*/
+
 #include "BlockTemplateButton.hpp"
 #include <iostream>
 
@@ -25,12 +29,12 @@ void BlockTemplateButton::update(EventHandler &e)
     SpriteObject::update(e);
     
     if(e.cursorOn(this))
-        SpriteObject::setPosition(normal_x+10, normal_y);
+        SpriteObject::setPosition(normal_x+selected_shift, normal_y);
     else
         SpriteObject::setPosition(normal_x, normal_y);
         
     if(isSelected())
-        SpriteObject::setPosition(normal_x-10, normal_y);
+        SpriteObject::setPosition(normal_x-selected_shift, normal_y);
 }
 
 string BlockTemplateButton::texture_name_of(BlockType type) const

@@ -1,3 +1,7 @@
+/*
+ editor-objects/DraftBlock.cpp
+*/
+
 #include "DraftBlock.hpp"
 #include "WindowHelper.hpp"
 #include "ResourcePath.hpp"

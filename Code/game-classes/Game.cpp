@@ -275,9 +275,7 @@ bool Game::setup(std::string character_name)
 	drunk_sign.setPosition(left_bound + 100, upper_bound + 150);
 
 	if (!font.loadFromFile(smartPath("block-breaker\\Resources\\munro.ttf")))
-	{
 		return false;
-	}
 	
 	if (endless)
 	{

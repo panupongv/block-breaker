@@ -1,3 +1,7 @@
+/*
+ editor-objects/Editingblock.cpp
+*/
+
 #include "EditingBlock.hpp"
 #include "ResourcePath.hpp"
 #include "helperfunc.hpp"

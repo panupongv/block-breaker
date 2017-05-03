@@ -1,3 +1,7 @@
+/*
+ editor-objects/SelectionAura.hpp
+*/
+
 #include "SpriteObject.hpp"
 
 class SelectionAura : public SpriteObject

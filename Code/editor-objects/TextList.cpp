@@ -1,3 +1,7 @@
+/*
+ editor-objects/TextList.cpp
+*/
+
 #include "TextList.hpp"
 #include "ResourcePath.hpp"
 #include "WindowHelper.hpp"

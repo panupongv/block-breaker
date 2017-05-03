@@ -1,3 +1,7 @@
+/*
+ util/ResourcePath.hpp
+*/
+
 #pragma once
 #include "TemplateData.hpp"
 #include <string>

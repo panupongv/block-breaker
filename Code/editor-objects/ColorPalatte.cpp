@@ -1,3 +1,7 @@
+/*
+ group-objects/ColorPalatte.cpp
+*/
+
 #include "ColorPalatte.hpp"
 #include <iostream>
 
@@ -20,7 +24,6 @@ void ColorPalatte::update(EventHandler &e)
 {
     update_detect_click(e);
 }
-
 
 void ColorPalatte::enable()
 {
