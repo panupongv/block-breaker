@@ -1,3 +1,7 @@
+/*
+ interface/Selectable.hpp
+*/
+
 #pragma once
 
 //abstract for multiple inheritance

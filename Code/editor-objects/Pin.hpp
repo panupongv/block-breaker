@@ -1,3 +1,7 @@
+/*
+ editor-objects/Pin.hpp
+*/
+
 #pragma once
 #include "SpriteObject.hpp"
 

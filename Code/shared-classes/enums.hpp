@@ -1,3 +1,7 @@
+/*
+ helper/enum.hpp
+*/
+
 #pragma once
 
 enum RenderLayer {

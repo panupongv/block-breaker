@@ -1,3 +1,7 @@
+/*
+ editor-objects/SelectionAura.cpp
+*/
+
 #include "SelectionAura.hpp"
 
 using namespace std;

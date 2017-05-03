@@ -1,3 +1,7 @@
+/*
+ scene/EditorScene.cpp
+*/
+
 #include "EditorScene.hpp"
 #include "EventHandler.hpp"
 #include "ResourcePath.hpp"

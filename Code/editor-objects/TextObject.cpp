@@ -1,3 +1,7 @@
+/*
+ base/TextObject.cpp
+*/
+
 #include "TextObject.hpp"
 #include "ResourcePath.hpp"
 #include <iostream>

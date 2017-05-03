@@ -1,3 +1,7 @@
+/*
+ editor-objects/InputField.cpp
+*/
+
 #include "InputField.hpp"
 #include "WindowHelper.hpp"
 #include "helperfunc.hpp"

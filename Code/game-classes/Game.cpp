@@ -319,7 +319,7 @@ bool Game::setup(std::string character_name)
 	else
 		life.setPosition(620, window->getSize().y / 2 - life.getGlobalBounds().height / 2);
 
-	if (!font.loadFromFile("block-breaker\\Resources\\munro.ttf"))
+	if (!font.loadFromFile(smartPath( "block-breaker\\Resources\\munro.ttf")))
 	{
 		return false;
 	}

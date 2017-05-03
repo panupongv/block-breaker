@@ -1,3 +1,7 @@
+/*
+ base/SpriteObject.hpp
+*/
+
 #pragma once
 
 #include "BaseObject.hpp"

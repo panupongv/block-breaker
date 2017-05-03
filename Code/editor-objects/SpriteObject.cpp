@@ -1,3 +1,7 @@
+/*
+ base/SpriteObject.cpp
+*/
+
 #include "SpriteObject.hpp"
 #include "ResourcePath.hpp"
 #include <exception>

@@ -1,3 +1,7 @@
+/*
+ editor-objects/InputField.hpp
+*/
+
 #pragma once
 #include "TextObject.hpp"
 #include "SpriteObject.hpp"

@@ -1,3 +1,7 @@
+/*
+ editor-objects/BlockTemplateButton.cpp
+*/
+
 #include "BlockTemplateButton.hpp"
 #include <iostream>
 

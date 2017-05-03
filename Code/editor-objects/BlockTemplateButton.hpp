@@ -1,3 +1,7 @@
+/*
+ editor-objects/BlockTemplateButton.hpp
+*/
+
 #pragma once
 #include "SpriteObject.hpp"
 #include "Selectable.hpp"

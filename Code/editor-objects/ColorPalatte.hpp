@@ -1,3 +1,7 @@
+/*
+ group-object/ColorPalatte.hpp
+*/
+
 #pragma once
 
 #include "ColorButton.hpp"

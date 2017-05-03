@@ -1,3 +1,7 @@
+/*
+ scene/EditorScene.hpp
+*/
+
 #pragma once
 
 #include <string>

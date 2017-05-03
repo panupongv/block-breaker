@@ -1,3 +1,7 @@
+/*
+ group-objects/ColorPalatte.cpp
+*/
+
 #include "ColorPalatte.hpp"
 #include <iostream>
 

@@ -1,3 +1,7 @@
+/*
+ group-objects/OptionPanel.cpp
+*/
+
 #include "OptionPanel.hpp"
 #include "WindowHelper.hpp"
 #include "DirectoryReader.hpp"

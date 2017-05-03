@@ -1,3 +1,7 @@
+/*
+ WindowHelper.hpp
+*/
+
 #pragma once
 
 #include "sfml.hpp"

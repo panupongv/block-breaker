@@ -1,3 +1,7 @@
+/*
+ data-class/StageData.hpp
+*/
+
 #pragma once
 
 #include "BlockData.hpp"
