@@ -9,6 +9,7 @@
 #include "StageData.hpp"
 #include "BlockGenerator.hpp"
 #include "SoundPlayer.hpp"
+#include "ResourcePath.hpp"
 
 #include <iostream>
 #include <string>

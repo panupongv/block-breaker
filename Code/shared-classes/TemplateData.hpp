@@ -4,12 +4,7 @@
 
 #pragma once
 
-#ifdef __APPLE__
-#include <SFML/Graphics.hpp>
-#else
-#include <SFML\Graphics.hpp>
-#endif
-
+#include "sfml.hpp"
 #include "enums.hpp"
 
 class TemplateData

@@ -1,5 +1,4 @@
 #include "Game.hpp"
-#include "ResourcePath.hpp"
 
 Game::Game(sf::RenderWindow * window, std::string character_name)
 	:
