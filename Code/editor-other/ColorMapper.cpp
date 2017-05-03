@@ -1,3 +1,7 @@
+/*
+ helper/ColorMapper.cpp
+*/
+
 #include "ColorMapper.hpp"
 
 using namespace std;

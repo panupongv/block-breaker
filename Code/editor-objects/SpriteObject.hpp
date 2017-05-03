@@ -1,3 +1,7 @@
+/*
+ base/SpriteObject.hpp
+*/
+
 #pragma once
 
 #include "BaseObject.hpp"
@@ -16,11 +20,6 @@ public:
     void setFrame( int frame_id );
     void nextFrame( );
     void resetFrame( );
-    virtual void enable();
-    virtual void disable();
-    
-    //queries
-    bool insideRect( float x, float y ) const;
     
     //abstract
     virtual void setPosition( float x, float y, PositioningMode mode = PositioningMode::TopLeft );
@@ -33,6 +32,8 @@ public:
     //polymorphysm
     virtual void update(EventHandler& e );
     virtual void draw( sf::RenderTarget& target );
+    virtual void enable();
+    virtual void disable();
     
 private:
     //mutators

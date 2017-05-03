@@ -1,3 +1,7 @@
+/*
+ editor-objects/Pin.hpp
+*/
+
 #pragma once
 #include "SpriteObject.hpp"
 
@@ -11,8 +15,5 @@ private:
     void set_no_direction();
     void set_horizontal();
     void set_vertical();
-    
-private:
-    const float levitate_speed = 1;
     
 };

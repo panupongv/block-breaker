@@ -1,3 +1,7 @@
+/*
+ editor-objects/EditingBlock.hpp
+*/
+
 #pragma once
 #include "SpriteObject.hpp"
 #include "BlockData.hpp"

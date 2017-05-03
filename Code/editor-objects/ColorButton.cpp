@@ -1,3 +1,7 @@
+/*
+ editor-objects/ColorButton.cpp
+*/
+
 #include "ColorButton.hpp"
 #include "ColorMapper.hpp"
 #include <iostream>

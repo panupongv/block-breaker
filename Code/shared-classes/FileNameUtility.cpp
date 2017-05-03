@@ -1,3 +1,7 @@
+/*
+ util/FileNameUtility.cpp
+*/
+
 #include "FileNameUtility.hpp"
 #include <fstream>
 #include "ResourcePath.hpp"

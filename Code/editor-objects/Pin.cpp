@@ -1,3 +1,7 @@
+/*
+ editor-objects/Pin.cpp
+*/
+
 #include "Pin.hpp"
 #include "helperfunc.hpp"
 

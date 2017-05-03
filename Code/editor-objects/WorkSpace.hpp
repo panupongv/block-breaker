@@ -1,3 +1,7 @@
+/*
+ group-objects/WorkSpace.hpp
+*/
+
 #pragma once
 #include "Scene.hpp"
 #include "TextObject.hpp"

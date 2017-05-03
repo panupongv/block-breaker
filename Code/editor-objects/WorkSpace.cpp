@@ -1,3 +1,7 @@
+/*
+ group-objects/WorkSpace.cpp
+*/
+
 #include "WorkSpace.hpp"
 #include "ResourcePath.hpp"
 #include "WindowHelper.hpp"

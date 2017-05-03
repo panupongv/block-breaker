@@ -1,3 +1,7 @@
+/*
+ helper/helperfunc.hpp
+*/
+
 #pragma once
 #include "sfml.hpp"
 
